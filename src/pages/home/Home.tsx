@@ -1,3 +1,9 @@
+import styled from 'styled-components';
+
+const Title = styled.h1`
+  text-decoration: underline;
+`;
+
 export const Home = () => {
-  return <p>Homepage</p>;
+  return <Title>Homepage</Title>;
 };
