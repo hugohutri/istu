@@ -7,7 +7,9 @@ module.exports = {
   extends: [
     'eslint:recommended',
     'plugin:react/recommended',
+    'plugin:react/jsx-runtime',
     'plugin:@typescript-eslint/recommended',
+    'plugin:react-hooks/recommended',
   ],
   overrides: [],
   parser: '@typescript-eslint/parser',
@@ -29,8 +31,8 @@ module.exports = {
 
     // React
     'react-hooks/exhaustive-deps': 'off',
+    'react-hooks/rules-of-hooks': 'error',
     'react/display-name': 'warn',
-    'react/react-in-jsx-scope': 'off',
     'react/jsx-key': [
       'error',
       {
