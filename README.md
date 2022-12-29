@@ -1,11 +1,12 @@
-# react-template
+# React Template
 
-This is a React template project for quickly starting a new project with a pre-configured development environment. It includes the following dependencies:
+This is a React template project for quickly starting a new project with a pre-configured development environment. It uses the following tools:
 
 - React
 - React Router
 - Styled Components
 - TypeScript
+- Vite
 
 ## Getting Started
 
