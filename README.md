@@ -13,7 +13,7 @@ This is a React template project for quickly starting a new project with a pre-c
 To get started with this project, clone the repository and install the dependencies:
 
 ```bash
-git clone https://github.com/USERNAME/react-template.git
+git clone git@github.com:hugohutri/react-template.git
 cd react-template
 npm install
 ```
