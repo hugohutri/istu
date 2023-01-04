@@ -1,10 +1,10 @@
-import Sider from 'antd/es/layout/Sider';
 import styled from 'styled-components';
 import { Stack } from '../../../components/uikit/Stack';
 
-const StyledSidebar = styled(Sider)`
-  background-color: #fff !important;
+const StyledSidebar = styled.div`
   padding: 1rem;
+  border-left: 3px solid black;
+  background-color: #fff3;
 `;
 
 export const Sidebar = () => {
