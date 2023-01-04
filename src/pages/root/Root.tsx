@@ -1,8 +1,9 @@
 import { Outlet } from 'react-router-dom';
+import { Navbar } from './components/Nav';
 
 export const Root = () => (
   <>
-    <h1>--------Root--------</h1>
+    <Navbar />
     <Outlet />
   </>
 );
