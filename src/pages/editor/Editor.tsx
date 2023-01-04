@@ -1,9 +1,8 @@
+import { Layout } from 'antd';
+import { Content } from 'antd/es/layout/layout';
 import styled from 'styled-components';
+import { Sidebar } from './components/Sidebar';
 import { Table, TableProps } from './components/Table';
-
-const Title = styled.h1`
-  text-decoration: underline;
-`;
 
 const TABLES: TableProps[] = [
   {
@@ -26,11 +25,22 @@ const TABLES: TableProps[] = [
 
 export const Editor = () => {
   return (
-    <>
-      <Title>Editor</Title>
-      {TABLES.map((table, index) => (
-        <Table key={index} {...table} />
-      ))}
-    </>
+    <Layout>
+      <Content>
+        <Floor>
+          {TABLES.map((table, index) => (
+            <Table key={index} {...table} />
+          ))}
+        </Floor>
+      </Content>
+      <Sidebar />
+    </Layout>
   );
 };
+
+const Floor = styled.div`
+  border: 1px solid black;
+  position: relative;
+  aspect-ratio: 1/1;
+  overflow: hidden;
+`;

@@ -6,7 +6,7 @@ const NavbarBase = styled.nav`
   align-items: center;
   gap: 2rem;
   color: #fff;
-  /* padding: 2rem; */
+
   border-bottom: 5px solid black;
 `;
 

@@ -1,6 +1,9 @@
 import Draggable from 'react-draggable';
 import styled from 'styled-components';
 
+const SEAT_SIZE = 25;
+const SEAT_MARGIN = 10;
+
 type TableSeats = {
   top?: number;
   right?: number;
@@ -18,9 +21,11 @@ export type TableProps = {
   seats: TableSeats;
 };
 
+type Side = 'top' | 'right' | 'bottom' | 'left';
+
 export const Table = ({ size, seats }: TableProps) => {
   return (
-    <Draggable>
+    <Draggable bounds="parent">
       <StyledTable size={size}>
         <SeatsRow side="left">
           {[...Array(seats.left ?? 0)].map((_, index) => (
@@ -51,14 +56,14 @@ export const Table = ({ size, seats }: TableProps) => {
 const StyledTable = styled.table<{ size: Size }>`
   width: ${(props) => props.size.width ?? 100}px;
   height: ${(props) => props.size.height ?? 100}px;
-  aspect-ratio: 1/2;
-  border: 5px solid black;
+  border: 1px solid black;
   box-sizing: border-box;
   position: relative;
-  background-color: lightgray;
+  background-color: white;
+  box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.5);
 `;
 
-const SeatsRow = styled.div<{ side: 'top' | 'right' | 'bottom' | 'left' }>`
+const SeatsRow = styled.div<{ side: Side }>`
   display: flex;
   flex-direction: ${(props) =>
     props.side === 'left' || props.side === 'right' ? 'column' : 'row'};
@@ -76,24 +81,24 @@ const SeatsRow = styled.div<{ side: 'top' | 'right' | 'bottom' | 'left' }>`
     if (props.side === 'left') {
       return `
         top: 0;
-        left: -32px;
+        left: -${SEAT_SIZE + SEAT_MARGIN}px;
       `;
     }
     if (props.side === 'top') {
       return `
-        top: -32px;
+        top: -${SEAT_SIZE + SEAT_MARGIN}px;
         left: 0;
       `;
     }
     if (props.side === 'right') {
       return `
         top: 0;
-        right: -32px;
+        right: -${SEAT_SIZE + SEAT_MARGIN}px;
       `;
     }
     if (props.side === 'bottom') {
       return `
-        bottom: -32px;
+        bottom: -${SEAT_SIZE + SEAT_MARGIN}px;
         left: 0;
       `;
     }
@@ -101,10 +106,10 @@ const SeatsRow = styled.div<{ side: 'top' | 'right' | 'bottom' | 'left' }>`
 `;
 
 const Seat = styled.div<{
-  side: 'top' | 'right' | 'bottom' | 'left';
+  side: Side;
 }>`
-  width: 25px;
-  height: 25px;
+  width: ${SEAT_SIZE}px;
+  height: ${SEAT_SIZE}px;
 
   ${(props) => {
     if (props.side === 'left' || props.side === 'top') {
