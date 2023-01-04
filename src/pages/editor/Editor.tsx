@@ -17,8 +17,8 @@ const TABLES: TableProps[] = [
     seats: { top: 2, right: 1, bottom: 2, left: 1 },
   },
   {
-    size: { width: 700, height: 100 },
-    seats: { top: 10, right: 0, bottom: 10, left: 0 },
+    size: { width: 400, height: 100 },
+    seats: { top: 5, right: 0, bottom: 5, left: 0 },
   },
 ];
 
