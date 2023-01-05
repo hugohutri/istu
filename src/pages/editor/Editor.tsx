@@ -1,38 +1,28 @@
 import styled from 'styled-components';
 import { AddTableButton } from '../../modals/AddTableModal';
 import { Sidebar } from './components/Sidebar';
-import { Table, TableProps } from './components/Table';
+import { Table } from './components/Table';
+import { useTables } from './hooks/useTables';
+import ScrollContainer from 'react-indiana-drag-scroll';
 
-const TABLES: TableProps[] = [
-  {
-    size: { width: 100, height: 80 },
-    seats: { top: 2, bottom: 2 },
-  },
-  {
-    size: { width: 100, height: 200 },
-    seats: { right: 3, left: 3 },
-  },
-  {
-    size: { width: 100, height: 100 },
-    seats: { top: 2, right: 1, bottom: 2, left: 1 },
-  },
-  {
-    size: { width: 400, height: 100 },
-    seats: { top: 5, right: 0, bottom: 5, left: 0 },
-  },
-];
+import '../../utils/dragging.css';
 
 export const Editor = () => {
+  const tables = useTables((state) => state.tables);
+
   return (
     <Grid>
-      <Floor>
-        {TABLES.map((table, index) => (
-          <Table key={index} {...table} />
-        ))}
-
+      <CanvasContainer
+        ignoreElements=".not-drag-scrollable"
+        draggingClassName="dragging"
+      >
+        <Floor>
+          {tables.map((table, index) => (
+            <Table key={index} {...table} />
+          ))}
+        </Floor>
         <AddTableButton />
-      </Floor>
-
+      </CanvasContainer>
       <Sidebar />
     </Grid>
   );
@@ -43,15 +33,32 @@ const Grid = styled.div`
   flex-grow: 1;
 
   display: grid;
+  overflow: hidden;
   grid-template-columns: 1fr 300px;
 `;
 
 const Floor = styled.div`
   position: relative;
-
   flex: 1;
-  /* aspect-ratio: 1/1; */
-  overflow: hidden;
+  min-width: 2000px;
+  min-height: 2000px;
+
+  // Dotted grid pattern
   background-size: 40px 40px;
   background-image: radial-gradient(circle, #a2a2a2 1px, rgba(0, 0, 0, 0) 1px);
+`;
+
+const CanvasContainer = styled(ScrollContainer)`
+  flex: 1;
+  display: flex;
+  overflow: scroll;
+  cursor: grab;
+  height: 100%;
+  position: relative;
+
+  &.dragging {
+    cursor: grabbing;
+  }
+
+  outline: 3px solid #41403e;
 `;

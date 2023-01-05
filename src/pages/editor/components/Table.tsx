@@ -1,74 +1,65 @@
 import Draggable from 'react-draggable';
 import styled from 'styled-components';
+import { Side, Table as TableType, Seat, TableSize } from '../hooks/useTables';
 
-const SEAT_SIZE = 25;
+const SEAT_SIZE = 40;
 const SEAT_MARGIN = 10;
 
-type TableSeats = {
-  top?: number;
-  right?: number;
-  bottom?: number;
-  left?: number;
+const getStartingPosition = () => {
+  return {
+    x: Math.floor(Math.random() * 800),
+    y: Math.floor(Math.random() * 800),
+  };
 };
 
-type Size = {
-  width: number;
-  height: number;
-};
-
-export type TableProps = {
-  size: Size;
-  seats: TableSeats;
-};
-
-type Side = 'top' | 'right' | 'bottom' | 'left';
-
-export const Table = ({ size, seats }: TableProps) => {
+export const Table = ({ size, seats }: TableType) => {
   return (
-    <Draggable bounds="parent">
-      <StyledTable size={size}>
-        <SeatsRow side="left">
-          {[...Array(seats.left ?? 0)].map((_, index) => (
-            <Seat key={index} side="left" />
-          ))}
-        </SeatsRow>
-        <SeatsRow side="top">
-          {[...Array(seats.top ?? 0)].map((_, index) => (
-            <Seat key={index} side="top" />
-          ))}
-        </SeatsRow>
-
-        <SeatsRow side="right">
-          {[...Array(seats.right ?? 0)].map((_, index) => (
-            <Seat key={index} side="right" />
-          ))}
-        </SeatsRow>
-        <SeatsRow side="bottom">
-          {[...Array(seats.bottom ?? 0)].map((_, index) => (
-            <Seat key={index} side="bottom" />
-          ))}
-        </SeatsRow>
+    <Draggable
+      defaultPosition={getStartingPosition()}
+      bounds="parent"
+      defaultClassNameDragging="dragging"
+    >
+      <StyledTable size={size} className="not-drag-scrollable">
+        {Object.entries(seats).map(([side, seats]) => (
+          <SeatsRow key={side} side={side as Side} seats={seats} />
+        ))}
       </StyledTable>
     </Draggable>
   );
 };
 
-const StyledTable = styled.table<{ size: Size }>`
+const SeatsRow = ({ side, seats }: { side: Side; seats: Seat[] }) => {
+  if (seats.length === 0) return null;
+
+  return (
+    <StyledSeatsRow side={side}>
+      {seats.map((seat) => (
+        <StyledSeat key={seat.id} side={side} />
+      ))}
+    </StyledSeatsRow>
+  );
+};
+
+const StyledTable = styled.table<{ size: TableSize }>`
   width: ${(props) => props.size.width ?? 100}px;
   height: ${(props) => props.size.height ?? 100}px;
   border: 1px solid ${(props) => props.theme.color.border};
   box-sizing: border-box;
-  position: relative;
-  /* background-color: ${(props) => props.theme.color.card}; */
-  /* box-shadow: 3px 3px 6px 0 rgba(0, 0, 0, 0.2);
-  border-radius: 3px; */
+  position: absolute;
 
   border: solid 2px #41403e;
-  box-shadow: 20px 38px 34px -26px hsla(0, 0%, 0%, 0.2);
+
+  box-shadow: 10px 18px 34px -10px hsla(0, 0%, 0%, 0.2);
+
+  transition: box-shadow 0.2s ease-in-out;
+
   border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+  &:hover {
+    box-shadow: 2px 8px 4px -6px hsla(0, 0%, 0%, 0.3);
+  }
 `;
 
-const SeatsRow = styled.div<{ side: Side }>`
+const StyledSeatsRow = styled.div<{ side: Side }>`
   display: flex;
   flex-direction: ${(props) =>
     props.side === 'left' || props.side === 'right' ? 'column' : 'row'};
@@ -110,7 +101,7 @@ const SeatsRow = styled.div<{ side: Side }>`
   }}
 `;
 
-const Seat = styled.div<{
+const StyledSeat = styled.div<{
   side: Side;
 }>`
   width: ${SEAT_SIZE}px;
@@ -132,6 +123,12 @@ const Seat = styled.div<{
   box-shadow: 20px 38px 34px -26px hsla(0, 0%, 0%, 0.2);
   border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
 
+  box-shadow: 00px 0px 34px -10px hsla(0, 0%, 0%, 0.2);
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    box-shadow: 2px 8px 4px -6px hsla(0, 0%, 0%, 0.3);
+    transform: scale(1.1);
+  }
   /* background */
   /* background-color: black; */
   /* background-color: ${(props) => props.theme.color.secondary};
