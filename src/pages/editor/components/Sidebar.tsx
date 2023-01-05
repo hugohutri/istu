@@ -3,18 +3,23 @@ import { Stack } from '../../../components/uikit/Stack';
 
 const StyledSidebar = styled.div`
   padding: 1rem;
-  /* border-left: 3px solid ${(props) => props.theme.color.contrast}; */
+  color: ${(props) => props.theme.color.text};
   background-color: ${(props) => props.theme.color.tertiary};
-  border-left: 1px solid ${(props) => props.theme.color.muted};
-
-  // box-shadow: <horizontal offset> <vertical offset> <blur radius> <spread radius> <color>;
-  box-shadow: -6px 0 5px 0px #0001;
 `;
 
 export const Sidebar = () => {
   return (
     <StyledSidebar>
-      <Stack spacing={10}>sidebar</Stack>
+      <Stack spacing={10} dir="column">
+        <div>Matti Meikäläinen</div>
+        <div>John Doe</div>
+        <div>John Smith</div>
+        <div>Maija Meikäläinen</div>
+        <div>John Doe</div>
+        <div>John Smith</div>
+        <div>Jappe</div>
+        <div>Riku Samulilainen</div>
+      </Stack>
     </StyledSidebar>
   );
 };

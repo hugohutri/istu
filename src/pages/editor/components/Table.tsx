@@ -56,10 +56,10 @@ export const Table = ({ size, seats }: TableProps) => {
 const StyledTable = styled.table<{ size: Size }>`
   width: ${(props) => props.size.width ?? 100}px;
   height: ${(props) => props.size.height ?? 100}px;
-  border: 1px solid ${(props) => props.theme.color.muted};
+  border: 1px solid ${(props) => props.theme.color.border};
   box-sizing: border-box;
   position: relative;
-  background-color: white;
+  background-color: ${(props) => props.theme.color.card};
   box-shadow: 3px 3px 6px 0 rgba(0, 0, 0, 0.2);
 `;
 
@@ -126,5 +126,5 @@ const Seat = styled.div<{
   /* background-color: black; */
   background-color: ${(props) => props.theme.color.secondary};
   box-sizing: border-box;
-  border: 1px solid ${(props) => props.theme.color.muted};
+  border: 1px solid ${(props) => props.theme.color.border};
 `;
