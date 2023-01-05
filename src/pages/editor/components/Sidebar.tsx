@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import { Stack } from '../../../components/uikit/Stack';
+import { useGuests } from '../hooks/useGuests';
+import { GuestItem } from './GuestItem';
 
 const StyledSidebar = styled.div`
   padding: 1rem;
@@ -15,19 +17,26 @@ const NameList = styled(Stack)`
   flex-grow: 1;
 `;
 
+const Accordion = styled.button`
+  background-color: #eee;
+  color: #444;
+  cursor: pointer;
+  padding: 1rem;
+  border: none;
+  outline: none;
+  font-size: 15px;
+  transition: 0.4s;
+`;
+
 export const Sidebar = () => {
+  const guests = useGuests();
   return (
     <StyledSidebar>
-      <NameList spacing={10} dir="column">
-        <div>Matti Meikäläinen</div>
-        <div>John Doe</div>
-        <div>John Smith</div>
-        <div>Maija Meikäläinen</div>
-        <div>John Doe</div>
-        <div>John Smith</div>
-        <div>Jappe</div>
-        <div>Riku Samulilainen</div>
-      </NameList>
+      <Stack spacing={10} dir="column">
+        {guests.map((guest) => (
+          <GuestItem guest={guest} key={guest.name}></GuestItem>
+        ))}
+      </Stack>
       <NameInput></NameInput>
     </StyledSidebar>
   );
