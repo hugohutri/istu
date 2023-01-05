@@ -7,6 +7,14 @@ const StyledSidebar = styled.div`
   padding: 1rem;
   color: ${(props) => props.theme.color.text};
   background-color: ${(props) => props.theme.color.tertiary};
+  display: flex;
+  flex-direction: column;
+`;
+
+const NameInput = styled.input``;
+
+const NameList = styled(Stack)`
+  flex-grow: 1;
 `;
 
 const Accordion = styled.button`
@@ -29,6 +37,7 @@ export const Sidebar = () => {
           <GuestItem guest={guest} key={guest.name}></GuestItem>
         ))}
       </Stack>
+      <NameInput></NameInput>
     </StyledSidebar>
   );
 };
