@@ -3,19 +3,21 @@ import { AddTableButton } from '../../modals/AddTableModal';
 import { Sidebar } from './components/Sidebar';
 import { Table } from './components/Table';
 import { useTables } from './hooks/useTables';
-import ScrollContainer from 'react-indiana-drag-scroll';
+import { useScrollContainer } from 'react-indiana-drag-scroll';
 
-import '../../utils/dragging.css';
+import 'react-indiana-drag-scroll/dist/style.css';
 
 export const Editor = () => {
   const tables = useTables((state) => state.tables);
+  const scrollContainer = useScrollContainer({
+    mouseScroll: {
+      ignoreElements: 'abbr',
+    },
+  });
 
   return (
     <Grid>
-      <CanvasContainer
-        ignoreElements=".not-drag-scrollable"
-        draggingClassName="dragging"
-      >
+      <CanvasContainer ref={scrollContainer.ref}>
         <Floor>
           {tables.map((table, index) => (
             <Table key={index} {...table} />
@@ -48,7 +50,21 @@ const Floor = styled.div`
   background-image: radial-gradient(circle, #a2a2a2 1px, rgba(0, 0, 0, 0) 1px);
 `;
 
-const CanvasContainer = styled(ScrollContainer)`
+// const CanvasContainer = styled(ScrollContainer)`
+//   flex: 1;
+//   display: flex;
+//   overflow: scroll;
+//   cursor: grab;
+//   height: 100%;
+//   position: relative;
+
+//   &.dragging {
+//     cursor: grabbing;
+//   }
+
+//   outline: 3px solid #41403e;
+// `;
+const CanvasContainer = styled.div`
   flex: 1;
   display: flex;
   overflow: scroll;
@@ -61,4 +77,12 @@ const CanvasContainer = styled(ScrollContainer)`
   }
 
   outline: 3px solid #41403e;
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;

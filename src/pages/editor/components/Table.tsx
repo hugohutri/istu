@@ -19,7 +19,7 @@ export const Table = ({ size, seats }: TableType) => {
       bounds="parent"
       defaultClassNameDragging="dragging"
     >
-      <StyledTable size={size} className="not-drag-scrollable">
+      <StyledTable size={size} className="ignore-drag-scroll">
         {Object.entries(seats).map(([side, seats]) => (
           <SeatsRow key={side} side={side as Side} seats={seats} />
         ))}
@@ -40,7 +40,8 @@ const SeatsRow = ({ side, seats }: { side: Side; seats: Seat[] }) => {
   );
 };
 
-const StyledTable = styled.table<{ size: TableSize }>`
+// abbr is a hack to make the table draggable
+const StyledTable = styled.abbr<{ size: TableSize }>`
   width: ${(props) => props.size.width ?? 100}px;
   height: ${(props) => props.size.height ?? 100}px;
   border: 1px solid ${(props) => props.theme.color.border};
