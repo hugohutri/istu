@@ -8,13 +8,13 @@ const NavbarBase = styled.nav`
 
   background-color: ${(props) => props.theme.color.primary};
   /* border-bottom: 3px solid black; */
-  border-bottom: 1px solid ${(props) => props.theme.color.muted};
+  /* border-bottom: 1px solid ${(props) => props.theme.color.border}; */
 `;
 
 const NavbarLink = styled(Link)`
   display: block;
   text-decoration: none;
-  color: ${(props) => props.theme.color.contrast};
+  color: ${(props) => props.theme.color.text};
   font-size: 1.2rem;
   padding: 1.2rem;
   border-width: 5px 0;
@@ -23,7 +23,6 @@ const NavbarLink = styled(Link)`
 
   &:hover {
     border-bottom-color: ${(props) => props.theme.color.contrast};
-    background-color: #fff3;
   }
 `;
 
