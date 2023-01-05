@@ -29,6 +29,7 @@ export const Sidebar = () => {
       </NameList>
       <NameInput></NameInput>
 
+      <Stack spacing={10}>sidebar</Stack>
       <AddPersonModal />
     </StyledSidebar>
   );
