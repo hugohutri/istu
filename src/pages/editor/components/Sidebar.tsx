@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { Stack } from '../../../components/uikit/Stack';
+import { AddPersonModal } from '../../../modals/AddPersonModal';
 
 const StyledSidebar = styled.div`
   padding: 1rem;
@@ -15,6 +16,7 @@ export const Sidebar = () => {
   return (
     <StyledSidebar>
       <Stack spacing={10}>sidebar</Stack>
+      <AddPersonModal />
     </StyledSidebar>
   );
 };
