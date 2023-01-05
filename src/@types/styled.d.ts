@@ -13,6 +13,7 @@ declare module 'styled-components' {
       card: string;
       muted: string;
       text: string;
+      textInverted: string;
       contrast: string;
       primary: string;
       secondary: string;

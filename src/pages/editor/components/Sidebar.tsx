@@ -19,7 +19,7 @@ const NameList = styled(Stack)`
 `;
 
 export const Sidebar = () => {
-  const guests = useGuests();
+  const { guests } = useGuests();
   return (
     <StyledSidebar>
       <NameList spacing={10} dir="column">
