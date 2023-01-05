@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import create from 'zustand';
 
 export type Guest = {
   name: string;
@@ -6,7 +6,7 @@ export type Guest = {
   friendNames: string[];
 };
 
-const GUESTLIST: Guest[] = [
+const DEFAULT_GUESTS: Guest[] = [
   {
     name: 'Ville Virtanen',
     avecName: 'Hugo Lähteenmäki',
@@ -23,10 +23,13 @@ const GUESTLIST: Guest[] = [
   },
 ];
 
-export function useGuests() {
-  const [guests, setGuests] = useState(GUESTLIST);
-  const addGuest = (newGuest: Guest) => {
-    setGuests([...guests, newGuest]);
-  };
-  return { guests, addGuest };
-}
+type GuestsStore = {
+  guests: Guest[];
+  addGuest: (newGuest: Guest) => void;
+};
+
+export const useGuests = create<GuestsStore>((set) => ({
+  guests: DEFAULT_GUESTS,
+  addGuest: (newGuest) =>
+    set((state) => ({ guests: [...state.guests, newGuest] })),
+}));
