@@ -5,12 +5,20 @@ const StyledSidebar = styled.div`
   padding: 1rem;
   color: ${(props) => props.theme.color.text};
   background-color: ${(props) => props.theme.color.tertiary};
+  display: flex;
+  flex-direction: column;
+`;
+
+const NameInput = styled.input``;
+
+const NameList = styled(Stack)`
+  flex-grow: 1;
 `;
 
 export const Sidebar = () => {
   return (
     <StyledSidebar>
-      <Stack spacing={10} dir="column">
+      <NameList spacing={10} dir="column">
         <div>Matti Meikäläinen</div>
         <div>John Doe</div>
         <div>John Smith</div>
@@ -19,7 +27,8 @@ export const Sidebar = () => {
         <div>John Smith</div>
         <div>Jappe</div>
         <div>Riku Samulilainen</div>
-      </Stack>
+      </NameList>
+      <NameInput></NameInput>
     </StyledSidebar>
   );
 };
