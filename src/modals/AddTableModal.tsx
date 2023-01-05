@@ -51,6 +51,7 @@ const DeclineButton = styled.button`
 
 export const AddTableButton = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [tableValues, setTableValues] = useState([]);
 
   return (
     <>
