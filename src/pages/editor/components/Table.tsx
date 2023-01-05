@@ -59,8 +59,13 @@ const StyledTable = styled.table<{ size: Size }>`
   border: 1px solid ${(props) => props.theme.color.border};
   box-sizing: border-box;
   position: relative;
-  background-color: ${(props) => props.theme.color.card};
-  box-shadow: 3px 3px 6px 0 rgba(0, 0, 0, 0.2);
+  /* background-color: ${(props) => props.theme.color.card}; */
+  /* box-shadow: 3px 3px 6px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 3px; */
+
+  border: solid 2px #41403e;
+  box-shadow: 20px 38px 34px -26px hsla(0, 0%, 0%, 0.2);
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
 `;
 
 const SeatsRow = styled.div<{ side: Side }>`
@@ -123,8 +128,13 @@ const Seat = styled.div<{
     }
   }}
 
+  border: dashed 2px #41403e;
+  box-shadow: 20px 38px 34px -26px hsla(0, 0%, 0%, 0.2);
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+
+  /* background */
   /* background-color: black; */
-  background-color: ${(props) => props.theme.color.secondary};
+  /* background-color: ${(props) => props.theme.color.secondary};
   box-sizing: border-box;
-  border: 1px solid ${(props) => props.theme.color.border};
+  border: 1px solid ${(props) => props.theme.color.border}; */
 `;

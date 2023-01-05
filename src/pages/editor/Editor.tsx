@@ -52,4 +52,6 @@ const Floor = styled.div`
   flex: 1;
   /* aspect-ratio: 1/1; */
   overflow: hidden;
+  background-size: 40px 40px;
+  background-image: radial-gradient(circle, #a2a2a2 1px, rgba(0, 0, 0, 0) 1px);
 `;

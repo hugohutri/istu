@@ -17,26 +17,15 @@ const NameList = styled(Stack)`
   flex-grow: 1;
 `;
 
-const Accordion = styled.button`
-  background-color: #eee;
-  color: #444;
-  cursor: pointer;
-  padding: 1rem;
-  border: none;
-  outline: none;
-  font-size: 15px;
-  transition: 0.4s;
-`;
-
 export const Sidebar = () => {
   const guests = useGuests();
   return (
     <StyledSidebar>
-      <Stack spacing={10} dir="column">
+      <NameList spacing={10} dir="column">
         {guests.map((guest) => (
           <GuestItem guest={guest} key={guest.name}></GuestItem>
         ))}
-      </Stack>
+      </NameList>
       <NameInput></NameInput>
     </StyledSidebar>
   );
