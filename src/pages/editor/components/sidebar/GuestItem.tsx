@@ -1,46 +1,41 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { Guest } from '../../../../hooks/useGuests';
+import { FaChevronDown, FaChevronRight } from 'react-icons/fa';
+import { GuestInfo } from './Guestinfo';
 
 type GuestItemProps = {
   guest: Guest;
 };
 
-const StyledGuestName = styled.div`
-  color: red;
+const StyledName = styled.div`
+  line-height: 34px;
+  font-weight: 300;
+  letter-spacing: 1px;
+  display: block;
+  margin: 0;
   cursor: pointer;
-  padding: 0.3rem;
 `;
 
-export const GuestItem = (props: GuestItemProps) => {
+export const GuestItem = ({ guest }: GuestItemProps) => {
   const [open, setOpen] = useState(false);
-
   const handleOpen = () => {
     setOpen(!open);
   };
-  //{open ? <div>Friends: {friendList || '-'}</div> : null}
-  const friends = props.guest.friendNames;
 
   return (
     <>
-      {open ? (
-        <StyledGuestName onClick={handleOpen}>
-          {props.guest.name} -
-        </StyledGuestName>
-      ) : (
-        <StyledGuestName onClick={handleOpen}>
-          {props.guest.name} +
-        </StyledGuestName>
-      )}
-      {open ? <div>Avec: {props.guest.avecName ?? '-'}</div> : null}
-      {open ? (
-        <div>
-          Friends:{friends.length == 0 && ' -'}
-          {friends.map((friend, index) => (
-            <div key={index}>-{friend}</div>
-          ))}
-        </div>
-      ) : null}
+      <StyledName onClick={handleOpen}>
+        {open ? (
+          <FaChevronDown size={'0.8rem'} />
+        ) : (
+          <FaChevronRight size={'0.8rem'} />
+        )}
+
+        {guest.name}
+      </StyledName>
+
+      {open && <GuestInfo guest={guest} />}
     </>
   );
 };

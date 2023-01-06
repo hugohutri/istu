@@ -12,7 +12,7 @@ export function useGuests(): Guest[] {
       friendNames: ['Heikki Kuula'],
     },
     {
-      name: 'Ville Martas',
+      name: 'Ville Maltas',
       friendNames: ['Otso Hutri', 'Atte Laulumaa'],
     },
 
