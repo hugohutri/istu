@@ -2,7 +2,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { Guest } from '../../../../hooks/useGuests';
 import { FaChevronDown, FaChevronRight } from 'react-icons/fa';
-import { GuestInfo } from './Guestinfo';
+import { GuestInfo } from './GuestInfo';
 
 type GuestItemProps = {
   guest: Guest;
