@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { useTables } from '../../../hooks/useTables';
 import { CANVAS_CONFIG } from './config';
 import { Table } from './table/Table';
-import { useScrollableCanvas, scrollToCenter } from './useScrollableCanvas';
+import { scrollToCenter, useScrollableCanvas } from './useScrollableCanvas';
 
 export const Canvas = () => {
   const tables = useTables((state) => state.tables);

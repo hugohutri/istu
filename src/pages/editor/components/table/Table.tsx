@@ -12,18 +12,20 @@ import { StyledSeatsRow } from './StyledSeatsRow';
 
 import '../../../../utils/dragging.css';
 
-export const Table = ({ size, seats }: TableType) => {
+export const Table = ({ size, seats, id }: TableType) => {
   return (
     <Draggable
       defaultPosition={getRandomPositionOnCanvas()}
       bounds="parent"
+      handle=".handle"
       defaultClassNameDragging="dragging"
     >
-      <StyledTable size={size} className="ignore-drag-scroll">
+      <TableContainer size={size}>
         {Object.entries(seats).map(([side, seats]) => (
-          <SeatsRow key={side} side={side as Side} seats={seats} />
+          <SeatsRow key={id + side} side={side as Side} seats={seats} />
         ))}
-      </StyledTable>
+        <StyledTable className="handle ignore-drag-scroll" />
+      </TableContainer>
     </Draggable>
   );
 };
@@ -41,9 +43,16 @@ const SeatsRow = ({ side, seats }: { side: Side; seats: SeatType[] }) => {
 };
 
 // abbr is a hack to make the table draggable
-const StyledTable = styled.abbr<{ size: TableSize }>`
-  width: ${(props) => props.size.width ?? 100}px;
-  height: ${(props) => props.size.height ?? 100}px;
+const TableContainer = styled.abbr<{ size: TableSize }>`
+  width: ${({ size }) => size.width}px;
+  height: ${({ size }) => size.height}px;
+
+  position: absolute;
+`;
+
+const StyledTable = styled.div`
+  width: 100%;
+  height: 100%;
   border: 1px solid ${(props) => props.theme.color.border};
   box-sizing: border-box;
   position: absolute;
