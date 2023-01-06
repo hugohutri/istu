@@ -9,11 +9,11 @@ export function useGuests(): Guest[] {
     {
       name: 'Ville Virtanen',
       avecName: 'Hugo Lähteenmäki',
-      friendNames: [],
+      friendNames: ['Heikki Kuula'],
     },
     {
-      name: 'Ville Martas',
-      friendNames: [],
+      name: 'Ville Maltas',
+      friendNames: ['Otso Hutri', 'Atte Laulumaa'],
     },
 
     {
