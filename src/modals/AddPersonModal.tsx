@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Form } from 'react-router-dom';
 import styled from 'styled-components';
 import { Modal } from '../components/uikit/Modal';
-import { useGuests } from '../pages/editor/hooks/useGuests';
+import { useGuests } from '../hooks/useGuests';
 
 const OpenModalButton = styled.button`
   position: absolute;

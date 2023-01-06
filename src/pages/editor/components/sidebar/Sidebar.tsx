@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import { Stack } from '../../../../components/uikit/Stack';
 import { useGuests } from '../../../../hooks/useGuests';
+import { AddPersonModal } from '../../../../modals/AddPersonModal';
 import { GuestItem } from './GuestItem';
-import { AddPersonModal } from '../../../modals/AddPersonModal';
 
 const StyledSidebar = styled.div`
   padding: 1rem;
