@@ -3,6 +3,8 @@ import { Form } from 'react-router-dom';
 import styled from 'styled-components';
 import { Modal } from '../components/uikit/Modal';
 import { useGuests } from '../hooks/useGuests';
+import { Button } from '../components/uikit/Button';
+import { Stack } from '../components/uikit/Stack';
 
 const OpenModalButton = styled.button`
   position: absolute;
@@ -27,24 +29,35 @@ const NameForm = styled(Form)`
 
 const NameFormInput = styled.input`
   display: table-cell;
-  margin: 0 0 0 15px;
   padding: 0.5rem;
+`;
+
+const Friendlist = styled.div`
+  color: ${(props) => props.theme.color.textInverted};
 `;
 
 export const AddPersonModal = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { addGuest } = useGuests();
-
-  interface FormValues {
-    name: string;
-    friendNames: string[];
-    avec: string;
-  }
+  const [name, setName] = useState('');
+  const [friendNames, setFriendNames] = useState<string[]>([]);
+  const [newFriend, setNewFriend] = useState<string>();
+  const [avec, setAvec] = useState<string>();
 
   const buttonSubmit = () => {
     console.log('submit');
-    addGuest({ name: 'testi', friendNames: [] });
+    addGuest({ name: name, avecName: avec, friendNames: friendNames });
+    setName('');
+    setAvec(undefined);
+    setFriendNames([]);
+    setNewFriend(undefined);
     setIsOpen(false);
+  };
+
+  const addFriend = () => {
+    if (!newFriend) return;
+    setFriendNames([...friendNames, newFriend]);
+    setNewFriend(undefined);
   };
 
   return (
@@ -54,11 +67,31 @@ export const AddPersonModal = () => {
       </OpenModalButton>
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <ModalTitle> Add person </ModalTitle>
+
         <NameForm>
-          <NameFormInput type="text" placeholder="Name" />
-          <NameFormInput type="text" placeholder="Avec" />
-          <NameFormInput type="text" placeholder="kamerukset :D" />
-          <button onClick={buttonSubmit}>Submit</button>
+          <Stack dir="column" spacing={10}>
+            <NameFormInput
+              type="text"
+              placeholder="Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+            <NameFormInput
+              type="text"
+              placeholder="Avec"
+              value={avec}
+              onChange={(e) => setAvec(e.target.value)}
+            />
+            <NameFormInput
+              type="text"
+              placeholder="kamerukset :D"
+              value={newFriend}
+              onChange={(e) => setNewFriend(e.target.value)}
+            />
+            <Button onClick={addFriend}>Add friend</Button>
+            <Friendlist>Friends: {friendNames.join(',')}</Friendlist>
+            <Button onClick={buttonSubmit}>Submit</Button>
+          </Stack>
         </NameForm>
       </Modal>
     </>
