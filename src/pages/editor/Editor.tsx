@@ -1,57 +1,39 @@
 import styled from 'styled-components';
 import { AddTableButton } from '../../modals/AddTableModal';
-import { Sidebar } from './components/Sidebar';
-import { Table, TableProps } from './components/Table';
+import { Sidebar } from './components/sidebar/Sidebar';
+import { Canvas } from './components/Canvas';
 
-const TABLES: TableProps[] = [
-  {
-    size: { width: 100, height: 80 },
-    seats: { top: 2, bottom: 2 },
-  },
-  {
-    size: { width: 100, height: 200 },
-    seats: { right: 3, left: 3 },
-  },
-  {
-    size: { width: 100, height: 100 },
-    seats: { top: 2, right: 1, bottom: 2, left: 1 },
-  },
-  {
-    size: { width: 400, height: 100 },
-    seats: { top: 5, right: 0, bottom: 5, left: 0 },
-  },
-];
+import 'react-indiana-drag-scroll/dist/style.css';
 
 export const Editor = () => {
   return (
     <Grid>
-      <Floor>
-        {TABLES.map((table, index) => (
-          <Table key={index} {...table} />
-        ))}
-
+      <CanvasWindow>
+        <Canvas />
         <AddTableButton />
-      </Floor>
-
+      </CanvasWindow>
       <Sidebar />
     </Grid>
   );
 };
 
-const Grid = styled.div`
+export const Grid = styled.div`
   flex: 1;
   flex-grow: 1;
-
   display: grid;
+  overflow: hidden;
+
+  // This defines the width of the sidebar
   grid-template-columns: 1fr 300px;
 `;
 
-const Floor = styled.div`
-  position: relative;
-
+/**
+ * This element stays at the same size, but the content inside it can be scrolled
+ * Fixed ui elements like canvas actions should be placed inside this element
+ */
+const CanvasWindow = styled.div`
   flex: 1;
-  /* aspect-ratio: 1/1; */
+  display: flex;
   overflow: hidden;
-  background-size: 40px 40px;
-  background-image: radial-gradient(circle, #a2a2a2 1px, rgba(0, 0, 0, 0) 1px);
+  position: relative;
 `;

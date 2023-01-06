@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { Stack } from '../../../components/uikit/Stack';
-import { useGuests } from '../hooks/useGuests';
+import { Stack } from '../../../../components/uikit/Stack';
+import { useGuests } from '../../../../hooks/useGuests';
 import { GuestItem } from './GuestItem';
 import { AddPersonModal } from '../../../modals/AddPersonModal';
 
@@ -20,7 +20,7 @@ export const Sidebar = () => {
   const { guests } = useGuests();
   return (
     <StyledSidebar>
-      <NameList spacing={10} dir="column">
+      <NameList dir="column">
         {guests.map((guest) => (
           <GuestItem guest={guest} key={guest.name}></GuestItem>
         ))}

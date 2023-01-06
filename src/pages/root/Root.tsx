@@ -14,9 +14,4 @@ const PageContainer = styled.div`
   flex-direction: column;
   height: 100vh;
   background: ${(props) => props.theme.color.bg};
-  /* background: radial-gradient(
-    circle at 0% 20%,
-    rgba(66, 113, 255) 0%,
-    rgba(125, 255, 142) 100%
-  ); */
 `;

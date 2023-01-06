@@ -1,0 +1,7 @@
+.dragging {
+  cursor: grabbing;
+}
+
+.moving {
+  cursor: move;
+}
