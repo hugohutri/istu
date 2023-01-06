@@ -1,10 +1,18 @@
-import {
-  Table,
-  Seats,
-  createTable,
-  Side,
-} from '../pages/editor/hooks/useTables';
+import { Table, Seats, createTable, Side } from '../hooks/useTables';
 import { v4 as uuidv4 } from 'uuid';
+import { CANVAS_CONFIG } from '../pages/editor/components/config';
+
+const random = (min: number, max: number) => {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+};
+
+export const getRandomPositionOnCanvas = () => {
+  const { width, height } = CANVAS_CONFIG;
+  return {
+    x: Math.floor(random(width * 0.3, width * 0.7)),
+    y: Math.floor(random(height * 0.3, height * 0.7)),
+  };
+};
 
 const POSSIBLE_SIDE_GROUPS: Side[][] = [
   ['top', 'right', 'bottom', 'left'],

@@ -1,5 +1,4 @@
-import styled from 'styled-components';
-import { Guest } from '../hooks/useGuests';
+import { Guest } from '../../../../hooks/useGuests';
 
 type GuestItemProps = {
   guest: Guest;

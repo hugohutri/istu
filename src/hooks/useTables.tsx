@@ -1,6 +1,6 @@
 import create from 'zustand';
 import { v4 as uuidv4 } from 'uuid';
-import { generateRandomTables } from '../../../utils/randomData';
+import { generateRandomTables } from '../utils/randomData';
 
 export type Side = 'top' | 'right' | 'bottom' | 'left';
 

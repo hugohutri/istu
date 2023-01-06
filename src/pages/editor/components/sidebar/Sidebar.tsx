@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { Stack } from '../../../components/uikit/Stack';
-import { useGuests } from '../hooks/useGuests';
+import { Stack } from '../../../../components/uikit/Stack';
+import { useGuests } from '../../../../hooks/useGuests';
 import { GuestItem } from './GuestItem';
 
 const StyledSidebar = styled.div`
