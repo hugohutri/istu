@@ -21,7 +21,7 @@ export const Sidebar = () => {
   const guests = useGuests();
   return (
     <StyledSidebar>
-      <NameList spacing={10} dir="column">
+      <NameList dir="column">
         {guests.map((guest) => (
           <GuestItem guest={guest} key={guest.name}></GuestItem>
         ))}
