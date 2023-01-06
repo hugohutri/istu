@@ -12,8 +12,6 @@ const StyledSidebar = styled.div`
   flex-direction: column;
 `;
 
-const NameInput = styled.input``;
-
 const NameList = styled(Stack)`
   flex-grow: 1;
 `;
@@ -27,9 +25,7 @@ export const Sidebar = () => {
           <GuestItem guest={guest} key={guest.name}></GuestItem>
         ))}
       </NameList>
-      <NameInput></NameInput>
 
-      <Stack spacing={10}>sidebar</Stack>
       <AddPersonModal />
     </StyledSidebar>
   );
