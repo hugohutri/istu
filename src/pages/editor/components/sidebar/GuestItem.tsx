@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import { FaChevronRight } from 'react-icons/fa';
 import styled from 'styled-components';
 import { useHover } from 'usehooks-ts';
-import { Guest } from '../../../../hooks/useGuests';
+import { Guest } from '../../../../hooks/types';
 import { GuestInfo } from './GuestInfo';
 import { PlaceForDraggablePerson } from './PlaceForDraggablePerson';
 

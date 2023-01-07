@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { Guest } from '../../../../hooks/useGuests';
+import { Guest } from '../../../../hooks/types';
 import { useDraggablePerson } from '../DraggablePerson';
 
 export const PlaceForDraggablePerson = ({

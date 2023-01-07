@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { Stack } from '../../../../components/uikit/Stack';
 import { useGuests } from '../../../../hooks/useGuests';
+import { AddPersonModal } from '../../../../modals/AddPersonModal';
 import { GuestItem } from './GuestItem';
 
 const StyledSidebar = styled.div`
@@ -18,8 +19,7 @@ const NameList = styled(Stack)`
 `;
 
 export const Sidebar = () => {
-  const guests = useGuests();
-
+  const { guests } = useGuests();
   return (
     <StyledSidebar>
       <NameList dir="column">
@@ -27,6 +27,8 @@ export const Sidebar = () => {
           <GuestItem guest={guest} key={guest.name}></GuestItem>
         ))}
       </NameList>
+
+      <AddPersonModal />
     </StyledSidebar>
   );
 };
