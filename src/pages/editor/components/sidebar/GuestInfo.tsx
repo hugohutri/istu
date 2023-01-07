@@ -17,6 +17,8 @@ export const GuestInfo = ({ guest, open }: GuestInfoProps) => {
   return (
     <GuestInfoContainer open={open}>
       <StyledFriendName>Avec: {guest.avecName ?? '-'}</StyledFriendName>
+      <StyledFriendName>Seat: {guest.seat?.id ?? '-'}</StyledFriendName>
+
       <StyledFriendName>
         Friends:{friends.length == 0 && ' -'}
         {friends.map((friend, index) => (

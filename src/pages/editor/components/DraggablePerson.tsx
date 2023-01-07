@@ -7,7 +7,9 @@ import styled from 'styled-components';
 import { useHover } from 'usehooks-ts';
 // import { useHover } from 'usehooks-ts';
 import create from 'zustand';
-import { Guest } from '../../../hooks/useGuests';
+import { Guest } from '../../../hooks/types';
+import { useGuests } from '../../../hooks/useGuests';
+import { useGetSeat } from '../../../hooks/useSeat';
 
 export const DraggableUser = () => {
   // const guest = useDraggablePerson((s) => s.guest);
@@ -15,10 +17,13 @@ export const DraggableUser = () => {
   // const isHoveringPerson = useHover(hoverRef);
   const pos = useDraggablePerson((s) => s.pos);
   const setPos = useDraggablePerson((s) => s.setPos);
+  const guest = useDraggablePerson((s) => s.guest);
   const setIsDragging = useDraggablePerson((s) => s.setIsDragging);
   const isDragging = useDraggablePerson((s) => s.isDragging);
   // const isHoveringName = useDraggablePerson((s) => s.isHovering);
 
+  const getSeat = useGetSeat();
+  const assignSeat = useGuests((s) => s.assignSeat);
   // Hack
   // const [isTimeToHide, setIsTimeToHide] = useState(false);
 
@@ -27,8 +32,13 @@ export const DraggableUser = () => {
   };
 
   const onStop: DraggableEventHandler = (_, data) => {
-    const seat = getCurrentlyHoveredSeat();
-    console.log('DROPPING AT: ', seat);
+    const seatId = getCurrentlyHoveredSeat();
+    if (guest && seatId) {
+      const seat = getSeat(seatId);
+      if (seat) {
+        assignSeat(seat, guest);
+      }
+    }
 
     setPos(undefined);
     setIsDragging(false);

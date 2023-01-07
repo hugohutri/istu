@@ -4,7 +4,6 @@ export type Seat = {
   id: string;
   tableId: string;
   side: Side;
-  guest?: Guest;
 };
 
 export type TableSize = {
