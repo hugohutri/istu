@@ -1,50 +1,15 @@
 import create from 'zustand';
-import { v4 as uuidv4 } from 'uuid';
 import { generateRandomTables } from '../utils/randomData';
-
-export type Side = 'top' | 'right' | 'bottom' | 'left';
-
-export type Seat = {
-  id: string;
-  tableId: string;
-  side: Side;
-};
-
-export type TableSize = {
-  /**
-   * Width in pixels, but it's cm in real life
-   */
-  width: number;
-  /**
-   * Height in pixels, but it's cm in real life
-   */
-  height: number;
-};
-
-export type Seats = {
-  top: Seat[];
-  right: Seat[];
-  bottom: Seat[];
-  left: Seat[];
-};
-
-export type Table = {
-  id: string;
-  size: {
-    width: number;
-    height: number;
-  };
-  seats: Seats;
-};
+import { Seats, Table, TableSize } from './types';
 
 /************************
  * HELPER FUCTIONS
  ************************/
 
-export const createTable = (seats: Seats): Table => {
+export const createTable = (name: string, seats: Seats): Table => {
   const tableSize = calculateTableSize(seats);
   return {
-    id: uuidv4(),
+    id: name,
     size: tableSize,
     seats,
   };

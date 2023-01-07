@@ -5,26 +5,32 @@ import {
   Table as TableType,
   Seat as SeatType,
   TableSize,
-} from '../../../../hooks/useTables';
+} from '../../../../hooks/types';
 import { getRandomPositionOnCanvas } from '../../../../utils/randomData';
 import { Seat } from './Seat';
 import { StyledSeatsRow } from './StyledSeatsRow';
+// import { useXarrow } from 'react-xarrows';
 
 import '../../../../utils/dragging.css';
 
 export const Table = ({ size, seats, id }: TableType) => {
+  // const updateXarrow = useXarrow();
+
   return (
     <Draggable
       defaultPosition={getRandomPositionOnCanvas()}
       bounds="parent"
       handle=".handle"
       defaultClassNameDragging="dragging"
+      // onDrag={() => {
+      //   updateXarrow();
+      // }}
     >
       <TableContainer size={size}>
         {Object.entries(seats).map(([side, seats]) => (
           <SeatsRow key={id + side} side={side as Side} seats={seats} />
         ))}
-        <StyledTable className="handle ignore-drag-scroll" />
+        <StyledTable className="handle ignore-drag-scroll">{id}</StyledTable>
       </TableContainer>
     </Draggable>
   );
@@ -36,7 +42,7 @@ const SeatsRow = ({ side, seats }: { side: Side; seats: SeatType[] }) => {
   return (
     <StyledSeatsRow side={side}>
       {seats.map((seat) => (
-        <Seat key={seat.id} side={side} />
+        <Seat key={seat.id} seat={seat} />
       ))}
     </StyledSeatsRow>
   );
@@ -51,13 +57,19 @@ const TableContainer = styled.abbr<{ size: TableSize }>`
 `;
 
 const StyledTable = styled.div`
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  font-family: 'Roboto', sans-serif;
+  color: ${(props) => props.theme.color.pencil};
+
   width: 100%;
   height: 100%;
   border: 1px solid ${(props) => props.theme.color.border};
   box-sizing: border-box;
   position: absolute;
 
-  border: solid 2px #41403e;
+  border: solid 2px ${(props) => props.theme.color.pencil};
 
   box-shadow: 10px 18px 34px -10px hsla(0, 0%, 0%, 0.2);
 

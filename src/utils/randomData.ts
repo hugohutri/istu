@@ -1,5 +1,5 @@
-import { Table, Seats, createTable, Side } from '../hooks/useTables';
-import { v4 as uuidv4 } from 'uuid';
+import { createTable } from '../hooks/useTables';
+import { Table, Seats, Side } from '../hooks/types';
 import { CANVAS_CONFIG } from '../pages/editor/components/config';
 
 const random = (min: number, max: number) => {
@@ -43,17 +43,19 @@ export const generateRandomTables = () => {
     const sides = randomSides();
     const random = 2 + Math.floor(Math.random() * 3);
 
+    const tableName = `table_${i}`;
+
     for (const side of sides) {
       for (let j = 0; j < random; j++) {
         seats[side].push({
-          id: uuidv4(),
-          tableId: '',
+          id: `${tableName}_seat_${j}`,
+          tableId: tableName,
           side,
         });
       }
     }
 
-    tables.push(createTable(seats));
+    tables.push(createTable(tableName, seats));
   }
 
   return tables;

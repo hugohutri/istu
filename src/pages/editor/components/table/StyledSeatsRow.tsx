@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Side } from '../../../../hooks/useTables';
+import { Side } from '../../../../hooks/types';
 import { SEAT_SIZE, SEAT_MARGIN } from '../config';
 
 /**

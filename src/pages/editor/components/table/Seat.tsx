@@ -1,29 +1,34 @@
 import { MouseEventHandler, useState } from 'react';
 import styled from 'styled-components';
 import { PaperSvg } from '../../../../components/PaperSvg';
-import { Side } from '../../../../hooks/useTables';
+import { Seat as SeatType, Side } from '../../../../hooks/types';
 import { SEAT_SIZE } from '../config';
+import { useDraggablePerson } from '../DraggablePerson';
 
-export const Seat = ({ side }: { side: Side }) => {
-  const [selected, setSelected] = useState(false);
+export const Seat = ({ seat }: { seat: SeatType }) => {
+  // const [selected, setSelected] = useState(false);
+  const isDraggingPerson = useDraggablePerson((s) => s.isDragging);
+  const [isHovering, setIsHovering] = useState(false);
 
   const handleClick: MouseEventHandler = (event) => {
     event.preventDefault();
-    setSelected((s) => !s);
+    // setSelected((s) => !s);
   };
 
   return (
     <StyledSeat
-      key={side}
-      side={side}
+      id={seat.id}
+      side={seat.side}
       onClick={handleClick}
-      className="ignore-drag-scroll"
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
+      className="seat ignore-drag-scroll"
     >
       <PaperSvg
         opacity={0.3}
         width={SEAT_SIZE}
         height={SEAT_SIZE}
-        color={selected ? 'red' : 'white'}
+        color={isHovering && isDraggingPerson ? 'blue' : 'white'}
       />
     </StyledSeat>
   );
@@ -38,7 +43,7 @@ export const StyledSeat = styled.div<{
   align-self: ${({ side }) => alignSide(side)};
 
   // Visual styles
-  border: dashed 2px #41403e;
+  border: dashed 2px ${(props) => props.theme.color.pencil};
   box-sizing: border-box;
   border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
   box-shadow: 0px 10px 14px -6px hsla(0, 0%, 0%, 0.4);

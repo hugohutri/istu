@@ -12,6 +12,7 @@ export const theme: DefaultTheme = {
     secondary: 'hsl(200, 50%, 40%)',
     tertiary: 'hsl(200, 50%, 50%)',
     border: 'hsl(0, 0%, 50%)',
+    pencil: '#41403e',
   },
   border: {
     width: 1,

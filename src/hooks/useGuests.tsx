@@ -1,8 +1,4 @@
-export type Guest = {
-  name: string;
-  avecName?: string;
-  friendNames: string[];
-};
+import { Guest } from './types';
 
 export function useGuests(): Guest[] {
   return [

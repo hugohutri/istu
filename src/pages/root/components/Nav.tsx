@@ -28,10 +28,10 @@ const NavbarLink = styled(Link)`
 
 export const Navbar = () => {
   return (
-    <NavbarBase>
+    <NavbarBase id="nav">
       {/* <NavbarLink to={'Home'}>Home</NavbarLink> */}
-      <NavbarLink to={'Editor'}>Editor</NavbarLink>
-      <NavbarLink to={'About'}>About</NavbarLink>
+      <NavbarLink to={'editor'}>Editor</NavbarLink>
+      <NavbarLink to={'about'}>About</NavbarLink>
     </NavbarBase>
   );
 };

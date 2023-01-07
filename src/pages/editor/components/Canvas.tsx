@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { useTables } from '../../../hooks/useTables';
 import { CANVAS_CONFIG } from './config';
+import { DraggableUser } from './DraggablePerson';
 import { Table } from './table/Table';
 import { scrollToCenter, useScrollableCanvas } from './useScrollableCanvas';
 
@@ -14,8 +15,9 @@ export const Canvas = () => {
   };
 
   return (
-    <CanvasContainer ref={setRef}>
-      <Floor>
+    <CanvasContainer ref={setRef} id="canvas">
+      <Floor id="floor">
+        <DraggableUser />
         {tables.map((table, index) => (
           <Table key={index} {...table} />
         ))}

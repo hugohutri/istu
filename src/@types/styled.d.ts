@@ -19,6 +19,7 @@ declare module 'styled-components' {
       secondary: string;
       tertiary: string;
       border: string;
+      pencil: string;
     };
   }
 }
