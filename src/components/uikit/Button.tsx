@@ -9,4 +9,9 @@ export const Button = styled.button`
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.2s ease-in-out;
+  //if button disabled, change background color to grey
+  &:disabled {
+    background-color: ${(props) => props.theme.color.muted};
+    cursor: not-allowed;
+  }
 `;
