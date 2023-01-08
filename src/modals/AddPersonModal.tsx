@@ -84,9 +84,13 @@ export const AddPersonModal = () => {
               value={newFriend}
               onChange={(e) => setNewFriend(e.target.value)}
             />
-            <Button onClick={addFriend}>Add friend</Button>
+            <Button disabled={!newFriend} onClick={addFriend}>
+              Add friend
+            </Button>
             <Friendlist>Friends: {friendNames.join(',')}</Friendlist>
-            <Button onClick={buttonSubmit}>Submit</Button>
+            <Button disabled={!name} onClick={buttonSubmit}>
+              Submit
+            </Button>
           </Stack>
         </NameForm>
       </Modal>

@@ -8,11 +8,10 @@ export const Button = styled.button`
   padding: 0.5rem 1rem;
   font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
+  transition: background-color 0.25s ease-in-out;
 
-  // if disabled
   &:disabled {
-    background-color: red;
+    background-color: ${(props) => props.theme.color.muted1};
     cursor: not-allowed;
   }
 `;
