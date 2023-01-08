@@ -9,7 +9,7 @@ import { useHover } from 'usehooks-ts';
 import create from 'zustand';
 import { Guest } from '../../../hooks/types';
 import { useGuests } from '../../../hooks/useGuests';
-import { useGetSeat } from '../../../hooks/useSeat';
+import { useGetHoveredSeat } from '../../../hooks/useSeat';
 
 export const Jesse = () => {
   // const guest = useDraggablePerson((s) => s.guest);
@@ -18,21 +18,20 @@ export const Jesse = () => {
   // const hoverRef = useRef<HTMLDivElement>(null);
   const { pos, setPos, guest, isDragging, setIsDragging } = useJesse();
 
-  const getSeat = useGetSeat();
+  const getHoveredSeat = useGetHoveredSeat();
   const assignSeat = useGuests((s) => s.assignSeat);
 
   const onStop: DraggableEventHandler = () => {
-    const seatId = getCurrentlyHoveredSeat();
-    if (guest && seatId) {
-      const seat = getSeat(seatId);
-      if (seat) {
-        assignSeat(seat, guest);
-      }
+    const seat = getHoveredSeat();
+    if (guest && seat) {
+      assignSeat(seat, guest);
     }
+
     setPos(undefined);
     setIsDragging(false);
   };
 
+  // Despawn Jesse after 3 seconds of not dragging
   useEffect(() => {
     const timeout = setTimeout(() => {
       if (!isDragging) {
@@ -80,18 +79,35 @@ const Name = styled.div`
 
 const Icon = styled(FaChild)<{ $isDragging: boolean }>`
   color: ${({ theme }) => theme.color.pencil};
+
   width: 1.5rem;
   height: 1.5rem;
   padding: 0.5rem;
 
   transform-origin: 50% 20%;
   transform: scale(1);
-  animation: fadeInFromRight 0.25s ease-in-out
-    ${({ $isDragging }) =>
-      $isDragging &&
-      `, scaleUp 0.25s ease-in-out, swing 0.6s linear 0.25s infinite;`};
+  animation: fadeIn 0.25s ease-in-out,
+    swing 0.3s linear 0.25s
+      ${({ $isDragging }) =>
+        $isDragging &&
+        `, scaleUp 0.25s ease-in-out, scaledSwing 0.6s linear 0.25s infinite;`};
 
   @keyframes swing {
+    0% {
+      transform: rotate(0deg);
+    }
+    25% {
+      transform: rotate(10deg);
+    }
+    75% {
+      transform: rotate(-5deg);
+    }
+    100% {
+      transform: rotate(0deg);
+    }
+  }
+
+  @keyframes scaledSwing {
     0% {
       transform: rotate(0deg) scale(1.5);
     }
@@ -115,14 +131,14 @@ const Icon = styled(FaChild)<{ $isDragging: boolean }>`
     }
   }
 
-  @keyframes fadeInFromRight {
+  @keyframes fadeIn {
     0% {
       opacity: 0;
-      transform: translateX(50%);
+      transform: translateX(30%) rotate(-110deg);
     }
-    60% {
+    100% {
       opacity: 1;
-      transform: translateX(0);
+      transform: translateX(0%) rotate(0deg);
     }
   }
 `;

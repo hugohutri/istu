@@ -1,5 +1,5 @@
 import create from 'zustand';
-import { generateRandomTables } from '../utils/randomData';
+import { generateRandomTables } from '../utils/generateRandomTables';
 import { Seats, Table, TableSize } from './types';
 
 /************************

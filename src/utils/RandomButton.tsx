@@ -1,7 +1,7 @@
 import { useGuests } from '../hooks/useGuests';
 import { useTables } from '../hooks/useTables';
 import { generateRandomGuests } from './generateRandomGuests';
-import { generateRandomTables } from './randomData';
+import { generateRandomTables } from './generateRandomTables';
 
 export const RandomButton = () => {
   const setGuests = useGuests((state) => state.setGuests);

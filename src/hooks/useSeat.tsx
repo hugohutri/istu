@@ -1,10 +1,14 @@
 import { Table } from './types';
 import { useTables } from './useTables';
 
-export const useGetSeat = () => {
+export const useGetHoveredSeat = () => {
   const tables = useTables((state) => state.tables);
 
-  return (seatId: string) => findSeat(tables, seatId);
+  return () => {
+    const hoveredSeatId = getCurrentlyHoveredSeat();
+    if (!hoveredSeatId) return;
+    return findSeat(tables, hoveredSeatId);
+  };
 };
 
 const findSeat = (tables: Table[], seatId: string) => {
@@ -31,3 +35,11 @@ const findSeat = (tables: Table[], seatId: string) => {
     }
   }
 };
+
+function getCurrentlyHoveredSeat() {
+  const seat = document.querySelector('.seat:hover');
+  if (!seat) return;
+  const seatId = seat.getAttribute('id');
+  console.log('seatId: ', seatId);
+  return seatId ?? undefined;
+}

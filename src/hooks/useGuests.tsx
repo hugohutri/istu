@@ -33,6 +33,17 @@ export const useGuests = create<GuestsStore>((set) => ({
   assignSeat: (seat, guest) => {
     set((state) => {
       const newGuests = [...state.guests];
+
+      // Remove seat from the guest that was previously assigned to it
+      // Ns. Vedä tuoli alta
+      const previousGuestIdx = newGuests.findIndex(
+        (g) => g.seat?.id === seat.id
+      );
+      if (previousGuestIdx !== -1) {
+        newGuests[previousGuestIdx].seat = undefined;
+      }
+
+      // Assign seat to the new guest
       const index = newGuests.findIndex((g) => g.name === guest.name);
       newGuests[index].seat = seat;
       return { guests: newGuests };

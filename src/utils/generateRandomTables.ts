@@ -43,12 +43,12 @@ export const generateRandomTables = (amount: number) => {
     const sides = randomSides();
     const random = 2 + Math.floor(Math.random() * 3);
 
-    const tableName = `table_${i}`;
+    const tableName = `Table ${i}`;
 
     for (const side of sides) {
       for (let j = 0; j < random; j++) {
         seats[side].push({
-          id: `${tableName}_seat_${side}_${j}`,
+          id: `${tableName} Seat ${side}-${j}`,
           tableId: tableName,
           side,
         });

@@ -6,25 +6,19 @@ import {
   Seat as SeatType,
   TableSize,
 } from '../../../../hooks/types';
-import { getRandomPositionOnCanvas } from '../../../../utils/randomData';
+import { getRandomPositionOnCanvas } from '../../../../utils/generateRandomTables';
 import { Seat } from './Seat';
 import { StyledSeatsRow } from './StyledSeatsRow';
-// import { useXarrow } from 'react-xarrows';
 
 import '../../../../utils/dragging.css';
 
 export const Table = ({ size, seats, id }: TableType) => {
-  // const updateXarrow = useXarrow();
-
   return (
     <Draggable
       defaultPosition={getRandomPositionOnCanvas()}
       bounds="parent"
       handle=".handle"
       defaultClassNameDragging="dragging"
-      // onDrag={() => {
-      //   updateXarrow();
-      // }}
     >
       <TableContainer size={size}>
         {Object.entries(seats).map(([side, seats]) => (
@@ -62,8 +56,10 @@ const StyledTable = styled.div`
   align-items: center;
   justify-content: center;
   display: flex;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Hopalong';
   color: ${(props) => props.theme.color.pencil};
+
+  user-select: none;
 
   width: 100%;
   height: 100%;

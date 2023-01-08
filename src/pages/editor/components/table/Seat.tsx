@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { PaperSvg } from '../../../../components/PaperSvg';
 import { Seat as SeatType, Side } from '../../../../hooks/types';
 import { getInitials, useGuests } from '../../../../hooks/useGuests';
+import { useHighlightedSeats } from '../../../../hooks/useSeatHighlight';
 import { SEAT_SIZE } from '../config';
 import { useJesse } from '../Jesse';
 
@@ -10,6 +11,9 @@ export const Seat = ({ seat }: { seat: SeatType }) => {
   // const [selected, setSelected] = useState(false);
   const isDraggingPerson = useJesse((s) => s.isDragging);
   const [isHovering, setIsHovering] = useState(false);
+  const highlightedSeats = useHighlightedSeats((s) => s.highlightedSeats);
+
+  const highlight = highlightedSeats.get(seat.id);
 
   const guests = useGuests((s) => s.guests);
   const guest = guests.find((g) => g.seat?.id === seat.id);
@@ -20,6 +24,7 @@ export const Seat = ({ seat }: { seat: SeatType }) => {
   };
 
   const getColor = () => {
+    if (highlight) return highlight.color;
     if (guest) return 'green';
     if (isHovering && isDraggingPerson) return 'blue';
     if (isHovering) return 'gray';
@@ -58,8 +63,9 @@ const GuestName = styled.div`
   /* background-color: rgba(0, 0, 0, 0.2); */
   position: absolute;
 
+  font-family: sans-serif;
   text-align: center;
-  line-height: 16px;
+  /* line-height: 16px; */
   font-size: 16px;
   overflow: hidden;
   letter-spacing: 2px;
