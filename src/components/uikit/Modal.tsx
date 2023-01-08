@@ -22,7 +22,7 @@ const ModalWrapper = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: ${(props) => props.theme.color.card};
+  background-color: ${(props) => props.theme.color.elevated};
   border-radius: 4px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   z-index: 2;

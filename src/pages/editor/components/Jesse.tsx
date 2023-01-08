@@ -11,15 +11,15 @@ import { Guest } from '../../../hooks/types';
 import { useGuests } from '../../../hooks/useGuests';
 import { useGetSeat } from '../../../hooks/useSeat';
 
-export const DraggableUser = () => {
+export const Jesse = () => {
   // const guest = useDraggablePerson((s) => s.guest);
   const hoverRef = useRef<HTMLDivElement>(null);
   // const isHoveringPerson = useHover(hoverRef);
-  const pos = useDraggablePerson((s) => s.pos);
-  const setPos = useDraggablePerson((s) => s.setPos);
-  const guest = useDraggablePerson((s) => s.guest);
-  const setIsDragging = useDraggablePerson((s) => s.setIsDragging);
-  const isDragging = useDraggablePerson((s) => s.isDragging);
+  const pos = useJesse((s) => s.pos);
+  const setPos = useJesse((s) => s.setPos);
+  const guest = useJesse((s) => s.guest);
+  const setIsDragging = useJesse((s) => s.setIsDragging);
+  const isDragging = useJesse((s) => s.isDragging);
   // const isHoveringName = useDraggablePerson((s) => s.isHovering);
 
   const getSeat = useGetSeat();
@@ -82,6 +82,7 @@ export const DraggableUser = () => {
   // }, [isHoveringPerson, isHoveringName]);
 
   if (!pos) return null;
+  if (!guest) return null;
 
   return (
     <Draggable
@@ -92,6 +93,7 @@ export const DraggableUser = () => {
       bounds="parent"
     >
       <DraggableContainer ref={hoverRef} className="ignore-drag-scroll">
+        {isDragging && <Name>{guest.name}</Name>}
         <Icon $isDragging={isDragging} />
       </DraggableContainer>
     </Draggable>
@@ -101,6 +103,17 @@ export const DraggableUser = () => {
 const DraggableContainer = styled.div`
   position: fixed;
   pointer-events: all;
+`;
+
+const Name = styled.div`
+  position: absolute;
+  top: -1rem;
+  left: 50%;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  transform: translateX(-50%);
+  font-weight: bold;
+  color: ${({ theme }) => theme.color.pencil};
 `;
 
 const Icon = styled(FaChild)<{ $isDragging: boolean }>`
@@ -129,7 +142,7 @@ const Icon = styled(FaChild)<{ $isDragging: boolean }>`
   }
 `;
 
-type DraggablePersonStore = {
+type JesseStore = {
   isDragging: boolean;
   isHovering: boolean;
   pos?: {
@@ -144,7 +157,7 @@ type DraggablePersonStore = {
   setGuest: (guest?: Guest) => void;
 };
 
-export const useDraggablePerson = create<DraggablePersonStore>((set) => ({
+export const useJesse = create<JesseStore>((set) => ({
   isDragging: false,
   isHovering: false,
   pos: undefined,

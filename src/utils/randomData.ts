@@ -1,5 +1,5 @@
+import { Seats, Side, Table } from '../hooks/types';
 import { createTable } from '../hooks/useTables';
-import { Table, Seats, Side } from '../hooks/types';
 import { CANVAS_CONFIG } from '../pages/editor/components/config';
 
 const random = (min: number, max: number) => {
@@ -29,10 +29,10 @@ const randomSides = (): Side[] => {
   return POSSIBLE_SIDE_GROUPS[random];
 };
 
-export const generateRandomTables = () => {
+export const generateRandomTables = (amount: number) => {
   const tables: Table[] = [];
 
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < amount; i++) {
     const seats: Seats = {
       top: [],
       right: [],
@@ -48,7 +48,7 @@ export const generateRandomTables = () => {
     for (const side of sides) {
       for (let j = 0; j < random; j++) {
         seats[side].push({
-          id: `${tableName}_seat_${j}`,
+          id: `${tableName}_seat_${side}_${j}`,
           tableId: tableName,
           side,
         });

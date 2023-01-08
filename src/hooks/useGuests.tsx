@@ -1,32 +1,33 @@
 import { Guest, Seat } from './types';
 import create from 'zustand';
 
-const DEFAULT_GUESTS: Guest[] = [
-  {
-    name: 'Ville Virtanen',
-    avecName: 'Hugo Lähteenmäki',
-    friendNames: [],
-  },
-  {
-    name: 'Ville Martas',
-    friendNames: [],
-  },
+// [
+//   {
+//     name: 'Ville Virtanen',
+//     avecName: 'Hugo Lähteenmäki',
+//     friendNames: [],
+//   },
+//   {
+//     name: 'Ville Martas',
+//     friendNames: [],
+//   },
 
-  {
-    name: 'Markus Perttola',
-    friendNames: [],
-  },
-];
+//   {
+//     name: 'Markus Perttola',
+//     friendNames: [],
+//   },
+// ];
 
 type GuestsStore = {
   guests: Guest[];
+  setGuests: (guests: Guest[]) => void;
   addGuest: (newGuest: Guest) => void;
   assignSeat: (seat: Seat, guest: Guest) => void;
-  guestFromSeat: (seat: Seat) => Guest | undefined;
 };
 
 export const useGuests = create<GuestsStore>((set) => ({
-  guests: DEFAULT_GUESTS,
+  guests: [],
+  setGuests: (guests) => set(() => ({ guests: [...guests] })),
   addGuest: (newGuest) =>
     set((state) => ({ guests: [...state.guests, newGuest] })),
   assignSeat: (seat, guest) => {
@@ -37,7 +38,12 @@ export const useGuests = create<GuestsStore>((set) => ({
       return { guests: newGuests };
     });
   },
-  guestFromSeat: (seat) => {
-    return DEFAULT_GUESTS.find((guest) => guest.seat === seat);
-  },
 }));
+
+export const getInitials = (guest: Guest, limit: number) => {
+  return guest.name
+    .split(' ')
+    .map((n) => n[0])
+    .slice(0, limit)
+    .join('');
+};

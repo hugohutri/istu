@@ -13,5 +13,5 @@ const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background: ${(props) => props.theme.color.bg};
+  background: ${(props) => props.theme.color.background};
 `;

@@ -36,6 +36,7 @@ export const calculateTableSize = (seats: Seats): TableSize => {
  ************************/
 type TablesStore = {
   tables: Table[];
+  setTables: (tables: Table[]) => void;
   addTable: (newTable: Table) => void;
 };
 
@@ -43,6 +44,7 @@ const DEFAULT_TABLES: Table[] = generateRandomTables();
 
 export const useTables = create<TablesStore>((set) => ({
   tables: DEFAULT_TABLES,
+  setTables: (tables) => set(() => ({ tables })),
   addTable: (newTable) =>
     set((state) => ({ tables: [...state.tables, newTable] })),
 }));

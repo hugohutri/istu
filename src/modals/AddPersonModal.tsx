@@ -6,16 +6,12 @@ import { useGuests } from '../hooks/useGuests';
 import { Button } from '../components/uikit/Button';
 import { Stack } from '../components/uikit/Stack';
 
-const OpenModalButton = styled.button`
-  position: absolute;
-  bottom: 1rem;
-  right: 1rem;
-`;
+const OpenModalButton = styled.button``;
 
 const ModalTitle = styled.h1`
   font-size: 24px;
   margin: 0 0 15px 0;
-  color: ${(props) => props.theme.color.textInverted};
+  color: ${(props) => props.theme.color.text};
 `;
 
 const NameForm = styled(Form)`
@@ -33,7 +29,7 @@ const NameFormInput = styled.input`
 `;
 
 const Friendlist = styled.div`
-  color: ${(props) => props.theme.color.textInverted};
+  color: ${(props) => props.theme.color.text};
 `;
 
 export const AddPersonModal = () => {

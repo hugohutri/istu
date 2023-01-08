@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { Guest } from '../../../../hooks/types';
-import { useDraggablePerson } from '../DraggablePerson';
+import { useJesse } from '../Jesse';
 
 export const PlaceForDraggablePerson = ({
   isHover,
@@ -11,9 +11,9 @@ export const PlaceForDraggablePerson = ({
   guest: Guest;
 }) => {
   const placeRef = useRef<HTMLDivElement>(null);
-  const setPos = useDraggablePerson((s) => s.setPos);
-  const setGuest = useDraggablePerson((s) => s.setGuest);
-  const setIsHovering = useDraggablePerson((s) => s.setIsHovering);
+  const setPos = useJesse((s) => s.setPos);
+  const setGuest = useJesse((s) => s.setGuest);
+  const setIsHovering = useJesse((s) => s.setIsHovering);
 
   useEffect(() => {
     if (isHover) onHover();
