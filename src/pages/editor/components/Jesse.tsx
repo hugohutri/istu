@@ -13,25 +13,15 @@ import { useGetSeat } from '../../../hooks/useSeat';
 
 export const Jesse = () => {
   // const guest = useDraggablePerson((s) => s.guest);
-  const hoverRef = useRef<HTMLDivElement>(null);
   // const isHoveringPerson = useHover(hoverRef);
-  const pos = useJesse((s) => s.pos);
-  const setPos = useJesse((s) => s.setPos);
-  const guest = useJesse((s) => s.guest);
-  const setIsDragging = useJesse((s) => s.setIsDragging);
-  const isDragging = useJesse((s) => s.isDragging);
   // const isHoveringName = useDraggablePerson((s) => s.isHovering);
+  // const hoverRef = useRef<HTMLDivElement>(null);
+  const { pos, setPos, guest, isDragging, setIsDragging } = useJesse();
 
   const getSeat = useGetSeat();
   const assignSeat = useGuests((s) => s.assignSeat);
-  // Hack
-  // const [isTimeToHide, setIsTimeToHide] = useState(false);
 
-  const onStart: DraggableEventHandler = () => {
-    setIsDragging(true);
-  };
-
-  const onStop: DraggableEventHandler = (_, data) => {
+  const onStop: DraggableEventHandler = () => {
     const seatId = getCurrentlyHoveredSeat();
     if (guest && seatId) {
       const seat = getSeat(seatId);
@@ -39,60 +29,32 @@ export const Jesse = () => {
         assignSeat(seat, guest);
       }
     }
-
     setPos(undefined);
     setIsDragging(false);
   };
 
-  // const isHoveringNameOrPerson = () => {
-  //   console.log(isHoveringName, isDragging);
-  //   return isHoveringName || isDragging;
-  // };
-
-  // useEffect(() => {
-  //   if (isHoveringName) return;
-  //   const timeout = setTimeout(() => {
-  //     setIsTimeToHide(true);
-  //   }, 1000);
-
-  //   return () => {
-  //     clearTimeout(timeout);
-  //   };
-  // }, [isHoveringName]);
-
-  // useEffect(() => {
-  //   if (!isTimeToHide) return;
-  //   if (isHoveringName || isDragging || isHoveringPerson) {
-  //     setIsTimeToHide(false);
-  //     return;
-  //   }
-
-  //   setPos(undefined);
-  //   setIsTimeToHide(false);
-  // }, [isTimeToHide]);
-
-  // useEffect(() => {
-  //   if (!isHoveringPerson && !isHoveringName) {
-  //     setTimeout(() => {
-  //       if (!isHoveringPerson && !isHoveringName) {
-  //         setPos(undefined);
-  //       }
-  //     }, 1000);
-  //   }
-  // }, [isHoveringPerson, isHoveringName]);
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (!isDragging) {
+        setPos(undefined);
+      }
+    }, 3000);
+    return () => clearTimeout(timeout);
+  });
 
   if (!pos) return null;
   if (!guest) return null;
 
   return (
     <Draggable
+      key={guest.name}
       defaultClassNameDragging="dragging"
-      onStart={onStart}
+      onStart={() => setIsDragging(true)}
       onStop={onStop}
-      position={pos}
+      defaultPosition={pos}
       bounds="parent"
     >
-      <DraggableContainer ref={hoverRef} className="ignore-drag-scroll">
+      <DraggableContainer className="ignore-drag-scroll">
         {isDragging && <Name>{guest.name}</Name>}
         <Icon $isDragging={isDragging} />
       </DraggableContainer>
@@ -123,8 +85,11 @@ const Icon = styled(FaChild)<{ $isDragging: boolean }>`
   padding: 0.5rem;
 
   transform-origin: 50% 20%;
-  ${({ $isDragging }) =>
-    $isDragging && `animation: swing 0.6s linear infinite;`}
+  transform: scale(1);
+  animation: fadeInFromRight 0.25s ease-in-out
+    ${({ $isDragging }) =>
+      $isDragging &&
+      `, scaleUp 0.25s ease-in-out, swing 0.6s linear 0.25s infinite;`};
 
   @keyframes swing {
     0% {
@@ -138,6 +103,26 @@ const Icon = styled(FaChild)<{ $isDragging: boolean }>`
     }
     100% {
       transform: rotate(0deg) scale(1.5);
+    }
+  }
+
+  @keyframes scaleUp {
+    0% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(1.5);
+    }
+  }
+
+  @keyframes fadeInFromRight {
+    0% {
+      opacity: 0;
+      transform: translateX(50%);
+    }
+    60% {
+      opacity: 1;
+      transform: translateX(0);
     }
   }
 `;

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { useHover } from 'usehooks-ts';
 import { Guest } from '../../../../hooks/types';
 import { GuestInfo } from './GuestInfo';
-import { PlaceForDraggablePerson } from './PlaceForDraggablePerson';
+import { JessePlaceholder } from './JessePlaceholder';
 
 type GuestItemProps = {
   guest: Guest;
@@ -49,7 +49,7 @@ export const GuestItem = ({ guest }: GuestItemProps) => {
   return (
     <>
       <Row status={status} ref={hoverRef} onClick={handleOpen}>
-        <PlaceForDraggablePerson isHover={isHover} guest={guest} />
+        <JessePlaceholder isHover={isHover} guest={guest} />
         <Name>{`${guest.name}`}</Name>
         <Status guest={guest} />
         <FlexGrow />

@@ -30,7 +30,9 @@ export const Table = ({ size, seats, id }: TableType) => {
         {Object.entries(seats).map(([side, seats]) => (
           <SeatsRow key={id + side} side={side as Side} seats={seats} />
         ))}
-        <StyledTable className="handle ignore-drag-scroll">{id}</StyledTable>
+        <StyledTable id={id} className="handle ignore-drag-scroll">
+          {id}
+        </StyledTable>
       </TableContainer>
     </Draggable>
   );

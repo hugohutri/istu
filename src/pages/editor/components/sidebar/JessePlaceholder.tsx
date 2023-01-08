@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Guest } from '../../../../hooks/types';
 import { useJesse } from '../Jesse';
 
-export const PlaceForDraggablePerson = ({
+export const JessePlaceholder = ({
   isHover,
   guest,
 }: {
