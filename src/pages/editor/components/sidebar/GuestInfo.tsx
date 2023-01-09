@@ -18,13 +18,7 @@ const StyledFriendName = styled.div`
 
 export const GuestInfo = ({ guest, open }: GuestInfoProps) => {
   const friends = guest.friendNames;
-  const setHighlightedSeats = useHighlightedSeats((s) => s.setHighlightedSeats);
   const removeGuest = useGuests((s) => s.removeGuest);
-
-  const highlighGuest = () => {
-    if (!guest.seat) return;
-    setHighlightedSeats([guest.seat], { color: 'red' });
-  };
 
   return (
     <AnimatedContainer
@@ -34,7 +28,6 @@ export const GuestInfo = ({ guest, open }: GuestInfoProps) => {
       height={open ? 'auto' : 0}
     >
       <Spacer amount="0.5rem" />
-      {guest.seat && <button onClick={highlighGuest}>Show on canvas</button>}
 
       <StyledFriendName>Seat: {guest.seat?.id ?? '-'}</StyledFriendName>
       <StyledFriendName>Avec: {guest.avecName ?? '-'}</StyledFriendName>

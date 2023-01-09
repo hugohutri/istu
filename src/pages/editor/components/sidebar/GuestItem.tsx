@@ -1,8 +1,9 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FaCheck, FaChevronRight } from 'react-icons/fa';
 import styled from 'styled-components';
 import { useHover } from 'usehooks-ts';
 import { Guest } from '../../../../hooks/types';
+import { useHighlightedSeats } from '../../../../hooks/useSeatHighlight';
 import { GuestInfo } from './GuestInfo';
 import { JessePlaceholder } from './JessePlaceholder';
 
@@ -39,6 +40,20 @@ export const GuestItem = ({ guest }: GuestItemProps) => {
   const [open, setOpen] = useState(false);
   const hoverRef = useRef<HTMLDivElement>(null);
   const isHover = useHover(hoverRef);
+  const setHighlightedSeats = useHighlightedSeats((s) => s.setHighlightedSeats);
+
+  useEffect(() => {
+    if (!guest.seat) return;
+    if (!isHover) {
+      setHighlightedSeats([], { color: 'red' });
+      return;
+    }
+    const timeout = setTimeout(() => {
+      if (!guest.seat) return;
+      setHighlightedSeats([guest.seat], { color: 'red' });
+    }, 2);
+    return () => clearTimeout(timeout);
+  }, [isHover]);
 
   const handleOpen = () => {
     setOpen(!open);
@@ -47,8 +62,8 @@ export const GuestItem = ({ guest }: GuestItemProps) => {
   const status = guest.seat ? 'Seated' : 'Not Seated';
 
   return (
-    <>
-      <Row status={status} ref={hoverRef} onClick={handleOpen}>
+    <div ref={hoverRef}>
+      <Row status={status} onClick={handleOpen}>
         <JessePlaceholder isHover={isHover} guest={guest} />
         <Name>{`${guest.name}`}</Name>
         <Status guest={guest} />
@@ -57,7 +72,7 @@ export const GuestItem = ({ guest }: GuestItemProps) => {
       </Row>
 
       <GuestInfo guest={guest} open={open} />
-    </>
+    </div>
   );
 };
 
