@@ -5,3 +5,4 @@ export const CANVAS_CONFIG = {
 
 export const SEAT_SIZE = 40;
 export const SEAT_MARGIN = 10;
+
