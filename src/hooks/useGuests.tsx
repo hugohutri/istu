@@ -1,28 +1,12 @@
 import { Guest, Seat } from './types';
 import create from 'zustand';
 
-// [
-//   {
-//     name: 'Ville Virtanen',
-//     avecName: 'Hugo Lähteenmäki',
-//     friendNames: [],
-//   },
-//   {
-//     name: 'Ville Martas',
-//     friendNames: [],
-//   },
-
-//   {
-//     name: 'Markus Perttola',
-//     friendNames: [],
-//   },
-// ];
-
 type GuestsStore = {
   guests: Guest[];
   setGuests: (guests: Guest[]) => void;
   addGuest: (newGuest: Guest) => void;
   assignSeat: (seat: Seat, guest: Guest) => void;
+  removeGuest: (guest: Guest) => void;
 };
 
 export const useGuests = create<GuestsStore>((set) => ({
@@ -46,6 +30,14 @@ export const useGuests = create<GuestsStore>((set) => ({
       // Assign seat to the new guest
       const index = newGuests.findIndex((g) => g.name === guest.name);
       newGuests[index].seat = seat;
+      return { guests: newGuests };
+    });
+  },
+  removeGuest: (guest) => {
+    set((state) => {
+      const newGuests = [...state.guests];
+      const index = newGuests.findIndex((g) => g.name === guest.name);
+      newGuests.splice(index, 1);
       return { guests: newGuests };
     });
   },

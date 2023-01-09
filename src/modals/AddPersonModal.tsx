@@ -34,7 +34,7 @@ const Friendlist = styled.div`
 
 export const AddPersonModal = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { addGuest } = useGuests();
+  const addGuest = useGuests((store) => store.addGuest);
   const [name, setName] = useState('');
   const [friendNames, setFriendNames] = useState<string[]>([]);
   const [newFriend, setNewFriend] = useState<string>();
