@@ -2,6 +2,8 @@ import AnimateHeight from 'react-animate-height';
 import styled from 'styled-components';
 import { Spacer } from '../../../../components/uikit/Spacer';
 import { Guest } from '../../../../hooks/types';
+import { useGuests } from '../../../../hooks/useGuests';
+import { useHighlightedSeats } from '../../../../hooks/useSeatHighlight';
 
 type GuestInfoProps = {
   guest: Guest;
@@ -16,6 +18,7 @@ const StyledFriendName = styled.div`
 
 export const GuestInfo = ({ guest, open }: GuestInfoProps) => {
   const friends = guest.friendNames;
+  const removeGuest = useGuests((s) => s.removeGuest);
 
   return (
     <AnimatedContainer
@@ -35,7 +38,7 @@ export const GuestInfo = ({ guest, open }: GuestInfoProps) => {
           <li key={index}>{friend}</li>
         ))}
       </StyledFriendName>
-
+      <button onClick={() => removeGuest(guest)}>Delete guest</button>
       <Spacer amount="0.5rem" />
     </AnimatedContainer>
   );
