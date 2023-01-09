@@ -6,7 +6,6 @@ import { Button } from '../components/uikit/Button';
 import { Input } from '../components/uikit/Input';
 import { Spacer } from '../components/uikit/Spacer';
 import { Hr } from '../components/uikit/Hr';
-import { FaPlus } from 'react-icons/fa';
 
 const NameForm = styled.form`
   display: flex;
@@ -97,7 +96,7 @@ export const AddPersonModal = () => {
             />
             <Spacer amount="2px" />
             <AddButton size="small" disabled={!newFriend} onClick={addFriend}>
-              <FaPlus />
+              Add
             </AddButton>
           </FriendInputContainer>
 
