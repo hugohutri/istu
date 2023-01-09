@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Modal } from '../components/uikit/Modal';
 import { useGuests } from '../hooks/useGuests';
@@ -29,6 +29,7 @@ const Friendlist = styled.div`
 export const AddPersonModal = () => {
   const [isOpen, setIsOpen] = useState(false);
   const addGuest = useGuests((store) => store.addGuest);
+
   const [name, setName] = useState('');
   const [friendNames, setFriendNames] = useState<string[]>([]);
   const [newFriend, setNewFriend] = useState<string>();
@@ -36,18 +37,26 @@ export const AddPersonModal = () => {
 
   const buttonSubmit = () => {
     addGuest({ name: name, avecName: avec, friendNames: friendNames });
-    setName('');
-    setAvec(undefined);
-    setFriendNames([]);
-    setNewFriend(undefined);
+    clearFields();
     setIsOpen(false);
   };
 
   const addFriend = () => {
     if (!newFriend) return;
     setFriendNames([...friendNames, newFriend]);
-    setNewFriend('');
+    setNewFriend(undefined);
   };
+
+  const clearFields = () => {
+    setName('');
+    setAvec(undefined);
+    setNewFriend(undefined);
+    setFriendNames([]);
+  };
+
+  useEffect(() => {
+    if (isOpen) clearFields();
+  }, [isOpen]);
 
   return (
     <>

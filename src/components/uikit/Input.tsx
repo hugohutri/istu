@@ -21,11 +21,11 @@ type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   label?: string;
 };
 
-export const Input = ({ label, ...props }: InputProps) => {
+export const Input = ({ label, value, ...props }: InputProps) => {
   return (
     <Container>
       {label && <Label htmlFor={props.id}>{label}</Label>}
-      <StyledInput {...props} />
+      <StyledInput value={value ?? ''} {...props} />
     </Container>
   );
 };
