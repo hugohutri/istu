@@ -56,6 +56,8 @@ export const theme: DefaultTheme = {
     foreground: '#FFFFFF',
     elevated: '#FFFFFF',
     background: '#F3F4F6',
+    button: 'hsl(200, 50%, 60%)',
+    buttonNeutral: 'hsl(210, 5%, 95%)',
 
     // Muted gray colors
     muted1: 'hsl(210, 5%, 55%)',
@@ -67,5 +69,11 @@ export const theme: DefaultTheme = {
   border: {
     width: '1px',
     radius: '4px',
+  },
+  fontSize: {
+    xsmall: '0.6rem',
+    small: '0.75rem',
+    medium: '1rem',
+    large: '1.25rem',
   },
 };

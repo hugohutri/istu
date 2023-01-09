@@ -1,33 +1,29 @@
 import { useState } from 'react';
-import { Form } from 'react-router-dom';
 import styled from 'styled-components';
 import { Modal } from '../components/uikit/Modal';
 import { useGuests } from '../hooks/useGuests';
 import { Button } from '../components/uikit/Button';
-import { Stack } from '../components/uikit/Stack';
+import { Input } from '../components/uikit/Input';
+import { Spacer } from '../components/uikit/Spacer';
+import { Hr } from '../components/uikit/Hr';
+import { FaPlus } from 'react-icons/fa';
 
-const ModalTitle = styled.h1`
-  font-size: 24px;
-  margin: 0 0 15px 0;
-  color: ${(props) => props.theme.color.text};
-`;
-
-const NameForm = styled(Form)`
+const NameForm = styled.form`
   display: flex;
   flex-direction: column;
-  margin: 10px 0 10px 5px;
-  padding: 10px;
-  border: 1px solid black;
-  border-radius: 15px;
-`;
-
-const NameFormInput = styled.input`
-  display: table-cell;
-  padding: 0.5rem;
 `;
 
 const Friendlist = styled.div`
+  font-size: ${(props) => props.theme.fontSize.small};
   color: ${(props) => props.theme.color.text};
+
+  &:empty:after {
+    content: '-';
+  }
+  :before {
+    content: 'Friends: ';
+    font-weight: bold;
+  }
 `;
 
 export const AddPersonModal = () => {
@@ -39,7 +35,6 @@ export const AddPersonModal = () => {
   const [avec, setAvec] = useState<string>();
 
   const buttonSubmit = () => {
-    console.log('submit');
     addGuest({ name: name, avecName: avec, friendNames: friendNames });
     setName('');
     setAvec(undefined);
@@ -51,45 +46,75 @@ export const AddPersonModal = () => {
   const addFriend = () => {
     if (!newFriend) return;
     setFriendNames([...friendNames, newFriend]);
-    setNewFriend(undefined);
+    setNewFriend('');
   };
 
   return (
     <>
-      <Button onClick={() => setIsOpen(true)}>Add person</Button>
-      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
-        <ModalTitle> Add person </ModalTitle>
-
+      <Button variant="neutral" onClick={() => setIsOpen(true)}>
+        Add person
+      </Button>
+      <Modal
+        title="Add person"
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+      >
         <NameForm>
-          <Stack dir="column" spacing={10}>
-            <NameFormInput
+          <Input
+            type="text"
+            label="Name of the guest"
+            placeholder="Full name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+
+          <Spacer amount="10px" />
+          <Input
+            label="Name of the Companion / Partner"
+            type="text"
+            placeholder="Full name"
+            value={avec}
+            onChange={(e) => setAvec(e.target.value)}
+          />
+
+          <Spacer amount="10px" />
+          <FriendInputContainer>
+            <Input
+              label="Friends"
               type="text"
-              placeholder="Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-            <NameFormInput
-              type="text"
-              placeholder="Avec"
-              value={avec}
-              onChange={(e) => setAvec(e.target.value)}
-            />
-            <NameFormInput
-              type="text"
-              placeholder="kamerukset :D"
+              placeholder="Full name"
               value={newFriend}
               onChange={(e) => setNewFriend(e.target.value)}
             />
-            <Button disabled={!newFriend} onClick={addFriend}>
-              Add friend
-            </Button>
-            <Friendlist>Friends: {friendNames.join(',')}</Friendlist>
-            <Button disabled={!name} onClick={buttonSubmit}>
-              Submit
-            </Button>
-          </Stack>
+            <Spacer amount="2px" />
+            <AddButton size="small" disabled={!newFriend} onClick={addFriend}>
+              <FaPlus />
+            </AddButton>
+          </FriendInputContainer>
+
+          <Spacer amount="2px" />
+          <Friendlist>{friendNames.join(', ')}</Friendlist>
+          <Spacer amount="2px" />
+
+          <Spacer amount="10px" />
+          <Hr />
+          <Button disabled={!name} onClick={buttonSubmit}>
+            Submit
+          </Button>
         </NameForm>
       </Modal>
     </>
   );
 };
+
+const AddButton = styled(Button)`
+  height: auto;
+  content: '+';
+  margin-top: auto;
+  align-self: bottom;
+`;
+
+const FriendInputContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 10px auto;
+`;

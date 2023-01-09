@@ -42,10 +42,18 @@ declare module 'styled-components' {
       muted3: string;
       muted4: string;
       muted5: string;
+      button: string;
+      buttonNeutral: string;
     };
     border: {
       width: string;
       radius: string;
+    };
+    fontSize: {
+      xsmall: string;
+      small: string;
+      medium: string;
+      large: string;
     };
   }
 }

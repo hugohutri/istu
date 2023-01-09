@@ -9,5 +9,9 @@ export const OptimizeButton = () => {
     console.table(seats);
   };
 
-  return <Button onClick={onClick}>Optimize</Button>;
+  return (
+    <Button variant="neutral" onClick={onClick}>
+      Optimize
+    </Button>
+  );
 };

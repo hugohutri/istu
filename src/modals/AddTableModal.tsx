@@ -58,9 +58,7 @@ export const AddTableButton = () => {
       <OpenModalButton onClick={() => setIsOpen(true)}>
         Add table
       </OpenModalButton>
-      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
-        <ModalTitle>Add table</ModalTitle>
-
+      <Modal title="Add table" isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <SeatForm>
           <SeatFormRow>
             <SeatFormTitle>
