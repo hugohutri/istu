@@ -3,8 +3,20 @@
   src: url(./assets/fonts/HopalongBold-LOvD.ttf);
 }
 
+@font-face {
+  font-family: Comfortaa;
+  font-weight: bold;
+  src: url(./assets/fonts/Comfortaa-Bold.ttf);
+}
+
+@font-face {
+  font-family: Comfortaa;
+  font-weight: normal;
+  src: url(./assets/fonts/Comfortaa-Regular.ttf);
+}
+
 :root {
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+  font-family: Comfortaa, Inter, Avenir, Helvetica, Arial, sans-serif;
   font-size: 20px;
   line-height: 24px;
   font-weight: 400;

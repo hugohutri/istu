@@ -56,7 +56,7 @@ const StyledTable = styled.div`
   align-items: center;
   justify-content: center;
   display: flex;
-  font-family: 'Hopalong';
+  font-family: 'Comfortaa';
   color: ${(props) => props.theme.color.pencil};
 
   user-select: none;

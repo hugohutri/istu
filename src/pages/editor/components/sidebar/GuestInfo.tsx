@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { Spacer } from '../../../../components/uikit/Spacer';
 import { Guest } from '../../../../hooks/types';
 import { useGuests } from '../../../../hooks/useGuests';
-import { useHighlightedSeats } from '../../../../hooks/useSeatHighlight';
 
 type GuestInfoProps = {
   guest: Guest;

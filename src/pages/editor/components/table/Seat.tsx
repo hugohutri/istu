@@ -63,7 +63,7 @@ const GuestName = styled.div`
   /* background-color: rgba(0, 0, 0, 0.2); */
   position: absolute;
 
-  font-family: sans-serif;
+  /* font-family: sans-serif; */
   text-align: center;
   /* line-height: 16px; */
   font-size: 16px;

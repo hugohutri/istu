@@ -6,7 +6,8 @@ import { Table } from './table/Table';
 import { scrollToCenter, useScrollableCanvas } from './useScrollableCanvas';
 
 export const Canvas = () => {
-  const tables = useTables((state) => state.tables);
+  const tables = useTables((s) => s.tables);
+
   const scrollContainer = useScrollableCanvas();
 
   const setRef = (div: HTMLDivElement | null) => {

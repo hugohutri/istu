@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { Modal } from '../components/uikit/Modal';
+import { Seats, Side, Table } from '../hooks/types';
+import { createTable } from '../hooks/useTables';
+import { CANVAS_CONFIG } from '../pages/editor/components/config';
 
 const OpenModalButton = styled.button`
   position: absolute;
@@ -58,9 +61,7 @@ export const AddTableButton = () => {
       <OpenModalButton onClick={() => setIsOpen(true)}>
         Add table
       </OpenModalButton>
-      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
-        <ModalTitle>Add table</ModalTitle>
-
+      <Modal title="Add table" isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <SeatForm>
           <SeatFormRow>
             <SeatFormTitle>

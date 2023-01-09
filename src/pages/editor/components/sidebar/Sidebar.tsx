@@ -24,10 +24,10 @@ const NameList = styled(Stack)`
 
 const Footer = styled.div`
   display: flex;
-  gap: 5px;
+  gap: 10px;
   flex-direction: column;
   /* align-items: center; */
-  padding: 1rem 0 1rem 0.5rem;
+  padding: 1rem 0.5rem;
   border-top: ${(props) => props.theme.border.width} solid
     ${(props) => props.theme.color.onPrimary};
   background-color: ${(props) => props.theme.color.primary};

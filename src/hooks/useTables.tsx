@@ -39,11 +39,11 @@ type TablesStore = {
   addTable: (newTable: Table) => void;
 };
 
-const DEFAULT_TABLES: Table[] = [];
-
 export const useTables = create<TablesStore>((set) => ({
-  tables: DEFAULT_TABLES,
+  tables: [],
+
   setTables: (tables) => set(() => ({ tables })),
+
   addTable: (newTable) =>
     set((state) => ({ tables: [...state.tables, newTable] })),
 }));
