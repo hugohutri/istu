@@ -3,6 +3,7 @@ import { Stack } from '../../../../components/uikit/Stack';
 import { useGuests } from '../../../../hooks/useGuests';
 import { AddPersonModal } from '../../../../modals/AddPersonModal';
 import { GuestItem } from './GuestItem';
+import { OptimizeButton } from './Optimize';
 
 const StyledSidebar = styled.div`
   /* padding: 0.5rem 0; */
@@ -21,9 +22,10 @@ const NameList = styled(Stack)`
 
 const Footer = styled.div`
   display: flex;
+  gap: 5px;
   flex-direction: column;
-  align-items: center;
-  padding: 0.5rem 0;
+  /* align-items: center; */
+  padding: 1rem 0 1rem 0.5rem;
   border-top: ${(props) => props.theme.border.width} solid
     ${(props) => props.theme.color.onPrimary};
   background-color: ${(props) => props.theme.color.primary};
@@ -43,6 +45,7 @@ export const Sidebar = () => {
       </NameList>
       <Footer>
         <AddPersonModal />
+        <OptimizeButton />
       </Footer>
     </StyledSidebar>
   );

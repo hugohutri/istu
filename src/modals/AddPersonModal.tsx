@@ -6,8 +6,6 @@ import { useGuests } from '../hooks/useGuests';
 import { Button } from '../components/uikit/Button';
 import { Stack } from '../components/uikit/Stack';
 
-const OpenModalButton = styled.button``;
-
 const ModalTitle = styled.h1`
   font-size: 24px;
   margin: 0 0 15px 0;
@@ -58,9 +56,7 @@ export const AddPersonModal = () => {
 
   return (
     <>
-      <OpenModalButton onClick={() => setIsOpen(true)}>
-        Add person
-      </OpenModalButton>
+      <Button onClick={() => setIsOpen(true)}>Add person</Button>
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <ModalTitle> Add person </ModalTitle>
 

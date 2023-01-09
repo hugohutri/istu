@@ -1,5 +1,4 @@
 import create from 'zustand';
-import { generateRandomTables } from '../utils/generateRandomTables';
 import { Seats, Table, TableSize } from './types';
 
 /************************
@@ -40,7 +39,7 @@ type TablesStore = {
   addTable: (newTable: Table) => void;
 };
 
-const DEFAULT_TABLES: Table[] = generateRandomTables();
+const DEFAULT_TABLES: Table[] = [];
 
 export const useTables = create<TablesStore>((set) => ({
   tables: DEFAULT_TABLES,
@@ -48,3 +47,7 @@ export const useTables = create<TablesStore>((set) => ({
   addTable: (newTable) =>
     set((state) => ({ tables: [...state.tables, newTable] })),
 }));
+
+export const getSeats = (tables: Table[]) => {
+  return tables.flatMap((t) => t.seats.top).flat();
+};
