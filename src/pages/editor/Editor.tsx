@@ -12,6 +12,7 @@ export const Editor = () => {
         <Canvas />
         <AddTableButton />
       </CanvasWindow>
+
       <Sidebar />
     </Grid>
   );
