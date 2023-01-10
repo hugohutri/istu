@@ -11,6 +11,13 @@ import styled from 'styled-components';
 const FileInput = styled.input`
   color: ${(props) => props.theme.color.text};
 `;
+const NameContainer = styled.div`
+  padding-bottom: 0.5rem;
+`;
+const Scrollable = styled.div`
+  overflow-y: scroll;
+  max-height: 300px;
+`;
 export const AddCsvModal = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { addGuests } = useGuests();
@@ -30,7 +37,7 @@ export const AddCsvModal = () => {
       .split(';')
       .map((h) => h.trim());
     const csvRows = string
-      .slice(string.indexOf('\n') + 1)
+      .slice(string.indexOf('\n') + 1, string.length - 1)
       .split('\n')
       .map((h) => h.trim());
     const guests = csvRows.map((row) => {
@@ -40,6 +47,7 @@ export const AddCsvModal = () => {
       const friendHeaderIndex = csvHeader.indexOf('friendlist');
       const friendsString = guestValues?.[friendHeaderIndex];
       const friendNames = friendsString?.split(',')?.map((h) => h.trim());
+
       return {
         name: guestValues[nameHeaderIndex],
         avecName: guestValues[avecHeaderIndex],
@@ -49,9 +57,7 @@ export const AddCsvModal = () => {
 
     setGuests(guests);
   };
-  const handleOnSubmit = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const readFromCsv = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
 
     if (file) {
@@ -74,6 +80,7 @@ export const AddCsvModal = () => {
   const buttonSubmit = () => {
     addGuests(guests);
     setIsOpen(false);
+    setGuests([]);
   };
   return (
     <>
@@ -92,19 +99,21 @@ export const AddCsvModal = () => {
             accept={'.csv'}
             onChange={handleOnChange}
           />
-          {guests.map((guest) => (
-            <div key={guest.name}>
-              <Body>Name: {guest.name}</Body>
-              <Body>Avec: {guest.avecName}</Body>
-              <Body>Friends: </Body>
-              {guest.friendNames?.map((friend, i) => (
-                <Body key={i}>-{friend}</Body>
-              ))}
-            </div>
-          ))}
+          <Scrollable>
+            {guests.map((guest) => (
+              <NameContainer key={guest.name}>
+                <Body>Name: {guest.name}</Body>
+                <Body>Avec: {guest.avecName}</Body>
+                <Body>Friends: </Body>
+                {guest.friendNames?.map((friend, i) => (
+                  <Body key={i}>-{friend}</Body>
+                ))}
+              </NameContainer>
+            ))}
+          </Scrollable>
           <Button
             onClick={(e) => {
-              handleOnSubmit(e);
+              readFromCsv(e);
             }}
           >
             Read from csv
