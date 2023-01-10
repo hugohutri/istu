@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "date-fns": "^2.29.3",
+    "dom-to-image-more": "^2.13.1",
     "minifaker": "^1.34.1",
     "react": "^18.2.0",
     "react-animate-height": "^3.1.0",

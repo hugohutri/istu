@@ -1,5 +1,7 @@
 import styled from 'styled-components';
+import { Button } from '../../../../components/uikit/Button';
 import { Stack } from '../../../../components/uikit/Stack';
+import { exportPNG } from '../../../../hooks/exportPNG';
 import { useGuests } from '../../../../hooks/useGuests';
 import { AddPersonModal } from '../../../../modals/AddPersonModal';
 import { GuestItem } from './GuestItem';
@@ -46,6 +48,15 @@ export const Sidebar = () => {
       <Footer>
         <AddPersonModal />
         <OptimizeButton />
+        <Button
+          onClick={() => {
+            const floor = document.getElementById('floor');
+            if (!floor) return;
+            exportPNG(floor);
+          }}
+        >
+          Export PNG
+        </Button>
       </Footer>
     </StyledSidebar>
   );

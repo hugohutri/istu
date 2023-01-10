@@ -35,6 +35,7 @@ export const Floor = styled.div`
   flex: 1;
   min-width: ${CANVAS_CONFIG.width}px;
   min-height: ${CANVAS_CONFIG.height}px;
+  background-color: ${(props) => props.theme.color.background};
 
   // Dotted grid pattern
   background-size: 40px 40px;
