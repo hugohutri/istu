@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import AnimateHeight from 'react-animate-height';
 import { FaCheck, FaChevronRight } from 'react-icons/fa';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { useHover } from 'usehooks-ts';
 import { Guest } from '../../../../hooks/types';
 import { useGuests } from '../../../../hooks/useGuests';
@@ -62,7 +62,7 @@ export const GuestItem = ({ guest }: GuestItemProps) => {
     const timeout = setTimeout(() => {
       removeGuest(guest);
       setDeleting(false);
-    }, 150);
+    }, 400);
 
     return () => clearTimeout(timeout);
   }, [deleting]);
@@ -70,8 +70,8 @@ export const GuestItem = ({ guest }: GuestItemProps) => {
   const status = guest.seat ? 'Seated' : 'Not Seated';
 
   return (
-    <AnimateHeight height={deleting ? 0 : 'auto'} duration={150}>
-      <div ref={hoverRef}>
+    <AnimateHeight height={deleting ? 0 : 'auto'} duration={400}>
+      <Container ref={hoverRef} deleting={deleting}>
         <Row status={status} onClick={handleOpen}>
           <JessePlaceholder isHover={isHover} guest={guest} />
           <Name>{`${guest.name}`}</Name>
@@ -81,10 +81,24 @@ export const GuestItem = ({ guest }: GuestItemProps) => {
         </Row>
 
         <GuestInfo guest={guest} open={open} onDelete={onPressDelete} />
-      </div>
+      </Container>
     </AnimateHeight>
   );
 };
+
+const Container = styled.div<{ deleting: boolean }>`
+  transition: all 0.2s ease-in-out;
+
+  ${({ deleting }) =>
+    deleting &&
+    css`
+      pointer-events: none;
+      background-color: ${(props) => props.theme.color.text};
+      & > div {
+        opacity: 0;
+      }
+    `}
+`;
 
 const Status = ({ guest }: { guest: Guest }) => {
   if (guest.seat) return <CheckMark size={'0.6rem'} />;
