@@ -18,7 +18,7 @@ const Scrollable = styled.div`
   overflow-y: scroll;
   max-height: 300px;
 `;
-export const AddCsvModal = () => {
+export const ImportFromCsv = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { addGuests } = useGuests();
   const [file, setFile] = useState<File>();
@@ -85,10 +85,10 @@ export const AddCsvModal = () => {
   return (
     <>
       <Button variant="neutral" onClick={() => setIsOpen(true)}>
-        Add csv
+        Import guests
       </Button>
       <Modal
-        title="CSV import"
+        title="Import from csv"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
       >

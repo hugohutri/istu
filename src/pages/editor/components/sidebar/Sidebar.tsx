@@ -3,8 +3,8 @@ import { Button } from '../../../../components/uikit/Button';
 import { Stack } from '../../../../components/uikit/Stack';
 import { exportPNG } from '../../../../hooks/exportPNG';
 import { useGuests } from '../../../../hooks/useGuests';
-import { AddCsvModal } from '../../../../modals/AddCsvModal';
-import { AddPersonModal } from '../../../../modals/AddPersonModal';
+import { ImportFromCsv } from '../../../../modals/AddCsvModal';
+import { AddGuest } from '../../../../modals/AddPersonModal';
 import { GuestItem } from './GuestItem';
 import { OptimizeButton } from './Optimize';
 
@@ -47,10 +47,11 @@ export const Sidebar = () => {
         </div>
       </NameList>
       <Footer>
-        <AddCsvModal />
-        <AddPersonModal />
+        <ImportFromCsv />
+        <AddGuest />
         <OptimizeButton />
         <Button
+          variant="neutral"
           onClick={() => {
             const floor = document.getElementById('floor');
             if (!floor) return;

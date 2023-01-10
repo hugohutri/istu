@@ -23,7 +23,7 @@ const Row = styled.div<{ status: string }>`
   flex-direction: row;
   justify-content: end;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.2rem;
   background-color: ${(props) =>
     props.status === 'Not Seated' && props.theme.color.primaryHighlighted};
 `;
@@ -32,6 +32,9 @@ const Name = styled.div`
   line-height: 34px;
   font-weight: 300;
   letter-spacing: 1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const FlexGrow = styled.div`

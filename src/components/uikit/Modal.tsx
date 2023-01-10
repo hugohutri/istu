@@ -62,7 +62,6 @@ const ModalWrapper = styled.div`
   padding: 18px;
 
   min-width: 300px;
-  min-height: 300px;
 `;
 
 const Title = styled.div`

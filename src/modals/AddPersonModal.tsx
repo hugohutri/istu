@@ -25,7 +25,7 @@ const Friendlist = styled.div`
   }
 `;
 
-export const AddPersonModal = () => {
+export const AddGuest = () => {
   const [isOpen, setIsOpen] = useState(false);
   const addGuest = useGuests((store) => store.addGuest);
 
@@ -64,13 +64,9 @@ export const AddPersonModal = () => {
   return (
     <>
       <Button variant="neutral" onClick={() => setIsOpen(true)}>
-        Add person
+        Add guest
       </Button>
-      <Modal
-        title="Add person"
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
-      >
+      <Modal title="Add guest" isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <NameForm>
           <Input
             type="text"
