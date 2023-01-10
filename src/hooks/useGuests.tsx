@@ -5,6 +5,7 @@ type GuestsStore = {
   guests: Guest[];
   setGuests: (guests: Guest[]) => void;
   addGuest: (newGuest: Guest) => void;
+  addGuests: (newGuests: Guest[]) => void;
   assignSeat: (seat: Seat, guest: Guest) => void;
   removeGuest: (guest: Guest) => void;
 };
@@ -22,6 +23,9 @@ export const useGuests = create<GuestsStore>((set) => ({
 
       return { guests: [...guests, newGuest] };
     }),
+
+  addGuests: (newGuests) =>
+    set((state) => ({ guests: [...state.guests, ...newGuests] })),
 
   assignSeat: (seat, guest) => {
     set((state) => {

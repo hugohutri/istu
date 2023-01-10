@@ -85,7 +85,10 @@ const buttonStyles = css<ButtonProps>`
     cursor: default;
   }
 `;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7f39d85a3f65ea4bfb7352f02a81b9a752f3d9ce
 const StyledButton = styled.button<ButtonProps>`
   ${buttonStyles}
 `;
