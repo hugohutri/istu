@@ -1,23 +1,16 @@
 import { ChangeEvent, useState } from 'react';
-import styled from 'styled-components';
+
 import { Modal } from '../components/uikit/Modal';
 import { Button } from '../components/uikit/Button';
 import { Stack } from '../components/uikit/Stack';
 import { useGuests } from '../hooks/useGuests';
 import { Guest } from '../hooks/types';
+import { Body } from '../components/uikit/Body';
+import styled from 'styled-components';
 
-const OpenModalButton = styled.button`
-  position: absolute;
-  bottom: 2rem;
-  right: 1rem;
+const FileInput = styled.input`
+  color: ${(props) => props.theme.color.text};
 `;
-
-const ModalTitle = styled.h1`
-  font-size: 24px;
-  margin: 0 0 15px 0;
-  color: ${(props) => props.theme.color.textInverted};
-`;
-
 export const AddCsvModal = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { addGuests } = useGuests();
@@ -45,10 +38,12 @@ export const AddCsvModal = () => {
       const nameHeaderIndex = csvHeader.indexOf('name');
       const avecHeaderIndex = csvHeader.indexOf('avec');
       const friendHeaderIndex = csvHeader.indexOf('friendlist');
+      const friendsString = guestValues?.[friendHeaderIndex];
+      const friendNames = friendsString?.split(',')?.map((h) => h.trim());
       return {
         name: guestValues[nameHeaderIndex],
         avecName: guestValues[avecHeaderIndex],
-        friendNames: [guestValues[friendHeaderIndex]],
+        friendNames: friendNames ?? [],
       };
     });
 
@@ -82,11 +77,16 @@ export const AddCsvModal = () => {
   };
   return (
     <>
-      <OpenModalButton onClick={() => setIsOpen(true)}>Add csv</OpenModalButton>
-      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
-        <ModalTitle> Import csv </ModalTitle>
+      <Button variant="neutral" onClick={() => setIsOpen(true)}>
+        Add csv
+      </Button>
+      <Modal
+        title="CSV import"
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+      >
         <Stack dir="column" spacing={10}>
-          <input
+          <FileInput
             type={'file'}
             id={'csvFileInput'}
             accept={'.csv'}
@@ -94,9 +94,12 @@ export const AddCsvModal = () => {
           />
           {guests.map((guest) => (
             <div key={guest.name}>
-              <div>Name: {guest.name}</div>
-              <div>Avec: {guest.avecName}</div>
-              <div>Friends: {guest.friendNames}</div>
+              <Body>Name: {guest.name}</Body>
+              <Body>Avec: {guest.avecName}</Body>
+              <Body>Friends: </Body>
+              {guest.friendNames?.map((friend, i) => (
+                <Body key={i}>-{friend}</Body>
+              ))}
             </div>
           ))}
           <Button
