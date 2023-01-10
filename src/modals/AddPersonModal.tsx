@@ -78,7 +78,7 @@ export const AddGuest = () => {
 
           <Spacer amount="10px" />
           <Input
-            label="Name of the Companion / Partner"
+            label="Name of Companion / Partner"
             type="text"
             placeholder="Full name"
             value={avec}

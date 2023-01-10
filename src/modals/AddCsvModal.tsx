@@ -46,7 +46,10 @@ export const ImportFromCsv = () => {
       const avecHeaderIndex = csvHeader.indexOf('avec');
       const friendHeaderIndex = csvHeader.indexOf('friendlist');
       const friendsString = guestValues?.[friendHeaderIndex];
-      const friendNames = friendsString?.split(',')?.map((h) => h.trim());
+      const friendNames = friendsString
+        ?.split(',')
+        ?.map((h) => h.trim())
+        .filter((h) => h.length > 0);
 
       return {
         name: guestValues[nameHeaderIndex],
@@ -112,13 +115,16 @@ export const ImportFromCsv = () => {
             ))}
           </Scrollable>
           <Button
+            disabled={!file}
             onClick={(e) => {
               readFromCsv(e);
             }}
           >
             Read from csv
           </Button>
-          <Button onClick={buttonSubmit}>Add guests</Button>
+          <Button disabled={guests.length == 0} onClick={buttonSubmit}>
+            Add guests
+          </Button>
         </Stack>
       </Modal>
     </>
