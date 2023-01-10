@@ -6,6 +6,7 @@ import { exportPNG } from '../../../../hooks/exportPNG';
 import { useGuests } from '../../../../hooks/useGuests';
 import { ImportFromCsv } from '../../../../modals/AddCsvModal';
 import { AddGuest } from '../../../../modals/AddPersonModal';
+import { AddTableButton } from '../../../../modals/AddTableModal';
 import { GuestItem } from './GuestItem';
 import { OptimizeButton } from './Optimize';
 =======
@@ -49,7 +50,6 @@ const Footer = styled.div`
 export const Sidebar = () => {
     const guests = useGuests((s) => s.guests)
 
-<<<<<<< HEAD
   return (
     <StyledSidebar>
       <NameList dir="column">
@@ -62,6 +62,7 @@ export const Sidebar = () => {
       <Footer>
         <ImportFromCsv />
         <AddGuest />
+        <AddTableButton/>
         <OptimizeButton />
         <Button
           variant="neutral"
@@ -77,31 +78,3 @@ export const Sidebar = () => {
     </StyledSidebar>
   );
 };
-=======
-    return (
-        <StyledSidebar>
-            <NameList dir="column">
-                <div>
-                    {guests.map((guest) => (
-                        <GuestItem guest={guest} key={guest.name} />
-                    ))}
-                </div>
-            </NameList>
-            <Footer>
-                <AddPersonModal />
-                <AddTableButton />
-                <OptimizeButton />
-                <Button
-                    onClick={() => {
-                        const floor = document.getElementById('floor')
-                        if (!floor) return
-                        exportPNG(floor)
-                    }}
-                >
-                    Export PNG
-                </Button>
-            </Footer>
-        </StyledSidebar>
-    )
-}
->>>>>>> f0fddf6d3d8bc9bd1bff0607e3386bcc78765721
