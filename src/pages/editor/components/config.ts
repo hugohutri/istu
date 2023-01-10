@@ -1,3 +1,5 @@
+import { Side } from "../../../hooks/types";
+
 export const CANVAS_CONFIG = {
   height: 3000,
   width: 3000,
