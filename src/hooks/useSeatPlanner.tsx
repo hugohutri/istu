@@ -14,6 +14,7 @@ export const useGetSeatsWithCoordinates = () => {
 
 function getSeatsWithLocation(tables: Table[]): SeatWithLocation[] {
   const seats = getSeats(tables);
+  console.log('seats', seats.length);
   const seatsWithLocation = seats.map((seat) => {
     const { x, y } = getSeatLocation(seat);
     return {
@@ -22,6 +23,7 @@ function getSeatsWithLocation(tables: Table[]): SeatWithLocation[] {
       y,
     };
   });
+  console.log(seatsWithLocation.length);
   return seatsWithLocation;
 }
 

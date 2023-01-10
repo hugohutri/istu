@@ -9,6 +9,7 @@ export const useScrollableCanvas = () => {
     mouseScroll: {
       ignoreElements: '.ignore-drag-scroll',
     },
+
     // onScroll: () => {
     //   updateXarrow();
     // },

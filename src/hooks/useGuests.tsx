@@ -25,7 +25,20 @@ export const useGuests = create<GuestsStore>((set) => ({
     }),
 
   addGuests: (newGuests) =>
-    set((state) => ({ guests: [...state.guests, ...newGuests] })),
+    set(({ guests }) => {
+      const updatedGuests = [...guests];
+
+      for (const guest of newGuests) {
+        if (isNameTaken(updatedGuests, guest)) {
+          const updatedGuest = getUserWithIndexedName(updatedGuests, guest);
+          updatedGuests.push(updatedGuest);
+        } else {
+          updatedGuests.push(guest);
+        }
+      }
+
+      return { guests: updatedGuests };
+    }),
 
   assignSeat: (seat, guest) => {
     set((state) => {
