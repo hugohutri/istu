@@ -8,9 +8,10 @@ type GuestsStore = {
   addGuests: (newGuests: Guest[]) => void;
   assignSeat: (seat: Seat, guest: Guest) => void;
   removeGuest: (guest: Guest) => void;
+  getFriends: (guest: Guest) => Guest[];
 };
 
-export const useGuests = create<GuestsStore>((set) => ({
+export const useGuests = create<GuestsStore>((set, get) => ({
   guests: [],
   setGuests: (guests) => set(() => ({ guests: [...guests] })),
   addGuest: (newGuest) =>
@@ -67,6 +68,13 @@ export const useGuests = create<GuestsStore>((set) => ({
       newGuests.splice(index, 1);
       return { guests: newGuests };
     });
+  },
+
+  getFriends: (guest) => {
+    const { guests } = get();
+    const friends = guests.filter((g) => g.friendNames.includes(guest.name));
+    const ownFriends = guests.filter((g) => guest.friendNames.includes(g.name));
+    return [...friends, ...ownFriends];
   },
 }));
 

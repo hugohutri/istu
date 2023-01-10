@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { Guest } from '../../../../hooks/types';
+import { useHighlightFriends } from '../../../../hooks/useHighlightFriends';
 import { useHighlightedSeats } from '../../../../hooks/useSeatHighlight';
 
 /**
@@ -8,10 +9,11 @@ import { useHighlightedSeats } from '../../../../hooks/useSeatHighlight';
  * @param guest - The guest
  */
 export const useHighlightSeatOnHover = (isHover: boolean, guest: Guest) => {
-  const setHighlightedSeats = useHighlightedSeats((s) => s.setHighlightedSeats);
+  const setHighlightedSeat = useHighlightedSeats((s) => s.setHighlightedSeat);
   const clearHighlightedSeats = useHighlightedSeats(
     (s) => s.clearHighlightedSeats
   );
+  const highlightFriends = useHighlightFriends();
 
   useEffect(() => {
     if (!guest.seat) return;
@@ -22,7 +24,8 @@ export const useHighlightSeatOnHover = (isHover: boolean, guest: Guest) => {
     // Small delay so that previous hover does not clear this
     const timeout = setTimeout(() => {
       if (!guest.seat) return;
-      setHighlightedSeats([guest.seat], { color: 'red' });
+      highlightFriends(guest);
+      setHighlightedSeat(guest.seat.id, { color: 'red' });
     }, 1);
     return () => clearTimeout(timeout);
   }, [isHover]);

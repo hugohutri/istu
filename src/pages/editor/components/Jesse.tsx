@@ -9,7 +9,9 @@ import { useHover } from 'usehooks-ts';
 import create from 'zustand';
 import { Guest } from '../../../hooks/types';
 import { useGuests } from '../../../hooks/useGuests';
+import { useHighlightFriends } from '../../../hooks/useHighlightFriends';
 import { useGetHoveredSeat } from '../../../hooks/useSeat';
+import { useHighlightedSeats } from '../../../hooks/useSeatHighlight';
 
 export const Jesse = () => {
   // const guest = useDraggablePerson((s) => s.guest);
@@ -17,9 +19,19 @@ export const Jesse = () => {
   // const isHoveringName = useDraggablePerson((s) => s.isHovering);
   // const hoverRef = useRef<HTMLDivElement>(null);
   const { pos, setPos, guest, isDragging, setIsDragging } = useJesse();
+  const highlighFriends = useHighlightFriends();
+  const clearHighlightedSeats = useHighlightedSeats(
+    (s) => s.clearHighlightedSeats
+  );
 
   const getHoveredSeat = useGetHoveredSeat();
   const assignSeat = useGuests((s) => s.assignSeat);
+
+  useEffect(() => {
+    if (!guest) return;
+    if (isDragging) highlighFriends(guest);
+    else clearHighlightedSeats();
+  }, [isDragging]);
 
   const onStop: DraggableEventHandler = () => {
     const seat = getHoveredSeat();
