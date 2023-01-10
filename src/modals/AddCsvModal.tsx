@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { Modal } from '../components/uikit/Modal';
 import { Button } from '../components/uikit/Button';
 import { Stack } from '../components/uikit/Stack';
+import { useGuests } from '../hooks/useGuests';
+import { Guest } from '../hooks/types';
 
 const OpenModalButton = styled.button`
   position: absolute;
@@ -18,9 +20,9 @@ const ModalTitle = styled.h1`
 
 export const AddCsvModal = () => {
   const [isOpen, setIsOpen] = useState(false);
-
+  const { addGuests } = useGuests();
   const [file, setFile] = useState<File>();
-  const [guests, setGuests] = useState<{ name: string }[]>([]);
+  const [guests, setGuests] = useState<Guest[]>([]);
   const fileReader = new FileReader();
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) {
@@ -32,21 +34,21 @@ export const AddCsvModal = () => {
   const csvFileToArray = (string: string) => {
     const csvHeader = string
       .slice(0, string.indexOf('\n'))
-      .split(',')
+      .split(';')
       .map((h) => h.trim());
     const csvRows = string
       .slice(string.indexOf('\n') + 1)
       .split('\n')
       .map((h) => h.trim());
-    console.log(csvHeader);
-    console.log(csvRows);
     const guests = csvRows.map((row) => {
-      const guestValues = row.split(',');
-      console.log(guestValues);
+      const guestValues = row.split(';');
       const nameHeaderIndex = csvHeader.indexOf('name');
-      console.log(nameHeaderIndex);
+      const avecHeaderIndex = csvHeader.indexOf('avec');
+      const friendHeaderIndex = csvHeader.indexOf('friendlist');
       return {
         name: guestValues[nameHeaderIndex],
+        avecName: guestValues[avecHeaderIndex],
+        friendNames: [guestValues[friendHeaderIndex]],
       };
     });
 
@@ -62,7 +64,6 @@ export const AddCsvModal = () => {
         if (!event.target) {
           return;
         }
-        //console.log(event.target.result);
         const text = event.target.result;
         if (!text || typeof text !== 'string') {
           return;
@@ -74,7 +75,11 @@ export const AddCsvModal = () => {
       fileReader.readAsText(file);
     }
   };
-  //const headerKeys = Object.keys(Object.assign({}, ...guests));
+
+  const buttonSubmit = () => {
+    addGuests(guests);
+    setIsOpen(false);
+  };
   return (
     <>
       <OpenModalButton onClick={() => setIsOpen(true)}>Add csv</OpenModalButton>
@@ -87,17 +92,21 @@ export const AddCsvModal = () => {
             accept={'.csv'}
             onChange={handleOnChange}
           />
+          {guests.map((guest) => (
+            <div key={guest.name}>
+              <div>Name: {guest.name}</div>
+              <div>Avec: {guest.avecName}</div>
+              <div>Friends: {guest.friendNames}</div>
+            </div>
+          ))}
           <Button
             onClick={(e) => {
               handleOnSubmit(e);
             }}
           >
-            Import csv
+            Read from csv
           </Button>
-          {guests.map((guest) => (
-            <div key={guest.name}>{guest.name}</div>
-          ))}
-          <div>{JSON.stringify(guests)}</div>
+          <Button onClick={buttonSubmit}>Add guests</Button>
         </Stack>
       </Modal>
     </>
