@@ -1,25 +1,13 @@
-<<<<<<< HEAD
-import styled from 'styled-components';
-import { Button } from '../../../../components/uikit/Button';
-import { Stack } from '../../../../components/uikit/Stack';
-import { exportPNG } from '../../../../hooks/exportPNG';
-import { useGuests } from '../../../../hooks/useGuests';
-import { ImportFromCsv } from '../../../../modals/AddCsvModal';
-import { AddGuest } from '../../../../modals/AddPersonModal';
-import { AddTableButton } from '../../../../modals/AddTableModal';
-import { GuestItem } from './GuestItem';
-import { OptimizeButton } from './Optimize';
-=======
 import styled from 'styled-components'
 import { Button } from '../../../../components/uikit/Button'
 import { Stack } from '../../../../components/uikit/Stack'
 import { exportPNG } from '../../../../hooks/exportPNG'
 import { useGuests } from '../../../../hooks/useGuests'
-import { AddPersonModal } from '../../../../modals/AddPersonModal'
+import { ImportFromCsv } from '../../../../modals/AddCsvModal'
+import { AddGuest } from '../../../../modals/AddPersonModal'
 import { AddTableButton } from '../../../../modals/AddTableModal'
 import { GuestItem } from './GuestItem'
 import { OptimizeButton } from './Optimize'
->>>>>>> f0fddf6d3d8bc9bd1bff0607e3386bcc78765721
 
 const StyledSidebar = styled.div`
     /* padding: 0.5rem 0; */
@@ -50,31 +38,31 @@ const Footer = styled.div`
 export const Sidebar = () => {
     const guests = useGuests((s) => s.guests)
 
-  return (
-    <StyledSidebar>
-      <NameList dir="column">
-        <div>
-          {guests.map((guest) => (
-            <GuestItem guest={guest} key={guest.name} />
-          ))}
-        </div>
-      </NameList>
-      <Footer>
-        <ImportFromCsv />
-        <AddGuest />
-        <AddTableButton/>
-        <OptimizeButton />
-        <Button
-          variant="neutral"
-          onClick={() => {
-            const floor = document.getElementById('floor');
-            if (!floor) return;
-            exportPNG(floor);
-          }}
-        >
-          Export PNG
-        </Button>
-      </Footer>
-    </StyledSidebar>
-  );
-};
+    return (
+        <StyledSidebar>
+            <NameList dir="column">
+                <div>
+                    {guests.map((guest) => (
+                        <GuestItem guest={guest} key={guest.name} />
+                    ))}
+                </div>
+            </NameList>
+            <Footer>
+                <ImportFromCsv />
+                <AddGuest />
+                <AddTableButton />
+                <OptimizeButton />
+                <Button
+                    variant="neutral"
+                    onClick={() => {
+                        const floor = document.getElementById('floor')
+                        if (!floor) return
+                        exportPNG(floor)
+                    }}
+                >
+                    Export PNG
+                </Button>
+            </Footer>
+        </StyledSidebar>
+    )
+}
