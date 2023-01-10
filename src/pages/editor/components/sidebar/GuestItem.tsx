@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
+import AnimateHeight from 'react-animate-height';
 import { FaCheck, FaChevronRight } from 'react-icons/fa';
 import styled from 'styled-components';
 import { useHover } from 'usehooks-ts';
 import { Guest } from '../../../../hooks/types';
-import { useHighlightedSeats } from '../../../../hooks/useSeatHighlight';
+import { useGuests } from '../../../../hooks/useGuests';
 import { GuestInfo } from './GuestInfo';
 import { JessePlaceholder } from './JessePlaceholder';
+import { useHighlightSeatOnHover } from './useHighlightSeatOnHover';
 
 type GuestItemProps = {
   guest: Guest;
@@ -39,40 +41,45 @@ const FlexGrow = styled.div`
 export const GuestItem = ({ guest }: GuestItemProps) => {
   const [open, setOpen] = useState(false);
   const hoverRef = useRef<HTMLDivElement>(null);
+  const removeGuest = useGuests((s) => s.removeGuest);
   const isHover = useHover(hoverRef);
-  const setHighlightedSeats = useHighlightedSeats((s) => s.setHighlightedSeats);
-
-  useEffect(() => {
-    if (!guest.seat) return;
-    if (!isHover) {
-      setHighlightedSeats([], { color: 'red' });
-      return;
-    }
-    const timeout = setTimeout(() => {
-      if (!guest.seat) return;
-      setHighlightedSeats([guest.seat], { color: 'red' });
-    }, 2);
-    return () => clearTimeout(timeout);
-  }, [isHover]);
+  const [deleting, setDeleting] = useState(false);
+  useHighlightSeatOnHover(isHover, guest);
 
   const handleOpen = () => {
     setOpen(!open);
   };
 
+  const onPressDelete = () => {
+    setDeleting(true);
+  };
+
+  useEffect(() => {
+    if (!deleting) return;
+    const timeout = setTimeout(() => {
+      removeGuest(guest);
+      setDeleting(false);
+    }, 150);
+
+    return () => clearTimeout(timeout);
+  }, [deleting]);
+
   const status = guest.seat ? 'Seated' : 'Not Seated';
 
   return (
-    <div ref={hoverRef}>
-      <Row status={status} onClick={handleOpen}>
-        <JessePlaceholder isHover={isHover} guest={guest} />
-        <Name>{`${guest.name}`}</Name>
-        <Status guest={guest} />
-        <FlexGrow />
-        <AnimatedChevron open={open} size={'0.8rem'} />
-      </Row>
+    <AnimateHeight height={deleting ? 0 : 'auto'} duration={150}>
+      <div ref={hoverRef}>
+        <Row status={status} onClick={handleOpen}>
+          <JessePlaceholder isHover={isHover} guest={guest} />
+          <Name>{`${guest.name}`}</Name>
+          <Status guest={guest} />
+          <FlexGrow />
+          <AnimatedChevron open={open} size={'0.8rem'} />
+        </Row>
 
-      <GuestInfo guest={guest} open={open} />
-    </div>
+        <GuestInfo guest={guest} open={open} onDelete={onPressDelete} />
+      </div>
+    </AnimateHeight>
   );
 };
 

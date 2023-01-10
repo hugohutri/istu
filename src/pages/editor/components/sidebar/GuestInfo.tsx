@@ -1,12 +1,13 @@
 import AnimateHeight from 'react-animate-height';
 import styled from 'styled-components';
+import { Button } from '../../../../components/uikit/Button';
 import { Spacer } from '../../../../components/uikit/Spacer';
 import { Guest } from '../../../../hooks/types';
-import { useGuests } from '../../../../hooks/useGuests';
 
 type GuestInfoProps = {
   guest: Guest;
   open: boolean;
+  onDelete: () => void;
 };
 
 const StyledFriendName = styled.div`
@@ -15,9 +16,8 @@ const StyledFriendName = styled.div`
   font-size: 0.8rem;
 `;
 
-export const GuestInfo = ({ guest, open }: GuestInfoProps) => {
+export const GuestInfo = ({ guest, open, onDelete }: GuestInfoProps) => {
   const friends = guest.friendNames;
-  const removeGuest = useGuests((s) => s.removeGuest);
 
   return (
     <AnimatedContainer
@@ -37,7 +37,9 @@ export const GuestInfo = ({ guest, open }: GuestInfoProps) => {
           <li key={index}>{friend}</li>
         ))}
       </StyledFriendName>
-      <button onClick={() => removeGuest(guest)}>Delete guest</button>
+      <Button size="small" variant="neutral" onClick={onDelete}>
+        Delete guest
+      </Button>
       <Spacer amount="0.5rem" />
     </AnimatedContainer>
   );

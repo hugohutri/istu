@@ -35,7 +35,11 @@ export const AddPersonModal = () => {
   const [avec, setAvec] = useState<string>();
 
   const buttonSubmit = () => {
-    addGuest({ name: name, avecName: avec, friendNames: friendNames });
+    addGuest({
+      name,
+      avecName: avec,
+      friendNames: friendNames,
+    });
     clearFields();
     setIsOpen(false);
   };

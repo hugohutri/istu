@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 type ButtonProps = {
   variant?: 'primary' | 'neutral';
@@ -18,7 +18,7 @@ export const Button = ({
   );
 };
 
-const StyledButton = styled.button<ButtonProps>`
+const buttonStyles = css<ButtonProps>`
   // Fix remove default button styles
   border: 0;
   padding: 0;
@@ -84,4 +84,8 @@ const StyledButton = styled.button<ButtonProps>`
     box-shadow: 0 2px 0 ${(props) => props.theme.color.muted2};
     cursor: default;
   }
+`;
+
+const StyledButton = styled.button<ButtonProps>`
+  ${buttonStyles}
 `;
