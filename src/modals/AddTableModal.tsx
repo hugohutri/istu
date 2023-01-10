@@ -4,16 +4,7 @@ import { Modal } from '../components/uikit/Modal'
 import { Seats, Side, Table } from '../hooks/types'
 import { useTables } from '../hooks/useTables'
 import { newTable } from '../utils/generateRandomTables'
-
-const OpenModalButton = styled.button`
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-`
-const ModalTitle = styled.h1`
-    font-size: 24px;
-    margin: 0 0 15px 0;
-`
+import { Button } from '../components/uikit/Button'
 
 const SeatForm = styled.form`
     display: form;
@@ -25,6 +16,7 @@ const SeatForm = styled.form`
 const SeatFormTitle = styled.h1`
     display: table-row;
     font-size: 18px;
+    color: ${(props) => props.theme.color.text};
 `
 const SeatFormRow = styled.form`
     display: table-row;
@@ -33,6 +25,7 @@ const SeatFormRow = styled.form`
 const SeatFormLabel = styled.label`
     display: table-cell;
     font-size: 16px;
+    color: ${(props) => props.theme.color.text};
 `
 const SeatFormInput = styled.input`
     display: table-cell;
@@ -93,9 +86,9 @@ export const AddTableButton = () => {
 
     return (
         <>
-            <OpenModalButton onClick={() => setIsOpen(true)}>
+            <Button variant="neutral" onClick={() => setIsOpen(true)}>
                 Add table
-            </OpenModalButton>
+            </Button>
             <Modal
                 title="Add table"
                 isOpen={isOpen}
