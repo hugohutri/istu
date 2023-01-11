@@ -33,17 +33,17 @@ const SeatForm = styled.form`
 //   width: 60px;
 // `;
 
-const AcceptButton = styled.button`
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-`;
+// const AcceptButton = styled.button`
+//   position: absolute;
+//   bottom: 10px;
+//   right: 10px;
+// `;
 
-const DeclineButton = styled.button`
-  position: absolute;
-  bottom: 10px;
-  right: 110px;
-`;
+// const DeclineButton = styled.button`
+//   position: absolute;
+//   bottom: 10px;
+//   right: 110px;
+// `;
 
 export const AddTableButton = () => {
   const [isOpen, setIsOpen] = useState(false);
