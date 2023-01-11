@@ -6,6 +6,7 @@ import { getInitials, useGuests } from '../../../../hooks/useGuests';
 import { useHighlightedSeats } from '../../../../hooks/useSeatHighlight';
 import { SEAT_SIZE } from '../config';
 import { useJesse } from '../Jesse';
+import { Highlight } from '../sidebar/HighLight';
 
 export const Seat = ({ seat }: { seat: SeatType }) => {
   // const [selected, setSelected] = useState(false);
@@ -13,7 +14,7 @@ export const Seat = ({ seat }: { seat: SeatType }) => {
   const [isHovering, setIsHovering] = useState(false);
   const highlightedSeats = useHighlightedSeats((s) => s.highlightedSeats);
 
-  const highlight = highlightedSeats.get(seat.id);
+  const storedHighlight = highlightedSeats.get(seat.id);
 
   const guests = useGuests((s) => s.guests);
   const guest = guests.find((g) => g.seat?.id === seat.id);
@@ -23,30 +24,33 @@ export const Seat = ({ seat }: { seat: SeatType }) => {
     // setSelected((s) => !s);
   };
 
-  const getColor = () => {
-    if (highlight) return highlight.color;
-    if (guest) return 'green';
-    if (isHovering && isDraggingPerson) return 'blue';
-    if (isHovering) return 'gray';
-    return 'white';
+  const getHighlight = () => {
+    if (storedHighlight) return storedHighlight;
+    if (guest) return Highlight.HAS_GUEST;
+    if (isHovering && isDraggingPerson) return Highlight.HOWER_WITH_JESSE;
+    if (isHovering) return Highlight.HOWER;
+    return Highlight.NONE;
   };
+
+  const highlight = getHighlight();
 
   return (
     <StyledSeat
       id={seat.id}
       side={seat.side}
+      animateIn={highlight.animateIn}
       onClick={handleClick}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
       className="seat ignore-drag-scroll"
     >
-      {guest && <GuestName>{getInitials(guest, 2)}</GuestName>}
       <PaperTexture
-        opacity={0.3}
+        opacity={highlight.opacity ?? 1}
         width={SEAT_SIZE}
         height={SEAT_SIZE}
-        color={getColor()}
+        color={highlight.color}
       />
+      {guest && <GuestName>{getInitials(guest, 2)}</GuestName>}
     </StyledSeat>
   );
 };
@@ -79,6 +83,7 @@ const GuestName = styled.div`
 
 export const StyledSeat = styled.div<{
   side: Side;
+  animateIn?: boolean;
 }>`
   cursor: pointer;
   width: ${SEAT_SIZE}px;
@@ -97,6 +102,20 @@ export const StyledSeat = styled.div<{
   transition: all 0.2s ease-in-out;
   &:hover {
     box-shadow: 2px 8px 4px -6px hsla(0, 0%, 0%, 0.4);
+  }
+
+  // Animation
+  animation: ${({ animateIn }) => (animateIn ? 'pop 0.5s' : 'none')};
+  @keyframes pop {
+    0% {
+      transform: scale(0.8);
+    }
+    50% {
+      transform: scale(1.2);
+    }
+    100% {
+      transform: scale(1);
+    }
   }
 `;
 

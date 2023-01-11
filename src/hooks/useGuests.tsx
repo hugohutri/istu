@@ -9,6 +9,7 @@ type GuestsStore = {
   assignSeat: (seat: Seat, guest: Guest) => void;
   removeGuest: (guest: Guest) => void;
   getFriends: (guest: Guest) => Guest[];
+  getCompanion: (guest: Guest) => Guest | undefined;
 };
 
 export const useGuests = create<GuestsStore>((set, get) => ({
@@ -61,6 +62,7 @@ export const useGuests = create<GuestsStore>((set, get) => ({
       return { guests: newGuests };
     });
   },
+
   removeGuest: (guest) => {
     set((state) => {
       const newGuests = [...state.guests];
@@ -75,6 +77,11 @@ export const useGuests = create<GuestsStore>((set, get) => ({
     const friends = guests.filter((g) => g.friendNames.includes(guest.name));
     const ownFriends = guests.filter((g) => guest.friendNames.includes(g.name));
     return [...friends, ...ownFriends];
+  },
+
+  getCompanion: (guest) => {
+    const { guests } = get();
+    return guests.find((g) => g.name === guest.avecName);
   },
 }));
 

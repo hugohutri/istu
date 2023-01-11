@@ -1,39 +1,59 @@
 import create from 'zustand';
-import { Highlight } from '../pages/editor/components/sidebar/HighLight';
+import { HighlightType } from '../pages/editor/components/sidebar/HighLight';
 import { Seat } from './types';
+
+type HighlightMode = 'ADD' | 'REPLACE';
 
 type SeatId = string;
 
+type SeatLike = Partial<Seat> & { id: SeatId };
+
 type HighlightedSeatStore = {
-  highlightedSeats: Map<SeatId, Highlight>;
+  highlightedSeats: Map<SeatId, HighlightType>;
 
-  setHighlightedSeat: (seatId: SeatId, highlight: Highlight) => void;
-  // addHighlightedSeat: (seatId: SeatId, highlight: Highlight) => void;
+  highlightSeat: (
+    seat: SeatLike,
+    highlight: HighlightType,
+    mode?: HighlightMode
+  ) => void;
 
-  setHighlightedSeats: (seats: Seat[], highlight: Highlight) => void;
+  highlightSeats: (
+    seats: SeatLike[],
+    highlight: HighlightType,
+    mode?: HighlightMode
+  ) => void;
 
   clearHighlightedSeats: () => void;
 };
 
 export const useHighlightedSeats = create<HighlightedSeatStore>((set) => ({
-  highlightedSeats: new Map<SeatId, Highlight>(),
+  highlightedSeats: new Map<SeatId, HighlightType>(),
 
-  setHighlightedSeat: (seatId: SeatId, highlight: Highlight) => {
-    set((state) => ({
-      highlightedSeats: new Map(state.highlightedSeats).set(seatId, highlight),
-    }));
+  highlightSeat: ({ id }, highlight, mode = 'ADD') => {
+    if (mode == 'ADD') {
+      set((state) => ({
+        highlightedSeats: new Map(state.highlightedSeats).set(id, highlight),
+      }));
+    }
+    if (mode == 'REPLACE') {
+      set(() => ({
+        highlightedSeats: new Map([[id, highlight]]),
+      }));
+    }
   },
 
-  // addHighlightedSeat: (seatId: SeatId, highlight: Highlight) => {
-  //   set((state) => ({
-  //     highlightedSeats: new Map(state.highlightedSeats).set(seatId, highlight),
-  //   ));
-  // },
-
-  setHighlightedSeats: (seats: Seat[], highlight: Highlight) => {
-    set(() => ({
-      highlightedSeats: new Map(seats.map((seat) => [seat.id, highlight])),
-    }));
+  highlightSeats: (seats, highlight, mode = 'ADD') => {
+    const newMap = new Map(seats.map(({ id }) => [id, highlight]));
+    if (mode == 'ADD') {
+      set((state) => ({
+        highlightedSeats: new Map([...state.highlightedSeats, ...newMap]),
+      }));
+    }
+    if (mode == 'REPLACE') {
+      set(() => ({
+        highlightedSeats: newMap,
+      }));
+    }
   },
 
   clearHighlightedSeats: () => {

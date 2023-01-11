@@ -106,7 +106,7 @@ export const ImportFromCsv = () => {
             {guests.map((guest) => (
               <NameContainer key={guest.name}>
                 <Body>Name: {guest.name}</Body>
-                <Body>Avec: {guest.avecName}</Body>
+                <Body>Companion: {guest.avecName}</Body>
                 <Body>Friends: </Body>
                 {guest.friendNames?.map((friend, i) => (
                   <Body key={i}>-{friend}</Body>

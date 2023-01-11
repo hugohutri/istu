@@ -28,8 +28,8 @@ export const GuestInfo = ({ guest, open, onDelete }: GuestInfoProps) => {
     >
       <Spacer amount="0.5rem" />
 
-      <StyledFriendName>Seat: {guest.seat?.id ?? '-'}</StyledFriendName>
-      <StyledFriendName>Avec: {guest.avecName ?? '-'}</StyledFriendName>
+      {/* <StyledFriendName>Seat: {guest.seat?.id ?? '-'}</StyledFriendName> */}
+      <StyledFriendName>Companion: {guest.avecName ?? '-'}</StyledFriendName>
 
       <StyledFriendName>
         Friends: {friends.length == 0 && '-'}

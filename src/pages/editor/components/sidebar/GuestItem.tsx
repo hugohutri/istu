@@ -7,7 +7,7 @@ import { Guest } from '../../../../hooks/types';
 import { useGuests } from '../../../../hooks/useGuests';
 import { GuestInfo } from './GuestInfo';
 import { JessePlaceholder } from './JessePlaceholder';
-import { useHighlightSeatOnHover } from './useHighlightSeatOnHover';
+import { useHighlightSeatsOnHover } from './useHighlightSeatOnHover';
 
 type GuestItemProps = {
   guest: Guest;
@@ -47,7 +47,7 @@ export const GuestItem = ({ guest }: GuestItemProps) => {
   const removeGuest = useGuests((s) => s.removeGuest);
   const isHover = useHover(hoverRef);
   const [deleting, setDeleting] = useState(false);
-  useHighlightSeatOnHover(isHover, guest);
+  useHighlightSeatsOnHover(isHover, guest);
 
   const handleOpen = () => {
     setOpen(!open);
