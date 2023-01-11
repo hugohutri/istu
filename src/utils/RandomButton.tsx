@@ -10,7 +10,7 @@ export const RandomButton = () => {
   const setTables = useTables((store) => store.setTables);
 
   const generateGuests = () => {
-    const guests = generateRandomGuests(22);
+    const guests = generateRandomGuests(30);
     setGuests(guests);
   };
 

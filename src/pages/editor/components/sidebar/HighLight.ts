@@ -23,7 +23,7 @@ export const Highlight: { [key: string]: HighlightType } = {
     animateIn: true,
   },
   HAS_GUEST: {
-    color: '#2222AA',
+    color: '#22AA22', //'#2222AA',
     opacity: 0.3,
   },
   HAS_GUEST_MUTED: {

@@ -118,7 +118,8 @@ export const getInitials = (guest: Guest, limit: number) => {
     .split(' ')
     .map((n) => n[0])
     .slice(0, limit)
-    .join('');
+    .join('')
+    .replace('(', '');
 };
 
 // Name guests with same name like this:
