@@ -9,7 +9,7 @@ import { useHover } from 'usehooks-ts';
 import create from 'zustand';
 import { Guest } from '../../../hooks/types';
 import { useGuests } from '../../../hooks/useGuests';
-import { useHighlightFriends } from '../../../hooks/useHighlightFriends';
+import { useHighlightRelated } from '../../../hooks/useHighlightFriends';
 import { useGetHoveredSeat } from '../../../hooks/useSeat';
 import { useHighlightedSeats } from '../../../hooks/useSeatHighlight';
 
@@ -19,7 +19,7 @@ export const Jesse = () => {
   // const isHoveringName = useDraggablePerson((s) => s.isHovering);
   // const hoverRef = useRef<HTMLDivElement>(null);
   const { pos, setPos, guest, isDragging, setIsDragging } = useJesse();
-  const highlighFriends = useHighlightFriends();
+  const highlighFriends = useHighlightRelated();
   const clearHighlightedSeats = useHighlightedSeats(
     (s) => s.clearHighlightedSeats
   );

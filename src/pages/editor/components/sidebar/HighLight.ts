@@ -17,13 +17,17 @@ export const Highlight: { [key: string]: HighlightType } = {
     opacity: 0.8,
     animateIn: true,
   },
-  OWN: {
+  SELF: {
     color: '#AA33DD',
     opacity: 0.9,
     animateIn: true,
   },
   HAS_GUEST: {
     color: '#2222AA',
+    opacity: 0.3,
+  },
+  HAS_GUEST_MUTED: {
+    color: '#555',
     opacity: 0.3,
   },
   HOWER_WITH_JESSE: {

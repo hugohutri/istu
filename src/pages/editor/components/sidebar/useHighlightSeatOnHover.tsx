@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Guest } from '../../../../hooks/types';
-import { useHighlightFriends } from '../../../../hooks/useHighlightFriends';
+import { useHighlightRelated } from '../../../../hooks/useHighlightFriends';
 import { useHighlightedSeats } from '../../../../hooks/useSeatHighlight';
 import { Highlight } from './HighLight';
 
@@ -14,7 +14,7 @@ export const useHighlightSeatsOnHover = (isHover: boolean, guest: Guest) => {
   const clearHighlightedSeats = useHighlightedSeats(
     (s) => s.clearHighlightedSeats
   );
-  const highlightFriends = useHighlightFriends();
+  const highlightFriends = useHighlightRelated();
 
   useEffect(() => {
     if (!isHover) {
@@ -25,7 +25,7 @@ export const useHighlightSeatsOnHover = (isHover: boolean, guest: Guest) => {
     const timeout = setTimeout(() => {
       highlightFriends(guest);
       if (!guest.seat) return;
-      highlightSeat(guest.seat, Highlight.OWN, 'ADD');
+      highlightSeat(guest.seat, Highlight.SELF, 'ADD');
     }, 1);
     return () => clearTimeout(timeout);
   }, [isHover]);

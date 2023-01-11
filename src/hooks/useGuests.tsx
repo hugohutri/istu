@@ -1,6 +1,13 @@
 import { Guest, Seat } from './types';
 import create from 'zustand';
 
+type RelatedGuests = {
+  friends: Guest[];
+  companion: Guest | undefined;
+  self: Guest;
+  others: Guest[];
+};
+
 type GuestsStore = {
   guests: Guest[];
   setGuests: (guests: Guest[]) => void;
@@ -8,8 +15,9 @@ type GuestsStore = {
   addGuests: (newGuests: Guest[]) => void;
   assignSeat: (seat: Seat, guest: Guest) => void;
   removeGuest: (guest: Guest) => void;
-  getFriends: (guest: Guest) => Guest[];
-  getCompanion: (guest: Guest) => Guest | undefined;
+  // getFriends: (guest: Guest) => Guest[];
+  // getCompanion: (guest: Guest) => Guest | undefined;
+  getRelatedGuests: (guest: Guest) => RelatedGuests;
 };
 
 export const useGuests = create<GuestsStore>((set, get) => ({
@@ -72,16 +80,36 @@ export const useGuests = create<GuestsStore>((set, get) => ({
     });
   },
 
-  getFriends: (guest) => {
-    const { guests } = get();
-    const friends = guests.filter((g) => g.friendNames.includes(guest.name));
-    const ownFriends = guests.filter((g) => guest.friendNames.includes(g.name));
-    return [...friends, ...ownFriends];
-  },
+  // getFriends: (guest) => {
+  //   const { guests } = get();
+  //   const friends = guests.filter((g) => g.friendNames.includes(guest.name));
+  //   const ownFriends = guests.filter((g) => guest.friendNames.includes(g.name));
+  //   return [...friends, ...ownFriends];
+  // },
 
-  getCompanion: (guest) => {
+  // getCompanion: (guest) => {
+  //   const { guests } = get();
+  //   return guests.find((g) => g.name === guest.avecName);
+  // },
+
+  getRelatedGuests: (guest) => {
     const { guests } = get();
-    return guests.find((g) => g.name === guest.avecName);
+    const otherFriends = guests.filter((g) =>
+      g.friendNames.includes(guest.name)
+    );
+    const ownFriends = guests.filter((g) => guest.friendNames.includes(g.name));
+    const friends = [...otherFriends, ...ownFriends];
+    const companion = guests.find((g) => g.name === guest.avecName);
+
+    const others = guests.filter(
+      (g) => g.name !== guest.name && !friends.includes(g) && g !== companion
+    );
+    return {
+      friends,
+      companion,
+      self: guest,
+      others,
+    };
   },
 }));
 
