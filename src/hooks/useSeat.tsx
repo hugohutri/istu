@@ -39,7 +39,23 @@ const findSeat = (tables: Table[], seatId: string) => {
 function getCurrentlyHoveredSeat() {
   const seat = document.querySelector('.seat:hover');
   if (!seat) return;
-  const seatId = seat.getAttribute('id');
-  console.log('seatId: ', seatId);
-  return seatId ?? undefined;
+  const seatId = seat.id;
+  return seatId ?? getSeatUnderJesse() ?? undefined;
+}
+
+// Backup function for mobile
+function getSeatUnderJesse() {
+  const [jesseIcon] = document.getElementsByClassName('jesse-icon');
+  const rect = jesseIcon.getBoundingClientRect();
+  const center = {
+    x: rect.left + rect.width / 2,
+    y: rect.top + rect.height / 2,
+  };
+  const elements = document.elementsFromPoint(center.x, center.y);
+  for (const el of elements) {
+    if (el.classList.contains('seat')) {
+      return el.id;
+    }
+  }
+  return null;
 }

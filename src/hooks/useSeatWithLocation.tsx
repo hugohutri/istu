@@ -6,7 +6,7 @@ type SeatWithLocation = Seat & {
   y: number;
 };
 
-export const useGetSeatsWithCoordinates = () => {
+export const useGetSeatsWithLocation = () => {
   const tables = useTables((s) => s.tables);
 
   return () => getSeatsWithLocation(tables);
