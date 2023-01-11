@@ -8,9 +8,9 @@ export const OptimizeButton = () => {
 
   const onClick = () => {
     const seats = getSeatsWithLocation();
-    console.log(JSON.stringify(seats));
+    // console.log(JSON.stringify(seats));
     console.table(seats);
-    console.log(JSON.stringify(guests));
+    // console.log(JSON.stringify(guests));
     console.table(guests);
   };
 

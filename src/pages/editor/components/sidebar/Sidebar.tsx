@@ -21,7 +21,26 @@ const StyledSidebar = styled.div`
 
 const NameList = styled(Stack)`
   flex-grow: 1;
-  overflow-y: scroll;
+  overflow-y: auto;
+  // scroll bar styles
+  /* scrollbar-color: ${(props) => props.theme.color.onPrimary};
+  scrollbar-track-color: ${(props) => props.theme.color.primary};
+  scrollbar-base-color: ${(props) => props.theme.color.primary};
+  scrollbar-arrow-color: ${(props) => props.theme.color.onPrimary};
+  scrollbar-shadow-color: ${(props) => props.theme.color.onPrimary};
+  scrollbar-highlight-color: ${(props) => props.theme.color.onPrimary};
+  scrollbar-3dlight-color: ${(props) => props.theme.color.onPrimary};
+  scrollbar-darkshadow-color: ${(props) => props.theme.color.onPrimary}; */
+
+  &::-webkit-scrollbar {
+    width: 0.5rem;
+  }
+  &::-webkit-scrollbar-track {
+    background: ${(props) => props.theme.color.primary};
+  }
+  &::-webkit-scrollbar-thumb {
+    background: ${(props) => props.theme.color.onPrimary};
+  }
 `;
 
 const Footer = styled.div`

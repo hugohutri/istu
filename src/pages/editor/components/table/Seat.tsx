@@ -27,8 +27,8 @@ export const Seat = ({ seat }: { seat: SeatType }) => {
   const getHighlight = () => {
     if (storedHighlight) return storedHighlight;
     if (guest) return Highlight.HAS_GUEST;
-    if (isHovering && isDraggingPerson) return Highlight.HOWER_WITH_JESSE;
-    if (isHovering) return Highlight.HOWER;
+    if (isHovering && isDraggingPerson) return Highlight.HOVER_WITH_JESSE;
+    if (isHovering) return Highlight.HOVER;
     return Highlight.NONE;
   };
 

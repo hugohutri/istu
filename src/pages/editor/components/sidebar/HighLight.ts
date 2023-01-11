@@ -23,18 +23,18 @@ export const Highlight: { [key: string]: HighlightType } = {
     animateIn: true,
   },
   HAS_GUEST: {
-    color: '#2222AA',
+    color: '#22AA22', //'#2222AA',
     opacity: 0.3,
   },
   HAS_GUEST_MUTED: {
     color: '#555',
     opacity: 0.3,
   },
-  HOWER_WITH_JESSE: {
+  HOVER_WITH_JESSE: {
     color: '#22AA22',
     opacity: 0.5,
   },
-  HOWER: {
+  HOVER: {
     color: '#555',
     opacity: 0.3,
   },
