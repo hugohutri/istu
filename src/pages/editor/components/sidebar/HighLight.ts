@@ -30,11 +30,11 @@ export const Highlight: { [key: string]: HighlightType } = {
     color: '#555',
     opacity: 0.3,
   },
-  HOWER_WITH_JESSE: {
+  HOVER_WITH_JESSE: {
     color: '#22AA22',
     opacity: 0.5,
   },
-  HOWER: {
+  HOVER: {
     color: '#555',
     opacity: 0.3,
   },
