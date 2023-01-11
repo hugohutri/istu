@@ -17,6 +17,15 @@ const NameContainer = styled.div`
 const Scrollable = styled.div`
   overflow-y: scroll;
   max-height: 300px;
+  &::-webkit-scrollbar {
+    width: 0.5rem;
+  }
+  &::-webkit-scrollbar-track {
+    background: ${(props) => props.theme.color.muted4};
+  }
+  &::-webkit-scrollbar-thumb {
+    background: ${(props) => props.theme.color.primary};
+  }
 `;
 export const ImportFromCsv = () => {
   const [isOpen, setIsOpen] = useState(false);
