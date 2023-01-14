@@ -17,12 +17,9 @@ export const OptimizeButton = () => {
     setGuests(removeOldSeats(guests));
     await wait(100);
 
-    // const guestsWithCompanion = guests.filter((guest) => guest.avecName);
-    const guestsWithoutCompanion = guests.filter((guest) => !guest.avecName);
+    const companionPairs = getGuestsInPairs(guests);
 
-    const pairs = getGuestsInPairs(guests);
-
-    for (const [guest, companion] of pairs) {
+    for (const [guest, companion] of companionPairs) {
       for (const seat of seats) {
         const companionSeat = seats.find((s) => s.companionSeatId === seat.id);
         if (!seat || !companionSeat) break;
@@ -40,6 +37,7 @@ export const OptimizeButton = () => {
       }
     }
 
+    const guestsWithoutCompanion = guests.filter((guest) => !guest.avecName);
     for (const guest of guestsWithoutCompanion) {
       if (guest.seat) continue;
       const seat = seats.at(0);

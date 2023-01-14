@@ -1,5 +1,6 @@
 import { Guest, Seat } from './types';
 import create from 'zustand';
+import { persist } from 'zustand/middleware';
 
 type RelatedGuests = {
   friends: Guest[];
@@ -18,86 +19,96 @@ type GuestsStore = {
   getRelatedGuests: (guest: Guest) => RelatedGuests;
 };
 
-export const useGuests = create<GuestsStore>((set, get) => ({
-  guests: [],
-  setGuests: (guests) => set(() => ({ guests: [...guests] })),
-  addGuest: (newGuest) =>
-    set(({ guests }) => {
-      // if guest with same name excists, add (index) to the end of the name. eg. John Doe (2)
-      if (isNameTaken(guests, newGuest)) {
-        const updatedGuest = getUserWithIndexedName(guests, newGuest);
-        return { guests: [...guests, updatedGuest] };
-      }
+export const useGuests = create<GuestsStore>()(
+  persist(
+    (set, get) => ({
+      guests: [],
+      setGuests: (guests) => set(() => ({ guests: [...guests] })),
+      addGuest: (newGuest) =>
+        set(({ guests }) => {
+          // if guest with same name excists, add (index) to the end of the name. eg. John Doe (2)
+          if (isNameTaken(guests, newGuest)) {
+            const updatedGuest = getUserWithIndexedName(guests, newGuest);
+            return { guests: [...guests, updatedGuest] };
+          }
 
-      return { guests: [...guests, newGuest] };
+          return { guests: [...guests, newGuest] };
+        }),
+
+      addGuests: (newGuests) =>
+        set(({ guests }) => {
+          const updatedGuests = [...guests];
+
+          for (const guest of newGuests) {
+            if (isNameTaken(updatedGuests, guest)) {
+              const updatedGuest = getUserWithIndexedName(updatedGuests, guest);
+              updatedGuests.push(updatedGuest);
+            } else {
+              updatedGuests.push(guest);
+            }
+          }
+
+          return { guests: updatedGuests };
+        }),
+
+      assignSeat: (seat, guest) => {
+        set((state) => {
+          const newGuests = [...state.guests];
+
+          // Remove seat from the guest that was previously assigned to it
+          // Ns. Vedä tuoli alta
+          const previousGuestIdx = newGuests.findIndex(
+            (g) => g.seat?.id === seat.id
+          );
+
+          if (previousGuestIdx !== -1) {
+            newGuests[previousGuestIdx].seat = undefined;
+          }
+
+          // Assign seat to the new guest
+          const index = newGuests.findIndex((g) => g.name === guest.name);
+          newGuests[index].seat = seat;
+          return { guests: newGuests };
+        });
+      },
+
+      removeGuest: (guest) => {
+        set((state) => {
+          const newGuests = [...state.guests];
+          const index = newGuests.findIndex((g) => g.name === guest.name);
+          newGuests.splice(index, 1);
+          return { guests: newGuests };
+        });
+      },
+
+      getRelatedGuests: (guest) => {
+        const { guests } = get();
+        const otherFriends = guests.filter((g) =>
+          g.friendNames.includes(guest.name)
+        );
+        const ownFriends = guests.filter((g) =>
+          guest.friendNames.includes(g.name)
+        );
+        const friends = [...otherFriends, ...ownFriends];
+        const companion = guests.find((g) => g.name === guest.avecName);
+
+        const others = guests.filter(
+          (g) =>
+            g.name !== guest.name && !friends.includes(g) && g !== companion
+        );
+        return {
+          friends,
+          companion,
+          self: guest,
+          others,
+        };
+      },
     }),
-
-  addGuests: (newGuests) =>
-    set(({ guests }) => {
-      const updatedGuests = [...guests];
-
-      for (const guest of newGuests) {
-        if (isNameTaken(updatedGuests, guest)) {
-          const updatedGuest = getUserWithIndexedName(updatedGuests, guest);
-          updatedGuests.push(updatedGuest);
-        } else {
-          updatedGuests.push(guest);
-        }
-      }
-
-      return { guests: updatedGuests };
-    }),
-
-  assignSeat: (seat, guest) => {
-    set((state) => {
-      const newGuests = [...state.guests];
-
-      // Remove seat from the guest that was previously assigned to it
-      // Ns. Vedä tuoli alta
-      const previousGuestIdx = newGuests.findIndex(
-        (g) => g.seat?.id === seat.id
-      );
-
-      if (previousGuestIdx !== -1) {
-        newGuests[previousGuestIdx].seat = undefined;
-      }
-
-      // Assign seat to the new guest
-      const index = newGuests.findIndex((g) => g.name === guest.name);
-      newGuests[index].seat = seat;
-      return { guests: newGuests };
-    });
-  },
-
-  removeGuest: (guest) => {
-    set((state) => {
-      const newGuests = [...state.guests];
-      const index = newGuests.findIndex((g) => g.name === guest.name);
-      newGuests.splice(index, 1);
-      return { guests: newGuests };
-    });
-  },
-
-  getRelatedGuests: (guest) => {
-    const { guests } = get();
-    const otherFriends = guests.filter((g) =>
-      g.friendNames.includes(guest.name)
-    );
-    const ownFriends = guests.filter((g) => guest.friendNames.includes(g.name));
-    const friends = [...otherFriends, ...ownFriends];
-    const companion = guests.find((g) => g.name === guest.avecName);
-
-    const others = guests.filter(
-      (g) => g.name !== guest.name && !friends.includes(g) && g !== companion
-    );
-    return {
-      friends,
-      companion,
-      self: guest,
-      others,
-    };
-  },
-}));
+    {
+      name: 'guest-storage',
+    }
+  )
+);
 
 export const getInitials = (guest: Guest, limit: number) => {
   return guest.name

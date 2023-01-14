@@ -1,6 +1,7 @@
 import create from 'zustand';
 import { range } from '../utils/helpers';
 import { Seat, Seats, Side, Table, TableSeatCount, TableSize } from './types';
+import { persist } from 'zustand/middleware';
 
 /************************
  * HOOKS
@@ -12,14 +13,21 @@ type TablesStore = {
   addTable: (newTable: Table) => void;
 };
 
-export const useTables = create<TablesStore>((set) => ({
-  tables: [],
+export const useTables = create<TablesStore>()(
+  persist(
+    (set) => ({
+      tables: [],
 
-  setTables: (tables) => set(() => ({ tables })),
+      setTables: (tables) => set(() => ({ tables })),
 
-  addTable: (newTable) =>
-    set((state) => ({ tables: [...state.tables, newTable] })),
-}));
+      addTable: (newTable) =>
+        set((state) => ({ tables: [...state.tables, newTable] })),
+    }),
+    {
+      name: 'table-storage',
+    }
+  )
+);
 
 export const getSeats = (tables: Table[]): Seat[] => {
   return tables

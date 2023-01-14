@@ -181,11 +181,3 @@ export const useJesse = create<JesseStore>((set) => ({
   setPos: (pos?: { x: number; y: number }) => set({ pos }),
   setGuest: (guest?: Guest) => set({ guest }),
 }));
-
-function getCurrentlyHoveredSeat() {
-  const seat = document.querySelector('.seat:hover');
-  if (!seat) return;
-  const seatId = seat.getAttribute('id');
-  console.log('seatId: ', seatId);
-  return seatId ?? undefined;
-}

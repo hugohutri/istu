@@ -10,6 +10,7 @@ import { Highlight } from '../sidebar/HighLight';
 
 export const Seat = ({ seat }: { seat: SeatType }) => {
   const isDraggingPerson = useJesse((s) => s.isDragging);
+  // const setPos = useJesse((s) => s.setPos);
   const [isHovering, setIsHovering] = useState(false);
   const highlightedSeats = useHighlightedSeats((s) => s.highlightedSeats);
 
@@ -20,6 +21,7 @@ export const Seat = ({ seat }: { seat: SeatType }) => {
 
   const handleClick: MouseEventHandler = (event) => {
     event.preventDefault();
+    // setPos({ x: 0, y: 0 });
     // setSelected((s) => !s);
   };
 

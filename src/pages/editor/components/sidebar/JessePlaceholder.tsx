@@ -51,10 +51,21 @@ const PlaceHolder = styled.div`
 `;
 
 function getPosition(element: HTMLDivElement) {
-  const navBarHeight = document.getElementById('nav')?.clientHeight ?? 0;
-  const pos = element.getBoundingClientRect();
+  // get element position relative to #canvas
+  const rect = element.getBoundingClientRect();
+  const canvas = document.getElementById('canvas');
+  if (!canvas) return { x: 0, y: 0 };
+  const canvasRect = canvas.getBoundingClientRect();
+
   return {
-    x: pos.x,
-    y: pos.y - navBarHeight,
+    x: rect.left - canvasRect.left,
+    y: rect.top - canvasRect.top,
   };
+  //   const navBarHeight = document.getElementById('nav')?.clientHeight ?? 0;
+  //   const pos = element.getBoundingClientRect();
+
+  //   return {
+  //     x: pos.x,
+  //     y: pos.y - navBarHeight,
+  //   };
 }
