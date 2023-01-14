@@ -6,12 +6,12 @@ import { generateRandomGuests } from './generateRandomGuests';
 import { generateRandomTables } from './generateRandomTables';
 
 export const RandomButton = () => {
-  const setGuests = useGuests((store) => store.setGuests);
+  const addGuests = useGuests((store) => store.addGuests);
   const setTables = useTables((store) => store.setTables);
 
   const generateGuests = () => {
     const guests = generateRandomGuests(30);
-    setGuests(guests);
+    addGuests([...guests]);
   };
 
   const generateTables = () => {

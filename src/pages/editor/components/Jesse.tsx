@@ -67,7 +67,7 @@ export const Jesse = () => {
     >
       <DraggableContainer className="ignore-drag-scroll">
         {isDragging && <Name>{guest.name}</Name>}
-        <Icon $isDragging={isDragging} />
+        <Icon className="jesse-icon" $isDragging={isDragging} />
       </DraggableContainer>
     </Draggable>
   );
