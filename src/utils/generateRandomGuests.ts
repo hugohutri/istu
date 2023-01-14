@@ -141,7 +141,7 @@ const RANDOM_GUESTS: Guest[] = [
 ];
 
 export const generateRandomGuests = (amount: number) => {
-  return RANDOM_GUESTS.splice(0, amount);
+  return [...RANDOM_GUESTS].splice(0, amount);
 };
 
 // const randomInt = (min: number, max: number) => {

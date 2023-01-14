@@ -8,30 +8,19 @@ import { AddGuest } from '../../../../modals/AddPersonModal';
 import { GuestItem } from './GuestItem';
 import { OptimizeButton } from './Optimize';
 import { AddTableButton } from '../../../../modals/AddTableModal';
+import { A } from '../../../../components/uikit/A';
 
 const StyledSidebar = styled.div`
-  /* padding: 0.5rem 0; */
   color: ${(props) => props.theme.color.onPrimary};
   background-color: ${(props) => props.theme.color.primary};
   display: flex;
   flex-direction: column;
-  /* overflow-y: auto; */
   overflow-y: hidden;
 `;
 
 const NameList = styled(Stack)`
   flex-grow: 1;
   overflow-y: auto;
-  // scroll bar styles
-  /* scrollbar-color: ${(props) => props.theme.color.onPrimary};
-  scrollbar-track-color: ${(props) => props.theme.color.primary};
-  scrollbar-base-color: ${(props) => props.theme.color.primary};
-  scrollbar-arrow-color: ${(props) => props.theme.color.onPrimary};
-  scrollbar-shadow-color: ${(props) => props.theme.color.onPrimary};
-  scrollbar-highlight-color: ${(props) => props.theme.color.onPrimary};
-  scrollbar-3dlight-color: ${(props) => props.theme.color.onPrimary};
-  scrollbar-darkshadow-color: ${(props) => props.theme.color.onPrimary}; */
-
   &::-webkit-scrollbar {
     width: 0.5rem;
   }
@@ -56,11 +45,13 @@ const Footer = styled.div`
 
 export const Sidebar = () => {
   const guests = useGuests((s) => s.guests);
+  const setGuests = useGuests((s) => s.setGuests);
 
   return (
     <StyledSidebar>
       <NameList dir="column">
         <div>
+          <ButtonA onClick={() => setGuests([])}>Delete all</ButtonA>
           {guests.map((guest) => (
             <GuestItem guest={guest} key={guest.name} />
           ))}
@@ -85,3 +76,11 @@ export const Sidebar = () => {
     </StyledSidebar>
   );
 };
+
+const ButtonA = styled(A)`
+  display: flex;
+  justify-content: end;
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.5rem;
+  background-color: ${(props) => props.theme.color.primary};
+`;

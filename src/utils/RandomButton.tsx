@@ -11,7 +11,7 @@ export const RandomButton = () => {
 
   const generateGuests = () => {
     const guests = generateRandomGuests(30);
-    addGuests([...guests]);
+    addGuests(guests);
   };
 
   const generateTables = () => {
