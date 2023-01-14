@@ -1,4 +1,5 @@
 import { Button } from '../../../../components/uikit/Button';
+import { Guest } from '../../../../hooks/types';
 import { useGuests } from '../../../../hooks/useGuests';
 import { useGetSeatsWithLocation } from '../../../../hooks/useSeatWithLocation';
 
@@ -10,18 +11,11 @@ export const OptimizeButton = () => {
 
   const onClick = async () => {
     const seats = getSeatsWithLocation();
-    // console.log(JSON.stringify(seats));
     console.table(seats);
-    // console.log(JSON.stringify(guests));
     console.table(guests);
 
-    // remove old seats
-    const guestsWithoutSeats = guests.map((guest) => {
-      guest.seat = undefined;
-      return guest;
-    });
-    setGuests(guestsWithoutSeats);
-    await new Promise((resolve) => setTimeout(resolve, 100));
+    setGuests(removeOldSeats(guests));
+    await wait(100);
 
     let seatIdx = 0;
     for (const guest of guests) {
@@ -31,7 +25,7 @@ export const OptimizeButton = () => {
       if (!seat) break;
 
       assignSeat(seat, guest);
-      await new Promise((resolve) => setTimeout(resolve, 100));
+      await wait(100);
     }
   };
 
@@ -41,3 +35,14 @@ export const OptimizeButton = () => {
     </Button>
   );
 };
+
+const removeOldSeats = (guests: Guest[]) => {
+  return guests.map((guest) => {
+    guest.seat = undefined;
+    return guest;
+  });
+};
+
+async function wait(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}

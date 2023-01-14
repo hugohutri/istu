@@ -2,8 +2,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { Modal } from '../components/uikit/Modal';
 // import { Seats, Side, Table } from '../hooks/types';
-import { useTables } from '../hooks/useTables';
-import { newTable } from '../utils/generateRandomTables';
+import { createTableObject, useTables } from '../hooks/useTables';
 import { Button } from '../components/uikit/Button';
 import { Body } from '../components/uikit/Body';
 import { Input } from '../components/uikit/Input';
@@ -72,12 +71,14 @@ export const AddTableButton = () => {
   };
 
   const onClickCreateTable = () => {
-    const table = newTable({
-      top: topSeats,
-      bottom: bottomSeats,
-      left: leftSeats,
-      right: rightSeats,
-      tableName: tableName,
+    const table = createTableObject({
+      seatCount: {
+        top: topSeats,
+        right: rightSeats,
+        bottom: bottomSeats,
+        left: leftSeats,
+      },
+      tableName,
     });
     addTable(table);
     setIsOpen(false);

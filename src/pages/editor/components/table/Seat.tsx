@@ -9,7 +9,6 @@ import { useJesse } from '../Jesse';
 import { Highlight } from '../sidebar/HighLight';
 
 export const Seat = ({ seat }: { seat: SeatType }) => {
-  // const [selected, setSelected] = useState(false);
   const isDraggingPerson = useJesse((s) => s.isDragging);
   const [isHovering, setIsHovering] = useState(false);
   const highlightedSeats = useHighlightedSeats((s) => s.highlightedSeats);
