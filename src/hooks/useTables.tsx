@@ -50,6 +50,12 @@ export const calculateTableSize = (seats: Seats): TableSize => {
 };
 
 const SIDES: Side[] = ['top', 'right', 'bottom', 'left'];
+function getOppositeSide(side: Side): Side {
+  if (side === 'top') return 'bottom';
+  if (side === 'bottom') return 'top';
+  if (side === 'left') return 'right';
+  return 'left';
+}
 
 export const createTableObject = ({
   seatCount,
@@ -73,6 +79,17 @@ export const createTableObject = ({
         side,
       });
     }
+    seats[side].forEach((seat, idx) => {
+      const oppositeSide = getOppositeSide(side);
+      // TODO: Take account the number of seats each side,
+      // like if there are 3 seats on the left, and 2 on the right,
+      // then the 3rd seat on the left should be paired with the 2nd seat on the right
+      const oppositeSeat = seats[oppositeSide].at(idx);
+      if (oppositeSeat) {
+        seat.companionSeatId = oppositeSeat.id;
+        oppositeSeat.companionSeatId = seat.id;
+      }
+    });
   }
 
   const tableSize = calculateTableSize(seats);

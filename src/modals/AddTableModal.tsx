@@ -80,6 +80,7 @@ export const AddTableButton = () => {
       },
       tableName,
     });
+    console.log('table', table);
     addTable(table);
     setIsOpen(false);
     resetTableValues();

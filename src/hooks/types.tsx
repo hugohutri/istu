@@ -4,6 +4,7 @@ export type Seat = {
   id: string;
   tableId: string;
   side: Side;
+  companionSeatId?: string;
 };
 
 export type TableSize = {
