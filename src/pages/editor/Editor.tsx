@@ -3,12 +3,14 @@ import { Sidebar } from './components/sidebar/Sidebar';
 import { Canvas } from './components/Canvas';
 
 import 'react-indiana-drag-scroll/dist/style.css';
+import { ColorInfo } from './components/ColorInfo';
 
 export const Editor = () => {
   return (
     <Grid>
       <CanvasWindow>
         <Canvas />
+        <ColorInfo />
       </CanvasWindow>
 
       <Sidebar />
