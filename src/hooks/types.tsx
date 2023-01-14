@@ -25,6 +25,11 @@ export type Seats = {
   left: Seat[];
 };
 
+export type Location = {
+  x: number;
+  y: number;
+};
+
 export type Table = {
   /**
    * Unique name for the table
@@ -35,6 +40,7 @@ export type Table = {
     height: number;
   };
   seats: Seats;
+  location: Location;
 };
 
 export type Guest = {

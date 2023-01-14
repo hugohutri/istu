@@ -6,19 +6,24 @@ import {
   Seat as SeatType,
   TableSize,
 } from '../../../../hooks/types';
-import { getRandomPositionOnCanvas } from '../../../../utils/generateRandomTables';
 import { Seat } from './Seat';
 import { StyledSeatsRow } from './StyledSeatsRow';
 
 import '../../../../utils/dragging.css';
+import { useTables } from '../../../../hooks/useTables';
 
-export const Table = ({ size, seats, id }: TableType) => {
+export const Table = ({ size, seats, id, location }: TableType) => {
+  const setLocation = useTables((store) => store.setLocation);
+
   return (
     <Draggable
-      defaultPosition={getRandomPositionOnCanvas()}
+      defaultPosition={location}
       bounds="parent"
       handle=".handle"
       defaultClassNameDragging="dragging"
+      onStop={(_, { x, y }) => {
+        setLocation(id, { x, y });
+      }}
     >
       <TableContainer size={size}>
         {Object.entries(seats).map(([side, seats]) => (

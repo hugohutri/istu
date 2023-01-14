@@ -32,7 +32,8 @@ const ColorRow = styled.div<{ $highlight: HighlightType }>`
     aspect-ratio: 1/1;
     display: inline-block;
     border: 1px solid #000000;
-    background-color: ${(props) => props.$highlight.color};
+    background-color: ${(props) =>
+      rgba(props.$highlight.color, props.$highlight.opacity)};
     margin-right: 0.5rem;
   }
 `;
@@ -41,9 +42,13 @@ export const ColorInfo = () => {
   return (
     <ColorboxContainer>
       <Body variant="bold">Color Info</Body>
-      {Object.values(Highlight).map((highlight) => (
-        <ColorRow key={highlight.displayName} $highlight={highlight} />
+      {Object.values(Highlight).map((highlight, idx) => (
+        <ColorRow key={idx} $highlight={highlight} />
       ))}
     </ColorboxContainer>
   );
 };
+
+function rgba(color: string, opacity = 1) {
+  return color + Math.round(opacity * 255).toString(16);
+}

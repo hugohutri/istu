@@ -1,7 +1,16 @@
 import create from 'zustand';
 import { range } from '../utils/helpers';
-import { Seat, Seats, Side, Table, TableSeatCount, TableSize } from './types';
+import {
+  Location,
+  Seat,
+  Seats,
+  Side,
+  Table,
+  TableSeatCount,
+  TableSize,
+} from './types';
 import { persist } from 'zustand/middleware';
+import { getRandomPositionOnCanvas } from '../utils/generateRandomTables';
 
 /************************
  * HOOKS
@@ -11,6 +20,7 @@ type TablesStore = {
   tables: Table[];
   setTables: (tables: Table[]) => void;
   addTable: (newTable: Table) => void;
+  setLocation: (id: string, location: Location) => void;
 };
 
 export const useTables = create<TablesStore>()(
@@ -22,6 +32,14 @@ export const useTables = create<TablesStore>()(
 
       addTable: (newTable) =>
         set((state) => ({ tables: [...state.tables, newTable] })),
+
+      setLocation: (tableId, location) =>
+        set((state) => {
+          const tables = [...state.tables];
+          const index = tables.findIndex(({ id }) => id === tableId);
+          tables[index] = { ...tables[index], location };
+          return { tables };
+        }),
     }),
     {
       name: 'table-storage',
@@ -105,5 +123,6 @@ export const createTableObject = ({
     id: tableName,
     size: tableSize,
     seats,
+    location: getRandomPositionOnCanvas(),
   };
 };
