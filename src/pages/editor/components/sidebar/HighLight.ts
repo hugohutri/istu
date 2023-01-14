@@ -4,25 +4,30 @@ export type HighlightType = {
   opacity?: number;
   tooltip?: string;
   animateIn?: boolean;
+  displayName?: string;
 };
 
 export const Highlight: { [key: string]: HighlightType } = {
   FRIENDS: {
+    displayName: 'Friends',
     color: '#FFD700',
     opacity: 0.8,
     animateIn: true,
   },
   COMPANION: {
+    displayName: 'Companion',
     color: '#FF8800',
     opacity: 0.8,
     animateIn: true,
   },
   SELF: {
+    displayName: 'Current guest',
     color: '#AA33DD',
     opacity: 0.9,
     animateIn: true,
   },
   HAS_GUEST: {
+    displayName: 'Seat taken',
     color: '#22AA22', //'#2222AA',
     opacity: 0.3,
   },

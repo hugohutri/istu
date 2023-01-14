@@ -35,7 +35,7 @@ export const OptimizeButton = () => {
           ({ id }) => id !== seat.id && id !== companionSeat.id
         );
 
-        await wait(200);
+        await wait(100);
         break;
       }
     }

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Body } from '../../../components/uikit/Body';
-import { Highlight } from './sidebar/HighLight';
+import { Highlight, HighlightType } from './sidebar/HighLight';
 
 const ColorboxContainer = styled.div`
   position: absolute;
@@ -19,14 +19,20 @@ const ColorboxContainer = styled.div`
   pointer-events: none;
 `;
 
-const ColorRow = styled.div<{ color: string }>`
+const ColorRow = styled.div<{ $highlight: HighlightType }>`
+  ${(props) => !props.$highlight.displayName && `display: none;`}
+
+  ::after {
+    content: '${(props) => props.$highlight.displayName}';
+  }
+
   ::before {
     content: '';
     width: 20px;
     aspect-ratio: 1/1;
     display: inline-block;
     border: 1px solid #000000;
-    background-color: ${(props) => props.color};
+    background-color: ${(props) => props.$highlight.color};
     margin-right: 0.5rem;
   }
 `;
@@ -35,10 +41,9 @@ export const ColorInfo = () => {
   return (
     <ColorboxContainer>
       <Body variant="bold">Color Info</Body>
-      <ColorRow color={Highlight.HAS_GUEST.color}>Seat taken</ColorRow>
-      <ColorRow color={Highlight.SELF.color}>Current guest</ColorRow>
-      <ColorRow color={Highlight.COMPANION.color}>Companion</ColorRow>
-      <ColorRow color={Highlight.FRIENDS.color}>Friends</ColorRow>
+      {Object.values(Highlight).map((highlight) => (
+        <ColorRow key={highlight.displayName} $highlight={highlight} />
+      ))}
     </ColorboxContainer>
   );
 };
