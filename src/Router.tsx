@@ -2,6 +2,7 @@ import { createHashRouter, Navigate } from 'react-router-dom';
 import { Sandbox } from './pages/sandbox/Sandbox';
 import { Root } from './pages/root/Root';
 import { Editor } from './pages/editor/Editor';
+import { About } from './pages/about/About';
 
 export const router = createHashRouter([
   {
@@ -19,7 +20,7 @@ export const router = createHashRouter([
       },
       {
         path: '/about',
-        element: <div>Ei mitää xd</div>,
+        element: <About />,
       },
     ],
   },

@@ -49,8 +49,7 @@ const SeatsRow = ({ side, seats }: { side: Side; seats: SeatType[] }) => {
   );
 };
 
-// abbr is a hack to make the table draggable
-const TableContainer = styled.abbr<{ size: TableSize }>`
+const TableContainer = styled.div<{ size: TableSize }>`
   width: ${({ size }) => size.width}px;
   height: ${({ size }) => size.height}px;
 

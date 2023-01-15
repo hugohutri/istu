@@ -9,6 +9,7 @@ import { GuestItem } from './GuestItem';
 import { OptimizeButton } from './Optimize';
 import { AddTableButton } from '../../../../modals/AddTableModal';
 import { A } from '../../../../components/uikit/A';
+import { ExportModal } from '../../../../modals/ExportModal';
 
 const StyledSidebar = styled.div`
   color: ${(props) => props.theme.color.onPrimary};
@@ -51,7 +52,9 @@ export const Sidebar = () => {
     <StyledSidebar>
       <NameList dir="column">
         <div>
-          <ButtonA onClick={() => setGuests([])}>Delete all</ButtonA>
+          {guests.length > 0 && (
+            <ButtonA onClick={() => setGuests([])}>Delete all</ButtonA>
+          )}
           {guests.map((guest) => (
             <GuestItem guest={guest} key={guest.name} />
           ))}
@@ -62,7 +65,8 @@ export const Sidebar = () => {
         <AddGuest />
         <AddTableButton />
         <OptimizeButton />
-        <Button
+        <ExportModal />
+        {/* <Button
           variant="neutral"
           onClick={() => {
             const floor = document.getElementById('floor');
@@ -71,7 +75,7 @@ export const Sidebar = () => {
           }}
         >
           Export PNG
-        </Button>
+        </Button> */}
       </Footer>
     </StyledSidebar>
   );

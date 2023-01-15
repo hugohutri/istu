@@ -56,13 +56,7 @@ export const Seat = ({ seat }: { seat: SeatType }) => {
   );
 };
 
-const PaperTexture = styled(PaperSvg)`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-`;
+const PaperTexture = styled(PaperSvg)``;
 
 const GuestName = styled.div`
   /* background-color: rgba(0, 0, 0, 0.2); */

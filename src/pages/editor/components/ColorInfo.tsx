@@ -17,6 +17,7 @@ const ColorboxContainer = styled.div`
   background-color: rgba(255, 255, 255, 0.666);
   outline: 1px solid ${(props) => props.theme.color.border};
   pointer-events: none;
+  user-select: none;
 `;
 
 const ColorRow = styled.div<{ $highlight: HighlightType }>`
