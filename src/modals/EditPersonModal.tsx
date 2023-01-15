@@ -1,33 +1,31 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Modal } from '../components/uikit/Modal';
 import { useGuests } from '../hooks/useGuests';
 import { Button } from '../components/uikit/Button';
 import { Input } from '../components/uikit/Input';
 import { Spacer } from '../components/uikit/Spacer';
 import { Hr } from '../components/uikit/Hr';
+import { Guest } from '../hooks/types';
 import { NameForm } from './components/NameForm';
-import { FriendInputContainer } from './components/FriendInputContainer';
-import { AddButton } from './components/AddButton';
-import { Friendlist } from './components/Friendlist';
 import { FriendBadge } from './components/FriendBadge';
 import { Delete } from './components/Delete';
+import { Friendlist } from './components/Friendlist';
+import { AddButton } from './components/AddButton';
+import { FriendInputContainer } from './components/FriendInputContainer';
 
-export const AddGuest = () => {
+export const EditGuestButton = ({ guest }: { guest: Guest }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const addGuest = useGuests((store) => store.addGuest);
+  const editGuest = useGuests((store) => store.editGuest);
 
-  const [name, setName] = useState('');
-  const [friendNames, setFriendNames] = useState<string[]>([]);
+  const [name, setName] = useState(guest.name);
+  const [friendNames, setFriendNames] = useState<string[]>(guest.friendNames);
   const [newFriend, setNewFriend] = useState<string>();
-  const [avec, setAvec] = useState<string>();
+  const [avec, setAvec] = useState(guest.avecName);
 
   const buttonSubmit = () => {
-    addGuest({
-      name,
-      avecName: avec,
-      friendNames: friendNames,
-    });
-    clearFields();
+    const newGuest = { name, avecName: avec, friendNames: friendNames };
+    editGuest(guest, newGuest);
+
     setIsOpen(false);
   };
 
@@ -43,23 +41,16 @@ export const AddGuest = () => {
     setFriendNames(newFriendNames);
   };
 
-  const clearFields = () => {
-    setName('');
-    setAvec(undefined);
-    setNewFriend(undefined);
-    setFriendNames([]);
-  };
-
-  useEffect(() => {
-    if (isOpen) clearFields();
-  }, [isOpen]);
-
   return (
     <>
-      <Button variant="neutral" onClick={() => setIsOpen(true)}>
-        Add guest
+      <Button variant="neutral" size="small" onClick={() => setIsOpen(true)}>
+        Edit guest
       </Button>
-      <Modal title="Add guest" isOpen={isOpen} onClose={() => setIsOpen(false)}>
+      <Modal
+        title="Edit guest"
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+      >
         <NameForm>
           <Input
             type="text"

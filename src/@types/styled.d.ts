@@ -44,6 +44,7 @@ declare module 'styled-components' {
       muted5: string;
       button: string;
       buttonNeutral: string;
+      chip: string;
     };
     border: {
       width: string;

@@ -58,6 +58,7 @@ export const theme: DefaultTheme = {
     background: '#F3F4F6',
     button: 'hsl(200, 50%, 60%)',
     buttonNeutral: 'hsl(210, 5%, 95%)',
+    chip: 'hsl(210, 5%, 90%)',
 
     // Muted gray colors
     muted1: 'hsl(210, 5%, 55%)',
