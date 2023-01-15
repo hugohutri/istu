@@ -45,18 +45,44 @@ export const Seat = ({ seat }: { seat: SeatType }) => {
       onMouseLeave={() => setIsHovering(false)}
       className="seat ignore-drag-scroll"
     >
-      <PaperTexture
+      <PaperSvg
         opacity={highlight.opacity ?? 1}
         width={SEAT_SIZE}
         height={SEAT_SIZE}
         color={highlight.color}
       />
       {guest && <GuestName>{getInitials(guest, 2)}</GuestName>}
+      {guest && isHovering && <Tooltip side={seat.side}>{guest.name}</Tooltip>}
     </StyledSeat>
   );
 };
 
-const PaperTexture = styled(PaperSvg)``;
+const Tooltip = styled.div<{ side: Side }>`
+  position: absolute;
+  //align-self: ${({ side }) => (side === 'left' ? 'flex-start' : 'flex-end')};
+
+  ${(props) => props.side}: -3px;
+
+  transform: ${({ side }) => getSideTransform(side)};
+  padding: 8px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  border-radius: 4px;
+  font-size: 14px;
+`;
+
+const getSideTransform = (side: Side) => {
+  switch (side) {
+    case 'left':
+      return 'translateX(-100%)';
+    case 'right':
+      return 'translateX(100%)';
+    case 'top':
+      return 'translateY(-100%)';
+    case 'bottom':
+      return 'translateY(100%)';
+  }
+};
 
 const GuestName = styled.div`
   /* background-color: rgba(0, 0, 0, 0.2); */

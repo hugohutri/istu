@@ -67,27 +67,29 @@ const Canvas = () => {
     // scrollToCenter(ref.current);
   }, [ref.current]);
 
-  const getMinimumCanvasSize = () => {
-    const tablePositions = tables.map((table) => ({
-      x: table.location.x,
-      y: table.location.y,
-      width: table.size.width,
-      height: table.size.height,
-    }));
-    const minX = Math.min(...tablePositions.map((table) => table.x));
-    const minY = Math.min(...tablePositions.map((table) => table.y));
-    const maxX = Math.max(
-      ...tablePositions.map((table) => table.x + table.width)
-    );
-    const maxY = Math.max(
-      ...tablePositions.map((table) => table.y + table.height)
-    );
+  //   const getMinimumCanvasSize = () => {
+  //     const tablePositions = tables.map((table) => ({
+  //       x: table.location.x,
+  //       y: table.location.y,
+  //       width: table.size.width,
+  //       height: table.size.height,
+  //     }));
+  //     const minX = Math.min(...tablePositions.map((table) => table.x));
+  //     const minY = Math.min(...tablePositions.map((table) => table.y));
+  //     const maxX = Math.max(
+  //       ...tablePositions.map((table) => table.x + table.width)
+  //     );
+  //     const maxY = Math.max(
+  //       ...tablePositions.map((table) => table.y + table.height)
+  //     );
 
-    return {
-      width: maxX - minX,
-      height: maxY - minY,
-    };
-  };
+  //     return {
+  //       width: maxX - minX,
+  //       height: maxY - minY,
+  //       minX,
+  //       minY,
+  //     };
+  //   };
 
   return (
     <CanvasContainer ref={ref}>
@@ -142,7 +144,7 @@ export const Floor = styled.div`
   min-height: ${CANVAS_CONFIG.height}px;
   background-color: ${(props) => props.theme.color.background};
 
-  outline: 3px solid red;
+  /* outline: 3px solid red; */
   /* align-self: center; */
 
   // Dotted grid pattern
