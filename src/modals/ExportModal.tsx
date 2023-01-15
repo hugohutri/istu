@@ -11,7 +11,6 @@ import { Table } from '../pages/editor/components/table/Table';
 import domtoimage from 'dom-to-image-more';
 import format from 'date-fns/format';
 import { Spacer } from '../components/uikit/Spacer';
-import { scrollToCenter } from '../pages/editor/components/useScrollableCanvas';
 
 export const ExportModal = () => {
   const [isOpen, setIsOpen] = useState(false);
