@@ -1,7 +1,7 @@
 import { Seat, Table } from './types';
 import { getSeats, useTables } from './useTables';
 
-type SeatWithLocation = Seat & {
+export type SeatWithLocation = Seat & {
   x: number;
   y: number;
 };

@@ -1,15 +1,13 @@
 import styled from 'styled-components';
-import { Button } from '../../../../components/uikit/Button';
+import { A } from '../../../../components/uikit/A';
 import { Stack } from '../../../../components/uikit/Stack';
-import { exportPNG } from '../../../../hooks/exportPNG';
 import { useGuests } from '../../../../hooks/useGuests';
 import { ImportFromCsv } from '../../../../modals/AddCsvModal';
 import { AddGuest } from '../../../../modals/AddPersonModal';
-import { GuestItem } from './GuestItem';
-import { OptimizeButton } from './Optimize';
 import { AddTableButton } from '../../../../modals/AddTableModal';
-import { A } from '../../../../components/uikit/A';
 import { ExportModal } from '../../../../modals/ExportModal';
+import { OptimizeModal } from '../../../../modals/OptimizeModal';
+import { GuestItem } from './GuestItem';
 
 const StyledSidebar = styled.div`
   color: ${(props) => props.theme.color.onPrimary};
@@ -64,7 +62,7 @@ export const Sidebar = () => {
         <ImportFromCsv />
         <AddGuest />
         <AddTableButton />
-        <OptimizeButton />
+        <OptimizeModal />
         <ExportModal />
         {/* <Button
           variant="neutral"
