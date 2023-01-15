@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Body } from '../components/uikit/Body';
 import { Button } from '../components/uikit/Button';
@@ -14,104 +14,79 @@ import { Spacer } from '../components/uikit/Spacer';
 
 export const ExportModal = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [image, setImage] = useState<string>();
+
+  useEffect(() => {
+    if (!isOpen) {
+      setImage(undefined);
+    } else {
+      getImage().then((image) => {
+        setImage(image);
+      });
+    }
+  }, [isOpen]);
+
   return (
     <>
       <Button variant="neutral" onClick={() => setIsOpen(true)}>
-        Export as PNG
+        Export
       </Button>
 
-      <Modal
-        title="Export as PNG"
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
-      >
+      <Modal title="Export" isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <ModalContainer>
-          <Body>Export as PNG</Body>
-
-          <Preview style={{ position: 'relative' }}>
-            <Canvas />
-          </Preview>
+          <Body>Export as a PNG file</Body>
+          <Image src={image} />
           <Spacer amount="10px" />
-          <Button
-            onClick={() => {
-              exportPNG();
-            }}
-          >
-            Export
-          </Button>
+          <Button onClick={() => exportPNG()}>Download</Button>
         </ModalContainer>
+        <RenderedHiddenCanvas />
       </Modal>
     </>
   );
 };
+
+const Image = styled.img`
+  height: 70vmin;
+  border: 1px solid ${(props) => props.theme.color.border};
+  width: auto;
+  aspect-ratio: ${CANVAS_CONFIG.width} / ${CANVAS_CONFIG.height};
+`;
 
 const ModalContainer = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
-const Preview = styled.div`
-  position: relative;
-  height: 50vmin;
-  aspect-ratio: 1/1;
-`;
-
-const Canvas = () => {
+const RenderedHiddenCanvas = () => {
   const tables = useTables((s) => s.tables);
   const guests = useGuests((s) => s.guests);
-  const ref = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    //   scrollToCenterOf(ref.current);
-    // scrollToCenter(ref.current);
-  }, [ref.current]);
-
-  //   const getMinimumCanvasSize = () => {
-  //     const tablePositions = tables.map((table) => ({
-  //       x: table.location.x,
-  //       y: table.location.y,
-  //       width: table.size.width,
-  //       height: table.size.height,
-  //     }));
-  //     const minX = Math.min(...tablePositions.map((table) => table.x));
-  //     const minY = Math.min(...tablePositions.map((table) => table.y));
-  //     const maxX = Math.max(
-  //       ...tablePositions.map((table) => table.x + table.width)
-  //     );
-  //     const maxY = Math.max(
-  //       ...tablePositions.map((table) => table.y + table.height)
-  //     );
-
-  //     return {
-  //       width: maxX - minX,
-  //       height: maxY - minY,
-  //       minX,
-  //       minY,
-  //     };
-  //   };
 
   return (
-    <CanvasContainer ref={ref}>
-      <ExportContainer id="export">
+    <Hidden>
+      <ExportedView id="export">
         <NameList>
           {guests.map((guest) => (
             <Body key={guest.name}>{guest.name}</Body>
           ))}
         </NameList>
 
-        <Floor>
-          <div style={{ position: 'relative' }}>
-            {tables.map((table) => (
-              <Table key={table.id} {...table} />
-            ))}
-          </div>
-        </Floor>
-      </ExportContainer>
-    </CanvasContainer>
+        <FloorContainer>
+          <Floor height={1000} width={1000} top={700} left={700}>
+            <div style={{ position: 'relative' }}>
+              {tables.map((table) => (
+                <Table key={table.id} {...table} />
+              ))}
+            </div>
+          </Floor>
+        </FloorContainer>
+      </ExportedView>
+    </Hidden>
   );
 };
 
-const ExportContainer = styled.div`
+const FloorContainer = styled.div``;
+
+const ExportedView = styled.div`
   position: relative;
   /* display: grid;
   grid-template-columns: auto 1fr; */
@@ -133,16 +108,28 @@ const NameList = styled.div`
 //   ref.scrollTo(rect.x + rect.width, rect.y + rect.height);
 // }
 
-/**
- * Floor component where the tables are placed
- */
-export const Floor = styled.div`
+type FittedFloorProps = {
+  top: number;
+  left: number;
+  width: number;
+  height: number;
+};
+
+export const Floor = styled.div<FittedFloorProps>`
   /* width: max-content;
   height: fit-content; */
+  /* margin-top: -500px; */
+  /* margin-left: -500px; */
+  /* margin-top: -${(props) => props.top}px;
+  margin-left: -${(props) => props.left}px; */
+  /* width: ${(props) => props.width}px;
+  height: ${(props) => props.height}px; */
+
+  // zoom children
   min-width: ${CANVAS_CONFIG.width}px;
   min-height: ${CANVAS_CONFIG.height}px;
   background-color: ${(props) => props.theme.color.background};
-
+  transform: translateZ(0);
   /* outline: 3px solid red; */
   /* align-self: center; */
 
@@ -157,21 +144,12 @@ export const Floor = styled.div`
 /**
  * This makes the floor scrollable
  */
-export const CanvasContainer = styled.div`
-  overflow: scroll;
-  cursor: grab;
-  height: 50vmin;
-  aspect-ratio: 1/1;
+export const Hidden = styled.div`
+  overflow: hidden;
 
-  /* position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0; */
-
-  /* transform: translate(-50vmin, -50vmin) scale(0.5); */
-
-  outline: 3px solid #41403e;
+  height: 0;
+  width: 0;
+  position: absolute;
 `;
 
 function getFileName(fileType: string) {
@@ -187,4 +165,12 @@ async function exportPNG() {
   link.download = getFileName('png');
   link.href = url;
   link.click();
+}
+
+async function getImage() {
+  const exportedCanvas = document.getElementById('export');
+  if (!exportedCanvas) return;
+
+  const dataUrl = await domtoimage.toPng(exportedCanvas, { bgcolor: 'white' });
+  return dataUrl;
 }
