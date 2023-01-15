@@ -14,6 +14,7 @@ type GuestsStore = {
   setGuests: (guests: Guest[]) => void;
   addGuest: (newGuest: Guest) => void;
   addGuests: (newGuests: Guest[]) => void;
+  editGuest: (oldGuest: Guest, newGuest: Guest) => void;
   assignSeat: (seat: Seat, guest: Guest) => void;
   removeGuest: (guest: Guest) => void;
   getRelatedGuests: (guest: Guest) => RelatedGuests;
@@ -50,6 +51,15 @@ export const useGuests = create<GuestsStore>()(
 
           return { guests: updatedGuests };
         }),
+
+      editGuest: (oldGuest, newGuest) => {
+        set((state) => {
+          const newGuests = [...state.guests];
+          const index = newGuests.findIndex((g) => g.name === oldGuest.name);
+          newGuests[index] = newGuest;
+          return { guests: newGuests };
+        });
+      },
 
       assignSeat: (seat, guest) => {
         set((state) => {

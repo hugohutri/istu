@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Button } from '../../../../components/uikit/Button';
 import { Spacer } from '../../../../components/uikit/Spacer';
 import { Guest } from '../../../../hooks/types';
+import { EditGuestButton } from '../../../../modals/EditPersonModal';
 
 type GuestInfoProps = {
   guest: Guest;
@@ -37,6 +38,7 @@ export const GuestInfo = ({ guest, open, onDelete }: GuestInfoProps) => {
           <li key={index}>{friend}</li>
         ))}
       </StyledFriendName>
+      <EditGuestButton guest={guest} />
       <Button size="small" variant="neutral" onClick={onDelete}>
         Delete guest
       </Button>

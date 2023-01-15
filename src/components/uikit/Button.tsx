@@ -35,6 +35,7 @@ const buttonStyles = css<ButtonProps>`
   color: ${(props) => props.theme.color.pencil};
   text-decoration: none;
   padding-bottom: 3px;
+
   border-radius: 4px;
   box-shadow: 0 2px 0 ${(props) => props.theme.color.pencil};
   /* transition: padding 0.2s, box-shadow 0.2s, top 0.2s; */
