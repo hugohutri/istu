@@ -1,29 +1,16 @@
 import { useEffect, useState } from 'react';
-import styled from 'styled-components';
 import { Modal } from '../components/uikit/Modal';
 import { useGuests } from '../hooks/useGuests';
 import { Button } from '../components/uikit/Button';
 import { Input } from '../components/uikit/Input';
 import { Spacer } from '../components/uikit/Spacer';
 import { Hr } from '../components/uikit/Hr';
-
-const NameForm = styled.form`
-  display: flex;
-  flex-direction: column;
-`;
-
-const Friendlist = styled.div`
-  font-size: ${(props) => props.theme.fontSize.small};
-  color: ${(props) => props.theme.color.text};
-
-  &:empty:after {
-    content: '-';
-  }
-  :before {
-    content: 'Friends: ';
-    font-weight: bold;
-  }
-`;
+import { NameForm } from './components/NameForm';
+import { FriendInputContainer } from './components/FriendInputContainer';
+import { AddButton } from './components/AddButton';
+import { Friendlist } from './components/Friendlist';
+import { FriendBadge } from './components/FriendBadge';
+import { Delete } from './components/Delete';
 
 export const AddGuest = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -48,6 +35,12 @@ export const AddGuest = () => {
     if (!newFriend) return;
     setFriendNames([...friendNames, newFriend]);
     setNewFriend(undefined);
+  };
+
+  const deleteFriend = (friend: string) => {
+    const newFriendNames = [...friendNames];
+    newFriendNames.splice(newFriendNames.indexOf(friend), 1);
+    setFriendNames(newFriendNames);
   };
 
   const clearFields = () => {
@@ -101,7 +94,14 @@ export const AddGuest = () => {
           </FriendInputContainer>
 
           <Spacer amount="2px" />
-          <Friendlist>{friendNames.join(', ')}</Friendlist>
+          <Friendlist>
+            {friendNames.map((friend) => (
+              <FriendBadge key={friend}>
+                {friend}
+                <Delete onClick={() => deleteFriend(friend)}>✕</Delete>
+              </FriendBadge>
+            ))}
+          </Friendlist>
           <Spacer amount="2px" />
 
           <Spacer amount="10px" />
@@ -114,15 +114,3 @@ export const AddGuest = () => {
     </>
   );
 };
-
-const AddButton = styled(Button)`
-  height: auto;
-  content: '+';
-  margin-top: auto;
-  align-self: bottom;
-`;
-
-const FriendInputContainer = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 10px auto;
-`;
