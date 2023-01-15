@@ -55,6 +55,10 @@ const TableContainer = styled.abbr<{ size: TableSize }>`
   height: ${({ size }) => size.height}px;
 
   position: absolute;
+  //hoverring fixes tooltips being hidden by other tables
+  :hover {
+    z-index: 10;
+  }
 `;
 
 const StyledTable = styled.div`
@@ -70,7 +74,8 @@ const StyledTable = styled.div`
   height: 100%;
   border: 1px solid ${(props) => props.theme.color.border};
   box-sizing: border-box;
-  position: absolute;
+  position: relative;
+  z-index: 1;
 
   border: solid 2px ${(props) => props.theme.color.pencil};
 
