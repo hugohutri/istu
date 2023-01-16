@@ -39,14 +39,16 @@ const OptimizeStatus = {
   DONE: 'Done!',
 };
 
-const Iterations = {
-  FAST: 10000,
-  NORMAL: 100000,
-  EXTREME: 1000000,
-};
+// const Iterations = {
+//   FAST: 10000,
+//   NORMAL: 100000,
+//   EXTREME: 1000000,
+// };
+
+const NORMAL_ITERATIONS = 100000;
 
 const OptimizerModalContent = ({ close }: { close: () => void }) => {
-  const [maxIterations, setMaxIterations] = useState(Iterations.NORMAL);
+  const [maxIterations, setMaxIterations] = useState(NORMAL_ITERATIONS);
   const { iterations, isOptimizing, optimize, stop, bestScore } =
     useOptimizer();
 
@@ -69,11 +71,13 @@ const OptimizerModalContent = ({ close }: { close: () => void }) => {
 
   const setMode = (mode: string) => {
     if (mode === 'Fast') {
-      setMaxIterations(Iterations.FAST);
+      setMaxIterations(NORMAL_ITERATIONS / 10);
     } else if (mode === 'Normal') {
-      setMaxIterations(Iterations.NORMAL);
+      setMaxIterations(NORMAL_ITERATIONS);
     } else if (mode === 'Extreme') {
-      setMaxIterations(Iterations.EXTREME);
+      setMaxIterations(NORMAL_ITERATIONS * 10);
+    } else if (mode === 'ULTRA EXTREME') {
+      setMaxIterations(NORMAL_ITERATIONS * 100);
     }
   };
 
@@ -90,7 +94,7 @@ const OptimizerModalContent = ({ close }: { close: () => void }) => {
         Optimization mode
       </Body>
       <Dropdown
-        options={['Fast', 'Normal', 'Extreme']}
+        options={['Fast', 'Normal', 'Extreme', 'ULTRA EXTREME']}
         defaultOption="Normal"
         onChange={setMode}
       />
