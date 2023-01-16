@@ -24,8 +24,8 @@ export const Canvas = () => {
     <CanvasContainer ref={ref} id="canvas">
       <Floor id="floor">
         <Jesse />
-        {tables.map((table, index) => (
-          <Table key={index} {...table} />
+        {tables.map((table) => (
+          <Table key={table.id} {...table} />
         ))}
       </Floor>
     </CanvasContainer>

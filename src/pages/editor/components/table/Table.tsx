@@ -11,8 +11,10 @@ import { StyledSeatsRow } from './StyledSeatsRow';
 
 import '../../../../utils/dragging.css';
 import { useTables } from '../../../../hooks/useTables';
+import { TableMenu } from './TableMenu';
 
-export const Table = ({ size, seats, id, location }: TableType) => {
+export const Table = (table: TableType) => {
+  const { size, seats, id, location } = table;
   const setLocation = useTables((store) => store.setLocation);
 
   return (
@@ -30,6 +32,7 @@ export const Table = ({ size, seats, id, location }: TableType) => {
           <SeatsRow key={id + side} side={side as Side} seats={seats} />
         ))}
         <StyledTable id={id} className="handle ignore-drag-scroll">
+          <TableMenu table={table} />
           {id}
         </StyledTable>
       </TableContainer>
@@ -58,6 +61,9 @@ const TableContainer = styled.div<{ size: TableSize }>`
   :hover {
     z-index: 10;
   }
+  :has(.table-menu-open) {
+    z-index: 111213121;
+  }
 `;
 
 const StyledTable = styled.div`
@@ -85,5 +91,8 @@ const StyledTable = styled.div`
   border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
   &:hover {
     box-shadow: 2px 8px 4px -6px hsla(0, 0%, 0%, 0.3);
+    .table-menu {
+      display: flex;
+    }
   }
 `;

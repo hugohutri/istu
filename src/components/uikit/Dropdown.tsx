@@ -17,6 +17,7 @@ const DropdownButton = styled(Body)<{ disabled: boolean }>`
   border: 1px solid ${(props) => props.theme.color.text};
   color: ${(props) => props.theme.color.text};
   cursor: pointer;
+  user-select: none;
 
   ${(props) =>
     props.disabled &&
@@ -67,6 +68,7 @@ export const Dropdown = ({
   );
 
   const toggleDropdown = () => {
+    if (disabled) return;
     setIsOpen(!isOpen);
   };
 
