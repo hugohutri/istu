@@ -8,7 +8,7 @@ export const Friendlist = styled.div`
     content: '-';
   }
   :before {
-    content: 'Friends: \n';
+    content: 'Friends: ';
     font-weight: bold;
   }
 `;

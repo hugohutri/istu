@@ -13,7 +13,7 @@ import {
   useGetSeatsWithLocation,
 } from '../hooks/useSeatWithLocation';
 
-const MAX_ITERATIONS = 300000;
+const MAX_ITERATIONS = 30000;
 
 export const OptimizeModal = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,13 +28,19 @@ export const OptimizeModal = () => {
         Optimize
       </Button>
       <Modal title="Optimizer" isOpen={isOpen} onClose={onClose}>
-        {isOpen && <OptimizerModalContent />}
+        {isOpen && <OptimizerModalContent close={onClose} />}
       </Modal>
     </>
   );
 };
 
-const OptimizerModalContent = () => {
+const OptimizeStatus = {
+  IDLE: '',
+  OPTIMIZING: 'Optimizing...',
+  DONE: 'Done!',
+};
+
+const OptimizerModalContent = ({ close }: { close: () => void }) => {
   const { iterations, isOptimizing, optimize, stop, scores } = useOptimizer();
 
   useEffect(() => {
@@ -43,17 +49,17 @@ const OptimizerModalContent = () => {
   // const scoresString = scores.map((s) => s.toFixed(0)).join(', ');
 
   const getUIScore = () => {
-    if (scores.length === 0) return '-';
+    if (scores.length === 0) return '';
 
     const bestScore = Math.max(...scores, 0);
     // return bestScore.toFixed(2) * 100;
-    return (bestScore * 100).toFixed(0) + '%';
+    return (bestScore * 100).toFixed(0);
   };
 
   const getStatus = () => {
-    if (isOptimizing) return 'Optimizing...';
-    if (scores.length > 0) return 'Done';
-    return 'Not started';
+    if (isOptimizing) return OptimizeStatus.OPTIMIZING;
+    if (scores.length > 0) return OptimizeStatus.DONE;
+    return OptimizeStatus.IDLE;
   };
 
   return (
@@ -61,18 +67,17 @@ const OptimizerModalContent = () => {
       <Body>
         Optimizer will try to find a good seating arrangement for your guests.
         It will keep guests and companions together, and try to some friends
-        together. The score is from 0% to 100%, but 100% is unlikely to be
-        reached.
+        together. The score is from 0 to 100, but 100 is unlikely to be reached.
       </Body>
       <Spacer amount="0.5rem" />
       <Score>{getUIScore()}</Score>
       <Spacer amount="0.5rem" />
-      <Body>Status: {getStatus()}</Body>
+      <Body>{getStatus()}</Body>
       <Spacer amount="0.5rem" />
 
       {scores.length > 0 && (
         <>
-          <Body>
+          <Body size="small">
             {iterations}/{MAX_ITERATIONS}
           </Body>
           <ProgressBar percentage={(iterations / MAX_ITERATIONS) * 100} />
@@ -80,19 +85,24 @@ const OptimizerModalContent = () => {
       )}
       <Spacer amount="10px" />
       <Stack dir="row" spacing={10} justify="flex-end">
-        <Button
+        {/* <Button
           variant="neutral"
           disabled={!isOptimizing}
           onClick={() => stop()}
         >
           Stop
-        </Button>
-        <Button
-          disabled={isOptimizing}
-          onClick={() => optimize(MAX_ITERATIONS)}
-        >
-          Optimize
-        </Button>
+        </Button> */}
+        {getStatus() !== OptimizeStatus.DONE && (
+          <Button
+            disabled={isOptimizing}
+            onClick={() => optimize(MAX_ITERATIONS)}
+          >
+            Optimize
+          </Button>
+        )}
+        {getStatus() === OptimizeStatus.DONE && (
+          <Button onClick={close}>Close</Button>
+        )}
       </Stack>
     </ModalContent>
   );
@@ -109,6 +119,22 @@ const Score = styled(Body)`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  // after is there is content inside
+  &:after {
+    content: '/100';
+    font-size: 1rem;
+    margin-left: 0.1rem;
+  }
+
+  &:empty {
+    :before {
+      content: '-';
+    }
+    :after {
+      content: '';
+    }
+  }
 `;
 
 function randomOrder<T>(array: T[]) {
@@ -131,12 +157,14 @@ function useOptimizer() {
     setIterations(0);
     setScores([]);
     isStopped.current = false;
-    const seats = getSeatsWithLocation();
+    const seatsWithLoc = getSeatsWithLocation();
     await wait(10);
-    setGuests(removeOldSeats(storedGuests));
     let bestScore = 0;
+    let bestGuests: Guest[] = [];
 
     for (let i = 0; i < iterations; i++) {
+      const seats = randomOrder(seatsWithLoc);
+
       if (isStopped.current) {
         setIsOptimizing(false);
         console.log('STOPPED');
@@ -157,9 +185,11 @@ function useOptimizer() {
         // setBestGuests(guests);
         console.log('New best score', score);
         bestScore = score;
-        setGuests(guests);
+        bestGuests = guests;
       }
     }
+
+    setGuests(bestGuests);
     setIsOptimizing(false);
   };
 
