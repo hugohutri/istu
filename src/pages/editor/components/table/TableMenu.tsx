@@ -32,7 +32,7 @@ export const TableMenu = ({ table }: { table: Table }) => {
     return (
         <>
             <MenuButton
-                className="table-menu"
+                className={`table-menu ${isOpen ? 'table-menu-open' : ''}`}
                 onClick={() => setIsOpen(!isOpen)}
             >
                 ···
@@ -87,6 +87,7 @@ const ContextMenu = styled.div`
 const ContextMenuButton = styled(Body)`
     padding: 0.5rem;
     border: 1px solid ${(props) => props.theme.color.border};
+    white-space: nowrap;
     &:hover {
         background-color: ${(props) => props.theme.color.primaryElevated};
         color: ${(props) => props.theme.color.onPrimary};
