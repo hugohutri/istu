@@ -57,7 +57,7 @@ const OptimizerModalContent = () => {
   };
 
   return (
-    <>
+    <ModalContent>
       <Body>
         Optimizer will try to find a good seating arrangement for your guests.
         It will keep guests and companions together, and try to some friends
@@ -94,9 +94,13 @@ const OptimizerModalContent = () => {
           Optimize
         </Button>
       </Stack>
-    </>
+    </ModalContent>
   );
 };
+
+const ModalContent = styled.div`
+  width: 400px;
+`;
 
 const Score = styled(Body)`
   font-size: 3rem;
