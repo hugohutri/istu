@@ -1,7 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import styled from 'styled-components';
+import { ProgressBar } from '../components/ProgressBar';
 import { Body } from '../components/uikit/Body';
 import { Button } from '../components/uikit/Button';
 import { Modal } from '../components/uikit/Modal';
+import { Spacer } from '../components/uikit/Spacer';
+import { Stack } from '../components/uikit/Stack';
 import { Guest } from '../hooks/types';
 import { useGuests } from '../hooks/useGuests';
 import {
@@ -9,21 +13,13 @@ import {
   useGetSeatsWithLocation,
 } from '../hooks/useSeatWithLocation';
 
+const MAX_ITERATIONS = 300000;
+
 export const OptimizeModal = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { iterations, isOptimizing, optimize, stop, scores } = useOptimizer();
 
   const onClose = () => {
-    stop();
     setIsOpen(false);
-  };
-
-  // const scoresString = scores.map((s) => s.toFixed(0)).join(', ');
-
-  const getUIScore = () => {
-    const bestScore = Math.max(...scores, 0);
-    // return bestScore.toFixed(2) * 100;
-    return (bestScore * 100).toFixed(0) + '%';
   };
 
   return (
@@ -32,15 +28,84 @@ export const OptimizeModal = () => {
         Optimize
       </Button>
       <Modal title="Optimizer" isOpen={isOpen} onClose={onClose}>
-        <Body>Optimizer iterations: {iterations}</Body>
-        {/* <Body>Optimizer scores: {scoresString}</Body> */}
-        <Body>Optimizer best score: {getUIScore()}</Body>
-        <Body>Optimizer is running: {isOptimizing ? 'Yes' : 'No'}</Body>
-        <Button onClick={() => optimize(30000)}>Optimize</Button>
+        {isOpen && <OptimizerModalContent />}
       </Modal>
     </>
   );
 };
+
+const OptimizerModalContent = () => {
+  const { iterations, isOptimizing, optimize, stop, scores } = useOptimizer();
+
+  useEffect(() => {
+    return () => stop();
+  }, []);
+  // const scoresString = scores.map((s) => s.toFixed(0)).join(', ');
+
+  const getUIScore = () => {
+    if (scores.length === 0) return '-';
+
+    const bestScore = Math.max(...scores, 0);
+    // return bestScore.toFixed(2) * 100;
+    return (bestScore * 100).toFixed(0) + '%';
+  };
+
+  const getStatus = () => {
+    if (isOptimizing) return 'Optimizing...';
+    if (scores.length > 0) return 'Done';
+    return 'Not started';
+  };
+
+  return (
+    <>
+      <Body>
+        Optimizer will try to find a good seating arrangement for your guests.
+        It will keep guests and companions together, and try to some friends
+        together. The score is from 0% to 100%, but 100% is unlikely to be
+        reached.
+      </Body>
+      <Spacer amount="0.5rem" />
+      <Score>{getUIScore()}</Score>
+      <Spacer amount="0.5rem" />
+      <Body>Status: {getStatus()}</Body>
+      <Spacer amount="0.5rem" />
+
+      {scores.length > 0 && (
+        <>
+          <Body>
+            {iterations}/{MAX_ITERATIONS}
+          </Body>
+          <ProgressBar percentage={(iterations / MAX_ITERATIONS) * 100} />
+        </>
+      )}
+      <Spacer amount="10px" />
+      <Stack dir="row" spacing={10} justify="flex-end">
+        <Button
+          variant="neutral"
+          disabled={!isOptimizing}
+          onClick={() => stop()}
+        >
+          Stop
+        </Button>
+        <Button
+          disabled={isOptimizing}
+          onClick={() => optimize(MAX_ITERATIONS)}
+        >
+          Optimize
+        </Button>
+      </Stack>
+    </>
+  );
+};
+
+const Score = styled(Body)`
+  font-size: 3rem;
+  padding: 2rem;
+  // aling to center
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 function randomOrder<T>(array: T[]) {
   return array.sort(() => Math.random() - 0.5);
@@ -54,20 +119,27 @@ function useOptimizer() {
   const [iterations, setIterations] = useState(0);
   const [isOptimizing, setIsOptimizing] = useState(false);
   const [scores, setScores] = useState<number[]>([]);
-  // let isStopped = false;
-  // const [bestGuests, setBestGuests] = useState<Guest[]>([]);
+
+  const isStopped = useRef(false);
 
   const optimize = async (iterations: number) => {
     setIsOptimizing(true);
     setIterations(0);
     setScores([]);
+    isStopped.current = false;
     const seats = getSeatsWithLocation();
     await wait(10);
     setGuests(removeOldSeats(storedGuests));
     let bestScore = 0;
 
     for (let i = 0; i < iterations; i++) {
-      // if (isStopped) return;
+      if (isStopped.current) {
+        setIsOptimizing(false);
+        console.log('STOPPED');
+        return;
+      }
+      console.log('stopped? ', isStopped.current);
+
       if (i % 500 === 0) await wait(1);
       // await wait(1);
 
@@ -88,7 +160,8 @@ function useOptimizer() {
   };
 
   const stop = () => {
-    setIterations(0);
+    console.log('TRYING TO STOP');
+    isStopped.current = true;
   };
 
   return { optimize, isOptimizing, iterations, stop, scores };
