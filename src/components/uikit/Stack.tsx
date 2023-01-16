@@ -3,7 +3,7 @@ import styled from 'styled-components';
 interface StackProps {
   spacing?: number;
   dir?: 'row' | 'column';
-  justify?: 'center' | 'flex-start' | 'flex-end' | 'space-between';
+  justify?: 'center' | 'flex-start' | 'flex-end';
 }
 
 export const Stack = styled.div<StackProps>`

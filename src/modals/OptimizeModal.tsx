@@ -49,22 +49,8 @@ const NORMAL_ITERATIONS = 100000;
 
 const OptimizerModalContent = ({ close }: { close: () => void }) => {
   const [maxIterations, setMaxIterations] = useState(NORMAL_ITERATIONS);
-  const {
-    iterations,
-    isOptimizing,
-    optimize,
-    stop,
-    bestScore,
-    remainingSeconds,
-  } = useOptimizer();
-
-  const getStatus = () => {
-    if (isOptimizing) return OptimizeStatus.OPTIMIZING;
-    if (bestScore !== undefined) return OptimizeStatus.DONE;
-    return OptimizeStatus.IDLE;
-  };
-  const status = getStatus();
-  const isIdle = status === OptimizeStatus.IDLE;
+  const { iterations, isOptimizing, optimize, stop, bestScore } =
+    useOptimizer();
 
   useEffect(() => {
     return () => stop();
@@ -75,6 +61,12 @@ const OptimizerModalContent = ({ close }: { close: () => void }) => {
     if (bestScore == undefined) return '';
     // return bestScore.toFixed(2) * 100;
     return (bestScore * 100).toFixed(0);
+  };
+
+  const getStatus = () => {
+    if (isOptimizing) return OptimizeStatus.OPTIMIZING;
+    if (bestScore !== undefined) return OptimizeStatus.DONE;
+    return OptimizeStatus.IDLE;
   };
 
   const setMode = (mode: string) => {
@@ -105,10 +97,9 @@ const OptimizerModalContent = ({ close }: { close: () => void }) => {
         options={['Fast', 'Normal', 'Extreme', 'ULTRA EXTREME']}
         defaultOption="Normal"
         onChange={setMode}
-        disabled={!isIdle}
       />
       <Spacer amount="0.5rem" />
-      {!isIdle && (
+      {getStatus() !== OptimizeStatus.IDLE && (
         <>
           <Score>{getUIScore()}</Score>
           <Spacer amount="0.5rem" />
@@ -119,12 +110,9 @@ const OptimizerModalContent = ({ close }: { close: () => void }) => {
 
       {iterations > 0 && (
         <>
-          <Stack dir="row" justify="space-between">
-            <Body size="small">
-              {iterations}/{maxIterations}
-            </Body>
-            <Body size="small">{formatRemainingTime(remainingSeconds)}</Body>
-          </Stack>
+          <Body size="small">
+            {iterations}/{maxIterations}
+          </Body>
           <ProgressBar percentage={(iterations / maxIterations) * 100} />
         </>
       )}
@@ -152,17 +140,6 @@ const OptimizerModalContent = ({ close }: { close: () => void }) => {
     </ModalContent>
   );
 };
-
-function formatRemainingTime(seconds?: number) {
-  if (!seconds) return '';
-  if (seconds > 60 * 60 * 24 * 7) return '';
-  if (seconds < 0.5) return '';
-  if (seconds < 60) {
-    return `${seconds.toFixed(0)}s`;
-  }
-  const minutes = Math.round(seconds / 60);
-  return `${minutes}min`;
-}
 
 const ModalContent = styled.div`
   width: 400px;
@@ -205,12 +182,10 @@ function useOptimizer() {
   const [iterations, setIterations] = useState(0);
   const [isOptimizing, setIsOptimizing] = useState(false);
   const [bestScore, setBestScore] = useState<number>();
-  const [remainingSeconds, setRemainingSeconds] = useState<number>();
 
   const isStopped = useRef(false);
 
   const optimize = async (iterations: number) => {
-    const startingTime = Date.now();
     setIsOptimizing(true);
     setIterations(0);
     setBestScore(0);
@@ -235,18 +210,8 @@ function useOptimizer() {
       // Wait for a milliseconds every 1000 iterations to allow the UI to update
       if (i % 1000 === 0) {
         await wait(1);
-
-        // set remaining seconds
-        const elapsedSeconds = (Date.now() - startingTime) / 1000;
-        const progress = i / iterations;
-        const remainingProgress = 1 - progress;
-        const remainingSeconds =
-          (elapsedSeconds / progress) * remainingProgress;
-        // Add some extra seconds since the end is slower
-        const estimatedSeconds =
-          remainingSeconds + 0.1 * remainingProgress * remainingSeconds;
-
-        setRemainingSeconds(estimatedSeconds);
+        // console.timeEnd('iteration');
+        // console.time('iteration');
       }
       // await wait(1);
 
@@ -274,14 +239,7 @@ function useOptimizer() {
     isStopped.current = true;
   };
 
-  return {
-    optimize,
-    isOptimizing,
-    iterations,
-    stop,
-    bestScore,
-    remainingSeconds,
-  };
+  return { optimize, isOptimizing, iterations, stop, bestScore };
 }
 
 const removeOldSeats = (guests: Guest[]) => {
@@ -399,9 +357,8 @@ function calculateArrangementScore(guests: GuestWithLocationSeat[]) {
       continue;
     }
     const bestDistance = bestTwo.at(0) ?? 0;
-    if (bestDistance >= 300) {
+    if (bestDistance > 400) {
       allScores.push(-1);
-      continue;
     }
   }
 

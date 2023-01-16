@@ -21,6 +21,7 @@ type TablesStore = {
   setTables: (tables: Table[]) => void;
   addTable: (newTable: Table) => void;
   setLocation: (id: string, location: Location) => void;
+  deleteTable: (table: Table) => void;
 };
 
 export const useTables = create<TablesStore>()(
@@ -32,6 +33,15 @@ export const useTables = create<TablesStore>()(
 
       addTable: (newTable) =>
         set((state) => ({ tables: [...state.tables, newTable] })),
+
+      deleteTable: (table) => {
+        set((state) => {
+          const newTables = [...state.tables];
+          const index = newTables.findIndex((t) => t.id === table.id);
+          newTables.splice(index, 1);
+          return { tables: newTables };
+        });
+      },
 
       setLocation: (tableId, location) =>
         set((state) => {
