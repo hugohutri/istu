@@ -56,6 +56,9 @@ const TableContainer = styled.abbr<{ size: TableSize }>`
     width: ${({ size }) => size.width}px;
     height: ${({ size }) => size.height}px;
     position: absolute;
+    :hover {
+        z-index: 10;
+    }
 `
 
 const StyledTable = styled.div`

@@ -64,7 +64,7 @@ const MenuButton = styled.div`
     justify-content: center;
     align-items: center;
 
-    line-height: 1px;
+    padding-top: 2px;
     color: white;
     border-radius: 10px;
     background-color: ${(props) => props.theme.color.border};
@@ -72,6 +72,10 @@ const MenuButton = styled.div`
     letter-spacing: 0px;
 
     display: none;
+    :hover {
+        cursor: pointer;
+        scale: 1.1;
+    }
 `
 const ContextMenu = styled.div`
     background-color: white;
