@@ -503,7 +503,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
     justify-content: center;
     align-items: center;
 
-    line-height: 1px;
+    padding-top: 2px;
     color: white;
     border-radius: 10px;
     background-color: ${e=>e.theme.color.border};
@@ -511,6 +511,10 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
     letter-spacing: 0px;
 
     display: none;
+    :hover {
+        cursor: pointer;
+        scale: 1.1;
+    }
 `,gC=G.div`
     background-color: white;
     position: absolute;
@@ -529,6 +533,9 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
     width: ${({size:e})=>e.width}px;
     height: ${({size:e})=>e.height}px;
     position: absolute;
+    :hover {
+        z-index: 10;
+    }
 `,wC=G.div`
     align-items: center;
     justify-content: center;
