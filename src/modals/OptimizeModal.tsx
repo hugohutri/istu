@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { ProgressBar } from '../components/ProgressBar';
 import { Body } from '../components/uikit/Body';
 import { Button } from '../components/uikit/Button';
+import { Dropdown } from '../components/uikit/Dropdown';
 import { Modal } from '../components/uikit/Modal';
 import { Spacer } from '../components/uikit/Spacer';
 import { Stack } from '../components/uikit/Stack';
@@ -12,8 +13,6 @@ import {
   SeatWithLocation,
   useGetSeatsWithLocation,
 } from '../hooks/useSeatWithLocation';
-
-const MAX_ITERATIONS = 30000;
 
 export const OptimizeModal = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -40,8 +39,16 @@ const OptimizeStatus = {
   DONE: 'Done!',
 };
 
+const Iterations = {
+  FAST: 10000,
+  NORMAL: 100000,
+  EXTREME: 1000000,
+};
+
 const OptimizerModalContent = ({ close }: { close: () => void }) => {
-  const { iterations, isOptimizing, optimize, stop, scores } = useOptimizer();
+  const [maxIterations, setMaxIterations] = useState(Iterations.NORMAL);
+  const { iterations, isOptimizing, optimize, stop, bestScore } =
+    useOptimizer();
 
   useEffect(() => {
     return () => stop();
@@ -49,17 +56,25 @@ const OptimizerModalContent = ({ close }: { close: () => void }) => {
   // const scoresString = scores.map((s) => s.toFixed(0)).join(', ');
 
   const getUIScore = () => {
-    if (scores.length === 0) return '';
-
-    const bestScore = Math.max(...scores, 0);
+    if (bestScore == undefined) return '';
     // return bestScore.toFixed(2) * 100;
     return (bestScore * 100).toFixed(0);
   };
 
   const getStatus = () => {
     if (isOptimizing) return OptimizeStatus.OPTIMIZING;
-    if (scores.length > 0) return OptimizeStatus.DONE;
+    if (bestScore !== undefined) return OptimizeStatus.DONE;
     return OptimizeStatus.IDLE;
+  };
+
+  const setMode = (mode: string) => {
+    if (mode === 'Fast') {
+      setMaxIterations(Iterations.FAST);
+    } else if (mode === 'Normal') {
+      setMaxIterations(Iterations.NORMAL);
+    } else if (mode === 'Extreme') {
+      setMaxIterations(Iterations.EXTREME);
+    }
   };
 
   return (
@@ -67,20 +82,34 @@ const OptimizerModalContent = ({ close }: { close: () => void }) => {
       <Body>
         Optimizer will try to find a good seating arrangement for your guests.
         It will keep guests and companions together, and try to some friends
-        together. The score is from 0 to 100, but 100 is unlikely to be reached.
+        together. The maximum score is 100, but is unlikely to be reached.
       </Body>
+      {/* <AdvancedOptions /> */}
       <Spacer amount="0.5rem" />
-      <Score>{getUIScore()}</Score>
+      <Body size="small" variant="bold">
+        Optimization mode
+      </Body>
+      <Dropdown
+        options={['Fast', 'Normal', 'Extreme']}
+        defaultOption="Normal"
+        onChange={setMode}
+      />
       <Spacer amount="0.5rem" />
-      <Body>{getStatus()}</Body>
-      <Spacer amount="0.5rem" />
+      {getStatus() !== OptimizeStatus.IDLE && (
+        <>
+          <Score>{getUIScore()}</Score>
+          <Spacer amount="0.5rem" />
+          <Body>{getStatus()}</Body>
+          <Spacer amount="0.5rem" />
+        </>
+      )}
 
-      {scores.length > 0 && (
+      {iterations > 0 && (
         <>
           <Body size="small">
-            {iterations}/{MAX_ITERATIONS}
+            {iterations}/{maxIterations}
           </Body>
-          <ProgressBar percentage={(iterations / MAX_ITERATIONS) * 100} />
+          <ProgressBar percentage={(iterations / maxIterations) * 100} />
         </>
       )}
       <Spacer amount="10px" />
@@ -95,7 +124,7 @@ const OptimizerModalContent = ({ close }: { close: () => void }) => {
         {getStatus() !== OptimizeStatus.DONE && (
           <Button
             disabled={isOptimizing}
-            onClick={() => optimize(MAX_ITERATIONS)}
+            onClick={() => optimize(maxIterations)}
           >
             Optimize
           </Button>
@@ -148,57 +177,65 @@ function useOptimizer() {
   const setGuests = useGuests((s) => s.setGuests);
   const [iterations, setIterations] = useState(0);
   const [isOptimizing, setIsOptimizing] = useState(false);
-  const [scores, setScores] = useState<number[]>([]);
+  const [bestScore, setBestScore] = useState<number>();
 
   const isStopped = useRef(false);
 
   const optimize = async (iterations: number) => {
     setIsOptimizing(true);
     setIterations(0);
-    setScores([]);
+    setBestScore(0);
+    // setScores([]);
     isStopped.current = false;
     const seatsWithLoc = getSeatsWithLocation();
     await wait(10);
     let bestScore = 0;
     let bestGuests: Guest[] = [];
 
+    // console.time('optimize');
+    // console.time('iteration');
+
     for (let i = 0; i < iterations; i++) {
       const seats = randomOrder(seatsWithLoc);
 
       if (isStopped.current) {
         setIsOptimizing(false);
-        console.log('STOPPED');
         return;
       }
-      console.log('stopped? ', isStopped.current);
 
-      if (i % 500 === 0) await wait(1);
+      // Wait for a milliseconds every 1000 iterations to allow the UI to update
+      if (i % 1000 === 0) {
+        await wait(1);
+        // console.timeEnd('iteration');
+        // console.time('iteration');
+      }
       // await wait(1);
 
       const { guests, score } = await runIteration(storedGuests, seats);
       // console.log('score', score);
       // setGuests(guests);
-      setScores((s) => [...s, score]);
+      // setScores((s) => [...s, score]);
       setIterations((i) => i + 1);
 
       if (score > bestScore) {
         // setBestGuests(guests);
         console.log('New best score', score);
         bestScore = score;
+        setBestScore(bestScore);
         bestGuests = guests;
       }
     }
 
+    // console.timeEnd('optimize');
     setGuests(bestGuests);
     setIsOptimizing(false);
   };
 
   const stop = () => {
-    console.log('TRYING TO STOP');
     isStopped.current = true;
   };
 
-  return { optimize, isOptimizing, iterations, stop, scores };
+  return { optimize, isOptimizing, iterations, stop, bestScore };
 }
 
 const removeOldSeats = (guests: Guest[]) => {
@@ -232,7 +269,7 @@ function getGuestsInPairs(guests: Guest[]) {
 
 async function runIteration(storedGuests: Guest[], seats: SeatWithLocation[]) {
   const copiedGuests = JSON.parse(JSON.stringify(storedGuests)) as Guest[];
-  const guests = randomOrder(copiedGuests);
+  const guests = removeOldSeats(randomOrder(copiedGuests));
 
   const guestToSeat = new Map<Guest, SeatWithLocation>();
 
@@ -314,6 +351,10 @@ function calculateArrangementScore(guests: GuestWithLocationSeat[]) {
     if (bestTwo.every((d) => d < 300)) {
       allScores.push(0.25);
       continue;
+    }
+    const bestDistance = bestTwo.at(0) ?? 0;
+    if (bestDistance > 400) {
+      allScores.push(-1);
     }
   }
 

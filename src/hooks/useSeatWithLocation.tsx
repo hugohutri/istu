@@ -1,3 +1,4 @@
+import { SEAT_SIZE } from '../pages/editor/components/config';
 import { Seat, Table } from './types';
 import { getSeats, useTables } from './useTables';
 
@@ -15,7 +16,23 @@ export const useGetSeatsWithLocation = () => {
 function getSeatsWithLocation(tables: Table[]): SeatWithLocation[] {
   const seats = getSeats(tables);
   const seatsWithLocation = seats.map((seat) => {
-    const { x, y } = getSeatLocation(seat);
+    let { x, y } = getSeatLocation(seat);
+
+    // offset the seat location to the center of the seat
+    x = x + SEAT_SIZE / 2;
+    y = y + SEAT_SIZE / 2;
+
+    // Move the seat towards the center of the table
+    if (seat.side === 'left') {
+      x = x + SEAT_SIZE;
+    } else if (seat.side === 'right') {
+      x = x - SEAT_SIZE;
+    } else if (seat.side === 'top') {
+      y = y + SEAT_SIZE;
+    } else if (seat.side === 'bottom') {
+      y = y - SEAT_SIZE;
+    }
+
     return {
       ...seat,
       x,
@@ -33,5 +50,6 @@ function getSeatLocation(seat: Seat) {
   }
 
   const { x, y } = element.getBoundingClientRect();
+
   return { x, y };
 }

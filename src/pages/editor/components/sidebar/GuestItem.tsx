@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import AnimateHeight from 'react-animate-height';
-import { FaCheck, FaChevronRight } from 'react-icons/fa';
+import { FaCheck } from 'react-icons/fa';
 import styled, { css } from 'styled-components';
 import { useHover } from 'usehooks-ts';
 import { Guest } from '../../../../hooks/types';
 import { useGuests } from '../../../../hooks/useGuests';
+import { AnimatedChevron } from '../../../../components/AnimatedChevron';
 import { GuestInfo } from './GuestInfo';
 import { JessePlaceholder } from './JessePlaceholder';
 import { useHighlightSeatsOnHover } from './useHighlightSeatOnHover';
@@ -107,9 +108,4 @@ const Status = ({ guest }: { guest: Guest }) => {
 
 const CheckMark = styled(FaCheck)`
   color: ${(props) => props.theme.color.success};
-`;
-
-const AnimatedChevron = styled(FaChevronRight)<{ open: boolean }>`
-  transition: transform 0.2s ease-in-out;
-  transform: ${({ open }) => (open ? 'rotate(90deg)' : 'rotate(0deg)')};
 `;
