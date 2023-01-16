@@ -75,6 +75,7 @@ const MenuButton = styled.div`
     scale: 1.1;
   }
 `;
+
 const ContextMenu = styled.div`
   background-color: white;
   position: absolute;
@@ -82,6 +83,7 @@ const ContextMenu = styled.div`
   right: -10px;
   transform: translateX(100%);
 `;
+
 const ContextMenuButton = styled(Body)`
   padding: 0.5rem;
   border: 1px solid ${(props) => props.theme.color.border};
