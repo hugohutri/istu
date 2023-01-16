@@ -49,11 +49,7 @@ export const OptimizeButton = () => {
     }
   };
 
-  return (
-    <Button variant="neutral" onClick={onClick}>
-      Optimize
-    </Button>
-  );
+  return <Button onClick={onClick}>Optimize</Button>;
 };
 
 const removeOldSeats = (guests: Guest[]) => {
