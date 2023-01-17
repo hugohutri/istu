@@ -9,13 +9,7 @@ https://hutri.fi/istu
 ![ESLint](https://img.shields.io/badge/ESLint-4B3263?style=for-the-badge&logo=eslint&logoColor=white)
 ![NPM](https://img.shields.io/badge/NPM-%23000000.svg?style=for-the-badge&logo=npm&logoColor=white)
 
-This is a React template project for quickly starting a new project with a pre-configured development environment. It uses the following tools:
-
-- React
-- React Router
-- Styled Components
-- TypeScript
-- Vite
+This is an editor for planning the seating arrangements for your event. Arrange tables and seats, or use the optimizer to create a good seating arrangement based on the guest list and their preferences.
 
 ## Getting Started
 
