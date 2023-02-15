@@ -1,6 +1,6 @@
 export const CANVAS_CONFIG = {
-  height: 2000,
-  width: 2000,
+  height: 3000,
+  width: 3000,
 };
 
 export const SEAT_SIZE = 40;

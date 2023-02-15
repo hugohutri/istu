@@ -4,19 +4,32 @@ import { Canvas } from './components/Canvas';
 
 import 'react-indiana-drag-scroll/dist/style.css';
 import { ColorInfo } from './components/ColorInfo';
+import { SeatInfo } from './components/SeatInfo';
 
 export const Editor = () => {
   return (
     <Grid>
       <CanvasWindow>
         <Canvas />
-        <ColorInfo />
+        <InfoBoxes>
+          <ColorInfo />
+          <SeatInfo />
+        </InfoBoxes>
       </CanvasWindow>
 
       <Sidebar />
     </Grid>
   );
 };
+
+const InfoBoxes = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+`;
 
 export const Grid = styled.div`
   flex: 1;
