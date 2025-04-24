@@ -137,6 +137,45 @@ export const getInitials = (guest: Guest) => {
     .toUpperCase();
 };
 
+const getSuperscriptNumber = (num: number): string => {
+  const superscriptDigits = ['⁰', '¹', '²', '³', '⁴', '⁵', '⁶', '⁷', '⁸', '⁹'];
+
+  // Convert number to string and map each digit to its superscript equivalent
+  return num
+    .toString()
+    .split('')
+    .map((digit) => superscriptDigits[parseInt(digit)])
+    .join('');
+};
+
+export const useUniqueInitials = (guest?: Guest) => {
+  const { guests } = useGuests();
+
+  if (!guest) return undefined;
+  const initials = getInitials(guest);
+
+  // Get all guests with the same initials
+  const guestsWithSameInitials = guests.filter(
+    (g) => getInitials(g) === initials && g.name !== guest.name
+  );
+
+  // If no duplicates, return regular initials
+  if (guestsWithSameInitials.length === 0) {
+    return initials;
+  }
+
+  // Sort guests by name to ensure consistent ordering
+  const sortedGuests = [guest, ...guestsWithSameInitials].sort((a, b) =>
+    a.name.localeCompare(b.name)
+  );
+
+  // Find index of current guest in sorted array (adding 1 to make it 1-based)
+  const currentIndex = sortedGuests.findIndex((g) => g.name === guest.name) + 1;
+
+  // Return initials with superscript number
+  return `${initials}${getSuperscriptNumber(currentIndex)}`;
+};
+
 // Name guests with same name like this:
 // John Doe, John Doe (2), John Doe (3), John Doe (4)
 const getNextAvailableName = (guests: Guest[], guest: Guest) => {

@@ -5,7 +5,7 @@ import { Canvas } from './components/Canvas';
 import 'react-indiana-drag-scroll/dist/style.css';
 import { ColorInfo } from './components/ColorInfo';
 import { SeatInfo } from './components/SeatInfo';
-
+import { UserListInfo } from './components/UserListInfo';
 export const Editor = () => {
   return (
     <Grid>
@@ -14,6 +14,7 @@ export const Editor = () => {
         <InfoBoxes>
           <ColorInfo />
           <SeatInfo />
+          <UserListInfo />
         </InfoBoxes>
       </CanvasWindow>
 

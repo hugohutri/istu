@@ -2,7 +2,7 @@ import { MouseEventHandler, useState } from 'react';
 import styled from 'styled-components';
 import { PaperSvg } from '../../../../components/PaperSvg';
 import { Seat as SeatType, Side } from '../../../../hooks/types';
-import { getInitials, useGuests } from '../../../../hooks/useGuests';
+import { useGuests, useUniqueInitials } from '../../../../hooks/useGuests';
 import { useHighlightedSeats } from '../../../../hooks/useSeatHighlight';
 import { SEAT_SIZE } from '../config';
 import { useJesse } from '../Jesse';
@@ -35,6 +35,8 @@ export const Seat = ({ seat }: { seat: SeatType }) => {
 
   const highlight = getHighlight();
 
+  const initials = useUniqueInitials(guest);
+
   return (
     <StyledSeat
       id={seat.id}
@@ -51,7 +53,7 @@ export const Seat = ({ seat }: { seat: SeatType }) => {
         height={SEAT_SIZE}
         color={highlight.color}
       />
-      {guest && <GuestName>{getInitials(guest)}</GuestName>}
+      {guest && <GuestName>{initials}</GuestName>}
       {guest && isHovering && <Tooltip side={seat.side}>{guest.name}</Tooltip>}
     </StyledSeat>
   );
