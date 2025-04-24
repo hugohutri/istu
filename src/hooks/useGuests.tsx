@@ -120,13 +120,21 @@ export const useGuests = create<GuestsStore>()(
   )
 );
 
-export const getInitials = (guest: Guest, limit: number) => {
-  return guest.name
-    .split(' ')
+export const getInitials = (guest: Guest) => {
+  const nameParts = guest.name.split(' ');
+
+  // If only one name part (no lastname)
+  if (nameParts.length === 1) {
+    return guest.name.slice(0, 2);
+  }
+
+  // If multiple name parts, take first letter of each part (up to 2) and join with dots
+  return nameParts
     .map((n) => n[0])
-    .slice(0, limit)
-    .join('')
-    .replace('(', '');
+    .slice(0, 2)
+    .join('.')
+    .replace('(', '')
+    .toUpperCase();
 };
 
 // Name guests with same name like this:

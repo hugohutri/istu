@@ -51,7 +51,7 @@ export const Seat = ({ seat }: { seat: SeatType }) => {
         height={SEAT_SIZE}
         color={highlight.color}
       />
-      {guest && <GuestName>{getInitials(guest, 2)}</GuestName>}
+      {guest && <GuestName>{getInitials(guest)}</GuestName>}
       {guest && isHovering && <Tooltip side={seat.side}>{guest.name}</Tooltip>}
     </StyledSeat>
   );
@@ -91,7 +91,7 @@ const GuestName = styled.div`
   /* font-family: sans-serif; */
   text-align: center;
   /* line-height: 16px; */
-  font-size: 16px;
+  font-size: 14px;
   overflow: hidden;
   letter-spacing: 2px;
   text-overflow: clip;
