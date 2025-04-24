@@ -6,9 +6,11 @@ import { useOnClickOutside } from 'usehooks-ts';
 import { Table } from '../../../../hooks/types';
 import { useTables } from '../../../../hooks/useTables';
 import { useGuests } from '../../../../hooks/useGuests';
+import { EditTableModal } from '../../../../modals/EditTableModal';
 
 export const TableMenu = ({ table }: { table: Table }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const ref = useRef(null);
   useOnClickOutside(ref, () => setIsOpen(false));
   const deleteTable = useTables((s) => s.deleteTable);
@@ -29,6 +31,7 @@ export const TableMenu = ({ table }: { table: Table }) => {
     });
     setGuests(newGuests);
   };
+
   return (
     <>
       <MenuButton
@@ -39,13 +42,20 @@ export const TableMenu = ({ table }: { table: Table }) => {
       </MenuButton>
       {isOpen && (
         <ContextMenu ref={ref}>
-          {/* <ContextMenuButton>Duplicate</ContextMenuButton> */}
+          <ContextMenuButton onClick={() => setIsEditModalOpen(true)}>
+            Edit name
+          </ContextMenuButton>
           <ContextMenuButton onClick={clearTable}>
             Clear table
           </ContextMenuButton>
           <ContextMenuButton onClick={onClickDelete}>Delete</ContextMenuButton>
         </ContextMenu>
       )}
+      <EditTableModal
+        table={table}
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+      />
     </>
   );
 };
